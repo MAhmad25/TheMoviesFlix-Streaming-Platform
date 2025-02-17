@@ -5,12 +5,8 @@ import { RiTvFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { FaSearch } from "react-icons/fa";
 import { motion } from "motion/react";
-import { SearchState } from "../../contexts/Search";
-import { useContext } from "react";
-import { ImCross } from "react-icons/im";
 
 const Navbar = () => {
-      const { isSearchEnable, setSearchEnable } = useContext(SearchState);
       const size = "1.455rem";
       const [textColor, bgColor] = ["#94CDAA", "#0A1F18"];
       return (
@@ -26,8 +22,8 @@ const Navbar = () => {
                                     <FaFireAlt size={size} />
                               </motion.div>
                         </Link>
-                        <Link whileTap={{ scale: 0.8 }} onClick={() => setSearchEnable((prev) => !prev)}>
-                              {isSearchEnable ? <ImCross color={textColor} size={size} /> : <FaSearch color={textColor} size={size} />}
+                        <Link to="/search" whileTap={{ scale: 0.8 }}>
+                              <FaSearch color={textColor} size={size} />
                         </Link>
                         <Link to="/people">
                               <motion.div className="p-2 text-[#94CDAA]  rounded-full" whileHover={{ backgroundColor: textColor, color: bgColor, y: -5 }}>

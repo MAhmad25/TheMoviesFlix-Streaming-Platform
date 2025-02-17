@@ -24,7 +24,7 @@ const MovieDetails = () => {
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
-                              <section className="backdrop-blur-2xl overflow-x-hidden  w-full min-h-[200dvh] bg-black/30">
+                              <section className="backdrop-blur-2xl overflow-x-hidden  w-full min-h-full max-h-[250dvh] bg-black/30">
                                     <div className="w-full  overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
                                     </div>
@@ -65,7 +65,7 @@ const MovieDetails = () => {
                                                 <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Crew</h1>
                                                 <div className={`flex mt-2 overflow-x-scroll w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                           </div>
-                                          <div className="mt-6 w-full">
+                                          <div className="mt-6 mb-20 w-full">
                                                 <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Recommended</h1>
                                                 <div className={`flex mt-5 overflow-x-scroll w-full items-center cursor-pointer   ${style.scrollbar}  gap-3 h-72 `}>
                                                       {info.recommendedMovies.map((eachMovie, index) => (

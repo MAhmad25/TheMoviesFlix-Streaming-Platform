@@ -50,7 +50,7 @@ const TrendingContainer = () => {
       return (
             <section className="w-full  px-5">
                   <div className="flex mb-3 justify-between items-center">
-                        <h1 className="text-[#a5dbc9] text-xl">Trending</h1>
+                        <h1 className="text-[#a5dbc9] text-xl">Trending Now</h1>
                         <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">
                               <option className="text-green-900" defaultValue="all" value="all">
                                     All

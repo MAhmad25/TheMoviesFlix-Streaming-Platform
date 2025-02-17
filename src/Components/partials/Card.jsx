@@ -5,7 +5,7 @@ const Card = ({ eachMovie, type = "all" }) => {
       return (
             <Link to={`/${eachMovie.media_type || type}/details/${eachMovie.id}`}>
                   <section className="w-44 shrink-0 overflow-hidden rounded-xl  h-40">
-                        <img className="w-full h-full object-cover" loading="lazy" src={`https://image.tmdb.org/t/p/original${eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path}`} alt="" />
+                        <img className="w-full h-full object-cover" loading="lazy" src={eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path ? `https://image.tmdb.org/t/p/original${eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path}` : `/noImage.jpg`} alt="" />
                   </section>
                   <div className="mt-2 backdrop-blur bg-green-400/10 px-2 py-2 rounded-lg flex flex-col gap-1 h-fit w-full  text-white">
                         {eachMovie.vote_average && <h3 className="text-white rounded-full whitespace-nowrap  text-xs leading-none  tracking-tighter ">⭐{eachMovie.vote_average.toFixed(1)}</h3>}

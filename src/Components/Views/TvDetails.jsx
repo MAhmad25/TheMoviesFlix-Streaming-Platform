@@ -18,7 +18,7 @@ const TvDetails = () => {
             dispatch(asyncTvLoader(id));
             return () => dispatch(removeTv());
       }, [id, dispatch]);
-      console.log("TV Info : ", info);
+      console.log(info);
       return (
             <>
                   {info ? (
@@ -26,7 +26,7 @@ const TvDetails = () => {
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
-                              <section className="backdrop-blur-2xl overflow-x-hidden  w-full  min-h-[250vh] bg-black/30">
+                              <section className="backdrop-blur-2xl overflow-x-hidden  w-full min-h-full max-h-[250dvh] bg-black/30">
                                     <div className="w-full  overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
                                     </div>
@@ -57,16 +57,22 @@ const TvDetails = () => {
                                                 </div>
                                                 <p className="tracking-tighter text-zinc-300 leading-5">{info.detail.overview}</p>
                                           </div>
-                                          {info.detail.seasons.length && (
+                                          {info.detail.seasons.length != 0 && (
                                                 <div className="w-full">
                                                       <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Tv Season</h1>
-                                                      <div className={`flex mt-4 items-center overflow-x-scroll w-full cursor-pointer   ${style.scrollbar}  gap-3 h-64`}>{info.detail.seasons.map((eachSeason, index) => <SeasonCard key={index} eachSeason={eachSeason} />).splice(1, info.detail.seasons.length)}</div>
+                                                      <div className={`flex mt-4  items-center overflow-x-scroll w-full cursor-pointer   ${style.scrollbar}  gap-3 h-64`}>
+                                                            {info.detail.seasons.map((eachSeason, index) => (
+                                                                  <SeasonCard key={index} eachSeason={eachSeason} />
+                                                            ))}
+                                                      </div>
                                                 </div>
                                           )}
-                                          <div className="w-full">
-                                                <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Cast</h1>
-                                                <div className={`flex mt-2 overflow-x-scroll w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-40 items-center`}>{info.castBy.cast.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
-                                          </div>
+                                          {info.castBy.cast.length != 0 && (
+                                                <div className="w-full">
+                                                      <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Cast</h1>
+                                                      <div className={`flex mt-2 overflow-x-scroll w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-40 items-center`}>{info.castBy.cast.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                </div>
+                                          )}
                                           {info.castBy.crew.length != 0 && (
                                                 <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
                                                       <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Crew</h1>
@@ -74,7 +80,7 @@ const TvDetails = () => {
                                                 </div>
                                           )}
                                           {/* Recommend TV List */}
-                                          <div className="mt-6 w-full">
+                                          <div className="mt-6 mb-20 w-full">
                                                 <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Recommended</h1>
                                                 <div className={`flex mt-5 overflow-x-scroll w-full items-center cursor-pointer   ${style.scrollbar}  gap-3 h-72 `}>
                                                       {info.recommendedTv.map((eachTv, index) => (
