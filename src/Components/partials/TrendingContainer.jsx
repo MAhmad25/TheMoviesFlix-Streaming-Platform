@@ -1,0 +1,88 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import Card from "./Card";
+import styles from "../../styles/TrendingContainer.module.css";
+import { useEffect, useRef, useState } from "react";
+import api from "../../utils/axios";
+
+const TrendingContainer = () => {
+      const [trendingMovie, setTrendingMovie] = useState([]);
+      const [query, setQuery] = useState("all");
+      const containerRef = useRef(null);
+      const touchStart = useRef({ x: 0, y: 0 });
+      const getTrendingData = async () => {
+            try {
+                  const { data } = await api.get(`trending/${query}/day`);
+                  setTrendingMovie(data.results);
+            } catch (error) {
+                  console.log(error);
+            }
+      };
+      useEffect(() => {
+            getTrendingData();
+      }, [query]);
+      const handleTouchStart = (e) => {
+            touchStart.current = {
+                  x: e.touches[0].clientX,
+                  y: e.touches[0].clientY,
+            };
+            if (containerRef.current) {
+                  containerRef.current.style.pointerEvents = "auto";
+            }
+      };
+
+      const handleTouchMove = (e) => {
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const dx = Math.abs(currentX - touchStart.current.x);
+            const dy = Math.abs(currentY - touchStart.current.y);
+            if (dy > dx && containerRef.current) {
+                  containerRef.current.style.pointerEvents = "none";
+            } else if (containerRef.current) {
+                  containerRef.current.style.pointerEvents = "auto";
+            }
+      };
+
+      const handleTouchEnd = () => {
+            if (containerRef.current) {
+                  containerRef.current.style.pointerEvents = "auto";
+            }
+      };
+      return (
+            <section className="w-full  px-5">
+                  <div className="flex mb-3 justify-between items-center">
+                        <h1 className="text-[#a5dbc9] text-xl">Trending</h1>
+                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">
+                              <option className="text-green-900" defaultValue="all" value="all">
+                                    All
+                              </option>
+                              <option className="text-green-900" value="tv">
+                                    TV
+                              </option>
+                              <option className=" text-green-900 " value="movie">
+                                    Movies
+                              </option>
+                        </select>
+                  </div>
+                  <section
+                        style={{
+                              WebkitOverflowScrolling: "touch",
+                              touchAction: "auto",
+                        }}
+                        onTouchStart={handleTouchStart}
+                        onTouchMove={handleTouchMove}
+                        onTouchEnd={handleTouchEnd}
+                        ref={containerRef}
+                        className={`flex ${styles.scrollbar}  overflow-x-scroll  gap-4 h-72  w-full`}
+                  >
+                        {trendingMovie &&
+                              trendingMovie.map((eachMovie, index) => (
+                                    <div key={index} className=" w-44  shrink-0">
+                                          <Card type="movie" eachMovie={eachMovie} />
+                                    </div>
+                              ))}
+                  </section>
+            </section>
+      );
+};
+
+export default TrendingContainer;
