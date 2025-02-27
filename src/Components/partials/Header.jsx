@@ -18,12 +18,12 @@ const Header = () => {
       };
 
       useEffect(() => {
-            const changeMovieIndex = setInterval(() => {
-                  setMovieIndex((prev) => (prev + 1) % 20);
-            }, 20000);
+            // const changeMovieIndex = setInterval(() => {
+            //       setMovieIndex((prev) => (prev + 1) % 20);
+            // }, 20000);
             getTrendingData();
-            return () => clearInterval(changeMovieIndex);
-      }, [movieIndex]);
+            // return () => clearInterval(changeMovieIndex);
+      }, []);
       return (
             <header className="w-full p-5  leading-none font-Stoshi">
                   <section className="overflow-hidden">

@@ -21,9 +21,9 @@ const ComingSoonContainer = () => {
 
       useEffect(() => {
             getComingData();
-            const pageIncrement = setInterval(() => setPage((prev) => prev + 1), 30000);
-            return () => clearInterval(pageIncrement);
-      }, [page]);
+            // const pageIncrement = setInterval(() => setPage((prev) => prev + 1), 30000);
+            // return () => clearInterval(pageIncrement);
+      }, []);
 
       const handleTouchStart = (e) => {
             touchStart.current = {

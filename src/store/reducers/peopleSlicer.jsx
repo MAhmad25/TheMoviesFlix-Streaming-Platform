@@ -10,7 +10,7 @@ export const peopleSlicer = createSlice({
             getPeople: (state, action) => {
                   state.info = action.payload;
             },
-            removePeople: (state, action) => {
+            removePeople: (state) => {
                   state.info = null;
             },
       },
