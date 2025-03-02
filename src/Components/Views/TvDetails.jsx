@@ -53,7 +53,7 @@ const TvDetails = () => {
                                           <div className="w-full text-white font-Stoshi mt-3 border-t-[.5px] border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2 items-center">
                                                       <h1 className="text-2xl  font-semibold">About the Tv Show</h1>
-                                                      <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 text-xs py-1 rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date.split("-")[0]}</span>
+                                                      <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 text-xs py-1 rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
                                                 </div>
                                                 <p className="tracking-tighter text-zinc-300 leading-5">{info.detail.overview}</p>
                                           </div>
@@ -80,14 +80,16 @@ const TvDetails = () => {
                                                 </div>
                                           )}
                                           {/* Recommend TV List */}
-                                          <div className="mt-6 mb-20 w-full">
-                                                <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Recommended</h1>
-                                                <div className={`flex mt-5 overflow-x-scroll w-full items-center cursor-pointer   ${style.scrollbar}  gap-3 h-72 `}>
-                                                      {info.recommendedTv.map((eachTv, index) => (
-                                                            <Card key={index} type="tv" eachMovie={eachTv} />
-                                                      ))}
+                                          {info.recommendedTv.length != 0 && (
+                                                <div className="mt-6 mb-20 w-full">
+                                                      <h1 className="text-white text-2xl font-bold font-Stoshi leading-none">Recommended</h1>
+                                                      <div className={`flex mt-5 overflow-x-scroll w-full items-center cursor-pointer   ${style.scrollbar}  gap-3 h-72 `}>
+                                                            {info.recommendedTv.map((eachTv, index) => (
+                                                                  <Card key={index} type="tv" eachMovie={eachTv} />
+                                                            ))}
+                                                      </div>
                                                 </div>
-                                          </div>
+                                          )}
                                     </section>
                                     <Outlet />
                               </section>

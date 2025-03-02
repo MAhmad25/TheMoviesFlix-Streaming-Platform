@@ -57,7 +57,7 @@ const ComingSoonContainer = () => {
       return (
             <section className="w-full  mb-10 px-5">
                   <div className="flex mb-2 justify-between items-center">
-                        <h1 className="text-[#a5dbc9] text-xl">Up-Coming Movies</h1>
+                        <h1 className="text-[#a5dbc9] sm:text-3xl sm:text-white text-xl">Up-Coming Movies</h1>
                   </div>
                   <section
                         style={{
@@ -68,10 +68,10 @@ const ComingSoonContainer = () => {
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         ref={containerRef}
-                        className={`flex ${styles.scrollbar} overflow-x-auto  w-full gap-4 h-72 `}
+                        className={`flex ${styles.scrollbar} overflow-x-auto  w-full gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72 `}
                   >
                         {comingSoon.map((eachMovie, index) => (
-                              <div key={index} className=" w-44 shrink-0">
+                              <div key={index} className="w-44 shrink-0">
                                     <Card type="movie" eachMovie={eachMovie} />
                               </div>
                         ))}

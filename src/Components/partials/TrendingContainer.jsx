@@ -50,8 +50,8 @@ const TrendingContainer = () => {
       return (
             <section className="w-full  px-5">
                   <div className="flex mb-3 justify-between items-center">
-                        <h1 className="text-[#a5dbc9] text-xl">Trending Now</h1>
-                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">
+                        <h1 className="text-[#a5dbc9] sm:text-3xl sm:text-zinc-100 text-xl">Trending Now</h1>
+                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="category" id="category">
                               <option className="text-green-900" defaultValue="all" value="all">
                                     All
                               </option>
@@ -72,7 +72,7 @@ const TrendingContainer = () => {
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         ref={containerRef}
-                        className={`flex ${styles.scrollbar}  overflow-x-scroll  gap-4 h-72  w-full`}
+                        className={`flex ${styles.scrollbar} overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full`}
                   >
                         {trendingMovie &&
                               trendingMovie.map((eachMovie, index) => (
