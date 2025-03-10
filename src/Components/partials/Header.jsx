@@ -23,7 +23,7 @@ const Header = () => {
             }, 20000);
             getTrendingData();
             return () => clearInterval(changeMovieIndex);
-      }, []);
+      }, [movieIndex]);
       return (
             <header className="w-full p-5 leading-none font-Stoshi">
                   <section className="overflow-hidden">
