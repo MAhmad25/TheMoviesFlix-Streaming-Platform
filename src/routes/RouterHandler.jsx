@@ -6,8 +6,8 @@ import Search from "../Components/partials/Search";
 import TVShows from "../Components/TVShows";
 import People from "../Components/People";
 import MovieDetails from "../Components/Views/MovieDetails";
-import TvDetails from "../Components/Views/tvDetails";
-import PeopleDetails from "../Components/Views/peopleDetails";
+import TvDetails from "../Components/Views/TvDetails";
+import PeopleDetails from "../Components/Views/PeopleDetails";
 import Trailer from "../Components/Views/Trailer";
 const Router = () => {
       return (
