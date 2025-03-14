@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
-      const [movieIndex, setMovieIndex] = useState(0);
+      const [movieIndex, setMovieIndex] = useState(3);
 
       const getTrendingData = async () => {
             try {
@@ -20,7 +20,7 @@ const Header = () => {
       useEffect(() => {
             const changeMovieIndex = setInterval(() => {
                   setMovieIndex((prev) => (prev + 1) % 20);
-            }, 20000);
+            }, 10000);
             getTrendingData();
             return () => clearInterval(changeMovieIndex);
       }, [movieIndex]);
