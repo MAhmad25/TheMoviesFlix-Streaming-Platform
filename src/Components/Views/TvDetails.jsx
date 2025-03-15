@@ -22,33 +22,35 @@ const TvDetails = () => {
       return (
             <>
                   {info ? (
-                        <section className="w-dvw relative overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path})` : `/icon.png` }}>
+                        <section className="w-full  overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path})` : `/icon.png` }}>
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
-                              <section className="backdrop-blur-2xl overflow-x-hidden  w-full min-h-full max-h-[250dvh] bg-black/30">
-                                    <div className="w-full  overflow-hidden rounded-b-2xl">
+                              <section className="backdrop-blur-2xl relative overflow-x-hidden  w-full min-h-full max-h-[250dvh] bg-black/30">
+                                    <div className="w-full max-h-96 overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
                                     </div>
-                                    <section className="px-5 overflow-x-hidden text-white  mt-3 w-full font-Stoshi">
-                                          <h1 className="tracking-tight leading-none text-3xl  font-black">{info.detail.name || info.detail.original_name}</h1>
-                                          <h3 className="text-white/70 mt-2 text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
-                                          <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm text-zinc-300 rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
-                                                {info.detail.genres.map((genre) => (
-                                                      <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm text-zinc-300 rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                            {genre.name}
-                                                      </h2>
-                                                ))}
-                                          </div>
-                                          <div className="w-full  mt-3 flex justify-between items-center">
-                                                <h1 className="text-white text-lg font-medium">
-                                                      ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                </h1>
-                                                <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                      <MdOutlinePlayCircle size="2rem" />
-                                                      <p className="text-lg tracking-tight leading-none">Watch Trailer</p>
-                                                </Link>
+                                    <section className="px-5 overflow-x-hidden text-white mt-3 w-full font-Stoshi">
+                                          <div className="md:absolute md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:top-[10.55rem] lg:top-[14.1rem]">
+                                                <h1 className="tracking-tight leading-none text-3xl  font-black">{info.detail.name || info.detail.original_name}</h1>
+                                                <h3 className="text-white/70 mt-2 text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
+                                                <div className="flex mt-3 flex-wrap gap-1 w-full">
+                                                      <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm text-zinc-300 rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
+                                                      {info.detail.genres.map((genre) => (
+                                                            <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm text-zinc-300 rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                  {genre.name}
+                                                            </h2>
+                                                      ))}
+                                                </div>
+                                                <div className="w-full  mt-3 flex justify-between items-center">
+                                                      <h1 className="text-white text-lg font-medium">
+                                                            ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                      </h1>
+                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
+                                                            <MdOutlinePlayCircle size="2rem" />
+                                                            <p className="text-lg tracking-tight leading-none">Watch Trailer</p>
+                                                      </Link>
+                                                </div>
                                           </div>
                                           <div className="w-full text-white font-Stoshi mt-3 border-t-[.5px] border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2 items-center">

@@ -54,25 +54,31 @@ const MovieDetails = () => {
                                                       </Link>
                                                 </div>
                                           </div>
-                                          <div className="w-full text-white font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
+                                          <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2  md:justify-center items-center">
-                                                      <h1 className="text-2xl md:text-3xl md:mb-3  font-semibold">About the movie</h1>
+                                                      <h1 className="text-2xl min-[961px]:text-5xl min-[961px]:underline md:text-3xl md:mb-3  font-semibold">About the movie</h1>
                                                       <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date.split("-")[0]}</span>
                                                 </div>
-                                                <p className="tracking-tighter md:text-xl text-zinc-300 leading-5">{info.detail.overview}</p>
+                                                <p className="tracking-tighter min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5">{info.detail.overview}</p>
                                           </div>
-                                          <div className="w-full mt-3">
-                                                <h1 className="text-white text-2xl md:text-center md:text-4xl font-bold font-Stoshi leading-none">Cast</h1>
-                                                <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-40 md:h-80  items-center`}>{info.castBy.cast.map((eachActor) => <Exclude key={eachActor.cast_id} eachActor={eachActor} />).slice(0, 9)}</div>
-                                          </div>
-                                          <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                                <h1 className="text-white text-2xl md:text-center md:text-4xl font-bold font-Stoshi leading-none">Crew</h1>
-                                                <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:h-80 items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
-                                          </div>
+
+                                          {info.castBy.cast.length != 0 && (
+                                                <div className="w-full mt-3">
+                                                      <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-Stoshi leading-none">Cast</h1>
+                                                      <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-40  md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center  items-center`}>{info.castBy.cast.map((eachActor) => <Exclude key={eachActor.cast_id} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                </div>
+                                          )}
+                                          {info.castBy.crew.length != 0 && (
+                                                <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
+                                                      <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Crew</h1>
+                                                      <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                </div>
+                                          )}
+
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
-                                                      <h1 className="text-white text-2xl md:text-3xl font-bold font-Stoshi leading-none">Recommended Movies</h1>
-                                                      <div className={`flex px-10 mt-5 sm:mt-3  overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll  min-w-[100vw] items-center md:items-start cursor-pointer  ${style.scrollbar}  gap-3 sm:h-96 md:grid md:grid-cols-2 md:min-h-[100rem] h-72 `}>
+                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:underline md:my-10 font-bold font-Stoshi leading-none">Similar Movies</h1>
+                                                      <div className={`flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll  min-w-[100vw] items-center md:items-start cursor-pointer  ${style.scrollbar}  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit h-72 `}>
                                                             {info.recommendedMovies.map((eachMovie, index) => (
                                                                   <Card key={index} type="movie" eachMovie={eachMovie} />
                                                             ))}
