@@ -3,12 +3,16 @@ import Card from "./Card";
 import styles from "../../styles/TrendingContainer.module.css";
 import { useEffect, useRef, useState } from "react";
 import api from "../../utils/axios";
+import { CiCircleChevRight } from "react-icons/ci";
+import { CiCircleChevLeft } from "react-icons/ci";
 
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("all");
       const containerRef = useRef(null);
       const touchStart = useRef({ x: 0, y: 0 });
+      const [isEnd, setIsEnd] = useState(false);
+      const [isStart, setIsStart] = useState(true);
       const getTrendingData = async () => {
             try {
                   const { data } = await api.get(`trending/${query}/day`);
@@ -47,8 +51,37 @@ const TrendingContainer = () => {
                   containerRef.current.style.pointerEvents = "auto";
             }
       };
+      const scrollLeft = () => {
+            if (containerRef.current) {
+                  const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+                  console.table(scrollLeft, scrollWidth, clientWidth);
+                  if (scrollLeft + clientWidth > scrollWidth) setIsEnd(true);
+                  else setIsEnd(false);
+                  if (scrollLeft > 0) setIsStart(false);
+                  else setIsStart(true);
+                  containerRef.current.scrollBy({
+                        left: -400,
+                        behavior: "smooth",
+                  });
+            }
+      };
+      const scrollRight = () => {
+            const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+            console.table(scrollLeft, scrollWidth, clientWidth);
+            console.log(scrollLeft + clientWidth);
+            if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
+            else setIsEnd(false);
+            if (scrollLeft + clientWidth > 0) setIsStart(false);
+            else setIsStart(true);
+            if (containerRef.current) {
+                  containerRef.current.scrollBy({
+                        left: 400,
+                        behavior: "smooth",
+                  });
+            }
+      };
       return (
-            <section className="w-full  px-5">
+            <section className="w-full relative  px-5">
                   <div className="flex mb-3 justify-between items-center">
                         <h1 className="text-[#a5dbc9] sm:text-3xl sm:text-zinc-100 text-xl">Trending Now</h1>
                         <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="category" id="category">
@@ -74,9 +107,17 @@ const TrendingContainer = () => {
                         ref={containerRef}
                         className={`flex ${styles.scrollbar} overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full`}
                   >
+                        {/* These are movie List controller  */}
+                        <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
+                              <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                        </div>
+                        <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
+                              <CiCircleChevRight size="3rem" color="#e5e9de" />
+                        </div>
+
                         {trendingMovie &&
                               trendingMovie.map((eachMovie, index) => (
-                                    <div key={index} className=" w-44  shrink-0">
+                                    <div key={index} className=" w-44 shrink-0">
                                           <Card type="movie" eachMovie={eachMovie} />
                                     </div>
                               ))}
