@@ -24,7 +24,7 @@ const MovieDetails = () => {
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
-                              <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full  min-h-[250dvh] sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
+                              <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
                                     <div className="w-full max-h-96  overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="" />
                                     </div>
@@ -33,18 +33,20 @@ const MovieDetails = () => {
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-black">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                      {info.detail.runtime && (
+                                                      {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
                                                             <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                   {Math.floor(info.detail.runtime / 60)}h {(info.detail.runtime % 60).toFixed(0)}min
                                                             </h2>
                                                       )}
-                                                      {info.detail.genres.map((genre) => (
-                                                            <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                                  {genre.name}
-                                                            </h2>
-                                                      ))}
+                                                      {info.detail.genres.length != 0 &&
+                                                            info.detail.genres.map((genre) => (
+                                                                  <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                        {genre.name}
+                                                                  </h2>
+                                                            ))}
                                                 </div>
                                                 <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                      
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
@@ -78,7 +80,7 @@ const MovieDetails = () => {
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
                                                       <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:underline md:my-10 font-bold font-Stoshi leading-none">Similar Movies</h1>
-                                                      <div className={`flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll  min-w-[100vw] items-center md:items-start cursor-pointer  ${style.scrollbar}  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit h-72 `}>
+                                                      <div className={`flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll   items-center md:items-start cursor-pointer  ${style.scrollbar}  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit  h-72 `}>
                                                             {info.recommendedMovies.map((eachMovie, index) => (
                                                                   <Card key={index} type="movie" eachMovie={eachMovie} />
                                                             ))}
