@@ -38,7 +38,6 @@ const ComingSoonContainer = () => {
 
       const handleTouchMove = (e) => {
             const currentX = e.touches[0].clientX;
-            console.log(e);
             const currentY = e.touches[0].clientY;
             const dx = Math.abs(currentX - touchStart.current.x);
             const dy = Math.abs(currentY - touchStart.current.y);

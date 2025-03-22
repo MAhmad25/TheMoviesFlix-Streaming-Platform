@@ -18,7 +18,6 @@ const TvDetails = () => {
             dispatch(asyncTvLoader(id));
             return () => dispatch(removeTv());
       }, [id, dispatch]);
-      console.log(info);
       return (
             <>
                   {info ? (
