@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncPeopleLoader, removePeople } from "../../store/actions/peopleAction";
 import { useNavigate, useParams } from "react-router-dom";
@@ -6,15 +6,46 @@ import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Loader from "../partials/Loader";
 import ViewCard from "../partials/ViewCard";
+import { CiCircleChevRight } from "react-icons/ci";
+import { CiCircleChevLeft } from "react-icons/ci";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
+      const containerRef = useRef(null);
       const navigate = useNavigate();
+      const [isEnd, setIsEnd] = useState(false);
+      const [isStart, setIsStart] = useState(true);
       const info = useSelector((state) => state.people.info);
       const { id } = useParams();
       useEffect(() => {
             dispatch(asyncPeopleLoader(id));
             return () => dispatch(removePeople());
       }, [id, dispatch]);
+      const scrollLeft = () => {
+            if (containerRef.current) {
+                  const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+                  if (scrollLeft + clientWidth - 100 > scrollWidth) setIsEnd(true);
+                  else setIsEnd(false);
+                  if (scrollLeft > 0) setIsStart(false);
+                  else setIsStart(true);
+                  containerRef.current.scrollBy({
+                        left: -400,
+                        behavior: "smooth",
+                  });
+            }
+      };
+      const scrollRight = () => {
+            const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+            if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
+            else setIsEnd(false);
+            if (scrollLeft + clientWidth > 0) setIsStart(false);
+            else setIsStart(true);
+            if (containerRef.current) {
+                  containerRef.current.scrollBy({
+                        left: 400,
+                        behavior: "smooth",
+                  });
+            }
+      };
       return (
             <>
                   {info ? (
@@ -73,14 +104,21 @@ const PeopleDetails = () => {
                                                       </span>
                                                       Biography:
                                                 </h1>
-                                                <p className="mt-4 md:text-xs md:px-2 leading-5">{info.personDetail.biography}</p>
+                                                <p className="mt-4  md:text-lg md:px-2 leading-none ">{info.personDetail.biography}</p>
                                           </>
                                     )}
-                                    <div className="w-full  px-2  mt-5">
+                                    <div className="w-full relative px-2  mt-5">
                                           <h1 className="text-2xl text-format">Recent Projects:</h1>
                                           {/* Now Here come the Card Container */}
-                                          <section className="w-full scroller-hidden h-96 flex gap-4 items-center overflow-x-scroll overflow-y-hidden">
+                                          <section ref={containerRef} className="w-full scroller-hidden  h-96 flex gap-4 items-center overflow-x-scroll overflow-y-hidden">
                                                 {/* Card */}
+                                                {/* These are movie List controller  */}
+                                                <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[30%]`}>
+                                                      <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                                                </div>
+                                                <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[30%]`}>
+                                                      <CiCircleChevRight size="3rem" color="#e5e9de" />
+                                                </div>
                                                 {info.castedMovies.cast
                                                       .map((eachMovie, index) => <ViewCard eachMovie={eachMovie} key={index} />)
                                                       .reverse()

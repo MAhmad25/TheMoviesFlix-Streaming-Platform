@@ -57,7 +57,6 @@ const ComingSoonContainer = () => {
       const scrollLeft = () => {
             if (containerRef.current) {
                   const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-                  console.table(scrollLeft, scrollWidth, clientWidth);
                   if (scrollLeft + clientWidth > scrollWidth) setIsEnd(true);
                   else setIsEnd(false);
                   if (scrollLeft > 0) setIsStart(false);
@@ -70,8 +69,6 @@ const ComingSoonContainer = () => {
       };
       const scrollRight = () => {
             const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-            console.table(scrollLeft, scrollWidth, clientWidth);
-            console.log(scrollLeft + clientWidth);
             if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
             else setIsEnd(false);
             if (scrollLeft + clientWidth > 0) setIsStart(false);

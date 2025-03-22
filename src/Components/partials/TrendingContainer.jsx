@@ -54,28 +54,25 @@ const TrendingContainer = () => {
       const scrollLeft = () => {
             if (containerRef.current) {
                   const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-                  console.table(scrollLeft, scrollWidth, clientWidth);
                   if (scrollLeft + clientWidth > scrollWidth) setIsEnd(true);
                   else setIsEnd(false);
                   if (scrollLeft > 0) setIsStart(false);
                   else setIsStart(true);
                   containerRef.current.scrollBy({
-                        left: -400,
+                        left: -600,
                         behavior: "smooth",
                   });
             }
       };
       const scrollRight = () => {
             const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-            console.table(scrollLeft, scrollWidth, clientWidth);
-            console.log(scrollLeft + clientWidth);
             if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
             else setIsEnd(false);
             if (scrollLeft + clientWidth > 0) setIsStart(false);
             else setIsStart(true);
             if (containerRef.current) {
                   containerRef.current.scrollBy({
-                        left: 400,
+                        left: 600,
                         behavior: "smooth",
                   });
             }
