@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import NotFound from "../partials/NotFound";
 import { useEffect } from "react";
+import { motion } from "motion/react";
 
 const Trailer = () => {
       let { pathname } = useLocation();
@@ -21,11 +22,11 @@ const Trailer = () => {
       return (
             <>
                   {video ? (
-                        <section className="w-screen no-scroll fixed inset-0  flex justify-center items-center  bg-black/70 backdrop-blur-sm h-screen">
+                        <motion.section initial={{ scale: 0 }} animate={{ scale: 1 }} className="w-screen no-scroll fixed inset-0  flex justify-center items-center  bg-black/70 backdrop-blur-sm h-screen">
                               <div className="w-full mb-44 sm:w-[80%] sm:mb-0 h-80 sm:h-[25rem] min-[1250px]:h-[27rem]">
                                     <ReactPlayer url={`https://www.youtube.com/watch?v=${video.key}`} height="100%" width="100%" />
                               </div>
-                        </section>
+                        </motion.section>
                   ) : (
                         <NotFound />
                   )}

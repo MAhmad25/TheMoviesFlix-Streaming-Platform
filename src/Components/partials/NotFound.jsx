@@ -1,23 +1,41 @@
 const NotFound = () => {
       return (
-            <div className="w-full absolute top-20  left-0 bg-black/70 backdrop-blur-3xl h-[195dvh]  flex justify-center">
-                  <div className="mx-auto w-full bg-gray-950 rounded-xl overflow-hidden drop-shadow-xl">
-                        <div className="bg-[#333] flex items-center p-[5px] text-whitec relative">
-                              <div className="flex absolute left-3">
-                                    <span className="h-3.5 w-3.5 bg-[#ff605c] rounded-xl mr-2" />
-                                    <span className="h-3.5 w-3.5 bg-[#ffbd44] rounded-xl mr-2" />
-                                    <span className="h-3.5 w-3.5 bg-[#00ca4e] rounded-xl" />
-                              </div>
-                              <div className="flex-1 text-center text-white">Youtube Community</div>
+            <div className="w-full absolute inset-0 bg-black/70 backdrop-blur-3xl h-[195dvh]  flex justify-center">
+                  <div className="absolute z-50 flex w-3/4  justify-center items-center overflow-hidden bg-white  shadow-lg max-w-96 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="96" width="16">
+                              <path
+                                    strokeLinecap="round"
+                                    strokeWidth="2"
+                                    stroke="indianred"
+                                    fill="indianred"
+                                    d="M 8 0 
+               Q 4 4.8, 8 9.6 
+               T 8 19.2 
+               Q 4 24, 8 28.8 
+               T 8 38.4 
+               Q 4 43.2, 8 48 
+               T 8 57.6 
+               Q 4 62.4, 8 67.2 
+               T 8 76.8 
+               Q 4 81.6, 8 86.4 
+               T 8 96 
+               L 0 96 
+               L 0 0 
+               Z"
+                              ></path>
+                        </svg>
+                        <div className="mx-2.5 overflow-hidden  w-full">
+                              <p className="mt-1.5 text-xl font-bold text-[indianred] leading-8 mr-3 overflow-hidden text-ellipsis whitespace-nowrap">Trailer Not Found</p>
+                              <p className="leading-5 break-all text-zinc-400 max-h-10">
+                                    Oh no!
+                                    <br />I believe youtube is not allowing us to play trailer 😣
+                              </p>
                         </div>
-                        <div className="p-2.5 text-[#0f0]">
-                              <div>
-                                    <span className="mr-2">Trailer Not Found Sorry !</span>
-                                    <span className="animate-[ping_1.5s_0.5s_ease-in-out_infinite]">.</span>
-                                    <span className="animate-[ping_1.5s_0.7s_ease-in-out_infinite]">.</span>
-                                    <span className="animate-[ping_1.5s_0.9s_ease-in-out_infinite]">.</span>
-                              </div>
-                        </div>
+                        <button className="w-16 cursor-pointer focus:outline-none">
+                              <svg className="w-7 h-7" fill="none" stroke="indianred" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                              </svg>
+                        </button>
                   </div>
             </div>
       );

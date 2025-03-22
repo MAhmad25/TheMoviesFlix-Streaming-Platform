@@ -46,7 +46,6 @@ const MovieDetails = () => {
                                                             ))}
                                                 </div>
                                                 <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
-                                                      
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
