@@ -59,7 +59,7 @@ const TvDetails = () => {
                                                 <p className="tracking-tighter min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5">{info.detail.overview}</p>
                                           </div>
                                           {info.detail.seasons.length != 0 && (
-                                                <div className="w-full flex md:flex-col  md:justify-center items-center ">
+                                                <div className="w-full md:flex md:justify-center md:items-center md:flex-col">
                                                       <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">Tv Season</h1>
                                                       <div className={`flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  md:justify-center  ${style.scrollbar}  gap-3 md:h-72  h-64`}>
                                                             {info.detail.seasons.map((eachSeason, index) => (
