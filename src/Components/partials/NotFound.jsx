@@ -1,7 +1,7 @@
 const NotFound = () => {
       return (
             <div className="w-full absolute inset-0 bg-black/70 backdrop-blur-3xl h-[195dvh]  flex justify-center">
-                  <div className="absolute z-50 flex w-3/4  justify-center items-center overflow-hidden bg-white  shadow-lg max-w-96 rounded-xl">
+                  <div className="absolute  flex w-3/4  justify-center items-center overflow-hidden bg-white  shadow-lg max-w-96 rounded-xl">
                         <svg xmlns="http://www.w3.org/2000/svg" height="96" width="16">
                               <path
                                     strokeLinecap="round"
@@ -31,11 +31,6 @@ const NotFound = () => {
                                     <br />I believe youtube is not allowing us to play trailer 😣
                               </p>
                         </div>
-                        <button className="w-16 cursor-pointer focus:outline-none">
-                              <svg className="w-7 h-7" fill="none" stroke="indianred" strokeWidth="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-                              </svg>
-                        </button>
                   </div>
             </div>
       );
