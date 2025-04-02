@@ -2,15 +2,16 @@
 import { Link } from "react-router-dom";
 import ImageLoader from "./ImageLoader";
 import { useState } from "react";
+import { motion } from "motion/react";
 
 const Card = ({ eachMovie, type = "all" }) => {
       const [showSkeleton, setSkeleton] = useState(true);
       return (
             <Link to={`/${eachMovie.media_type || type}/details/${eachMovie.id}`}>
-                  <section className="w-44 relative sm:w-full sm:min-w-56 shrink-0 overflow-hidden rounded-xl sm:h-56  md:h-72 h-40">
+                  <motion.section whileHover={{ scale: 0.95, opacity: 0.7, transition: { duration: 0.4 } }} className="w-44 relative sm:w-full sm:min-w-56 shrink-0 overflow-hidden rounded-xl sm:h-56  md:h-72 h-40">
                         {showSkeleton && <ImageLoader />}
                         <img onLoad={() => setSkeleton(false)} className={`w-full ${showSkeleton ? "invisible" : "visible"} h-full object-cover`} src={eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path ? `https://image.tmdb.org/t/p/original${eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path}` : `/noImage.jpg`} alt="" />
-                  </section>
+                  </motion.section>
                   <div className="mt-2  px-2 py-2 rounded-lg flex flex-col gap-1 h-fit  w-full md:w-full md:bg-transparent  text-white">
                         {eachMovie.vote_average != 0 && (
                               <h3 className="text-white rounded-full whitespace-nowrap  text-xs leading-none  tracking-tighter ">

@@ -61,7 +61,7 @@ const ComingSoonContainer = () => {
                   if (scrollLeft > 0) setIsStart(false);
                   else setIsStart(true);
                   containerRef.current.scrollBy({
-                        left: -400,
+                        left: -600,
                         behavior: "smooth",
                   });
             }
@@ -74,7 +74,7 @@ const ComingSoonContainer = () => {
             else setIsStart(true);
             if (containerRef.current) {
                   containerRef.current.scrollBy({
-                        left: 400,
+                        left: 600,
                         behavior: "smooth",
                   });
             }

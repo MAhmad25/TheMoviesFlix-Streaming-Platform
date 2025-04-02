@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { motion } from "motion/react";
 import { useEffect, useState } from "react";
 import { IoSearchOutline } from "react-icons/io5";
@@ -20,6 +21,7 @@ const Search = () => {
             if (query.length <= 0) setMovieData([]);
             query && getSearches();
       }, [query]);
+      console.log(movieData);
       return (
             <>
                   <section className={`w-full min-h-[100dvh] z-20 ${style.scrollbar}  lg:flex lg:flex-col lg:items-center  bg-[rgb(31,71,69)] bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)] backdrop-blur-xl  px-5 overflow-y-scroll text-white`}>
@@ -37,7 +39,7 @@ const Search = () => {
                                     movieData.map((eachMovie, index) => (
                                           <Link to={`/${eachMovie.media_type}/details/${eachMovie.id}`} key={index} className="w-full px-5 flex  items-center gap-5  mt-3">
                                                 <div className="w-20 md:w-28 lg:w-40 lg:h-40 md:h-28 shrink-0 h-20 rounded-xl overflow-hidden">
-                                                      <img className="w-full h-full object-cover" src={eachMovie.backdrop_path || eachMovie.poster_path ? `https://image.tmdb.org/t/p/original${eachMovie.backdrop_path || eachMovie.poster_path} ` : "/noImage.jpg"} alt="Poster image" />
+                                                      <img className="w-full h-full object-cover" src={eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path ? `https://image.tmdb.org/t/p/original${eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path} ` : "/noImage.jpg"} alt="Poster image" />
                                                 </div>
                                                 <h1 className="leading-none lg:text-2xl md:text-xl">{eachMovie.name || eachMovie.original_name || eachMovie.original_title}</h1>
                                           </Link>
