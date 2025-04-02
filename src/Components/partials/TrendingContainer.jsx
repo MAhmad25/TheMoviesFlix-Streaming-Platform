@@ -105,10 +105,10 @@ const TrendingContainer = () => {
                         className={`flex ${styles.scrollbar} overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full`}
                   >
                         {/* These are movie List controller  */}
-                        <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
+                        <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
                               <CiCircleChevLeft size="3rem" color="#e5e9de" />
                         </div>
-                        <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
+                        <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
                               <CiCircleChevRight size="3rem" color="#e5e9de" />
                         </div>
 
