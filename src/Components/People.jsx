@@ -30,7 +30,7 @@ const People = () => {
                                     <h1 className="text-2xl tracking-tighter sm:text-3xl md:text-4xl leading-none text-white">Trending People</h1>
                               </span>
                               <InfiniteScroll hasMore={true} next={getPopularPeople} loader={<Loader />} dataLength={popularPeople.length}>
-                                    <div className="lg:px-3 px-2 min-[1260px]:grid-cols-5 gap-x-6 md:grid-cols-3 gap-y-4  grid lg:grid-cols-4  grid-cols-2 ">{popularPeople && popularPeople.map((eachPeople, index) => <Card type="person" key={index} eachMovie={eachPeople} />)}</div>
+                                    <div className="lg:px-3 px-2 overflow-x-hidden min-[1260px]:grid-cols-5 gap-x-6 md:grid-cols-3 gap-y-4  grid lg:grid-cols-4  grid-cols-2 ">{popularPeople && popularPeople.map((eachPeople, index) => <Card type="person" key={index} eachMovie={eachPeople} />)}</div>
                               </InfiniteScroll>
                         </div>
                   ) : (

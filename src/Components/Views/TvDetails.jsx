@@ -53,7 +53,7 @@ const TvDetails = () => {
                                                 </div>
                                           </div>
                                     </div>
-                                    <section className="px-5 overflow-x-hidden text-white mt-3 w-full font-Stoshi">
+                                    <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length == 0 && "pb-12"} text-white mt-3 w-full font-Stoshi`}>
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-black">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>

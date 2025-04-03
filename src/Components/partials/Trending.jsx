@@ -25,13 +25,13 @@ const Trending = () => {
       return (
             <>
                   {trendingMovie.length ? (
-                        <div className="bg-[rgb(31,71,69)]  overflow-x-hidden w-full h-full bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
-                              <span className="flex px-5 py-5 gap-4 items-center">
+                        <div className="bg-[rgb(31,71,69)]  overflow-x-hidden w-full  h-full bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
+                              <span className="flex px-5 py-5  gap-4 items-center">
                                     <h1 className="text-2xl text-white">Trending Movies</h1>
                                     <MdOutlineHorizontalRule size="1.4rem" color="white" />
                               </span>
                               <InfiniteScroll hasMore={true} next={getTrendingData} loader={<Loader />} dataLength={trendingMovie.length}>
-                                    <div className=" px-2 gap-x-6 gap-y-4 grid grid-cols-2 ">{trendingMovie && trendingMovie.map((eachMovie, index) => <Card type="movie" key={index} eachMovie={eachMovie} />)}</div>
+                                    <div className="px-2 w-full overflow-x-hidden gap-x-6 gap-y-4 grid grid-cols-2 ">{trendingMovie && trendingMovie.map((eachMovie, index) => <Card type="movie" key={index} eachMovie={eachMovie} />)}</div>
                               </InfiniteScroll>
                         </div>
                   ) : (

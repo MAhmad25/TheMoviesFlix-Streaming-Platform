@@ -21,7 +21,6 @@ const Search = () => {
             if (query.length <= 0) setMovieData([]);
             query && getSearches();
       }, [query]);
-      console.log(movieData);
       return (
             <>
                   <section className={`w-full min-h-[100dvh] z-20 ${style.scrollbar}  lg:flex lg:flex-col lg:items-center  bg-[rgb(31,71,69)] bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)] backdrop-blur-xl  px-5 overflow-y-scroll text-white`}>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncMovieLoader, removeMovie } from "../../store/actions/movieAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
@@ -8,11 +8,43 @@ import { IoChevronBackOutline } from "react-icons/io5";
 import Exclude from "./Exclude";
 import style from "../../styles/TrendingContainer.module.css";
 import Card from "../partials/Card";
+import Review from "../partials/Review";
+import { CiCircleChevRight } from "react-icons/ci";
+import { CiCircleChevLeft } from "react-icons/ci";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
+      const containerRef = useRef(null);
       const info = useSelector((state) => state.movie.info);
+      const [isEnd, setIsEnd] = useState(false);
+      const [isStart, setIsStart] = useState(true);
       const { id } = useParams();
+      const scrollLeft = () => {
+            if (containerRef.current) {
+                  const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+                  if (scrollLeft + clientWidth > scrollWidth) setIsEnd(true);
+                  else setIsEnd(false);
+                  if (scrollLeft > 0) setIsStart(false);
+                  else setIsStart(true);
+                  containerRef.current.scrollBy({
+                        left: -600,
+                        behavior: "smooth",
+                  });
+            }
+      };
+      const scrollRight = () => {
+            const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+            if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
+            else setIsEnd(false);
+            if (scrollLeft + clientWidth > 0) setIsStart(false);
+            else setIsStart(true);
+            if (containerRef.current) {
+                  containerRef.current.scrollBy({
+                        left: 600,
+                        behavior: "smooth",
+                  });
+            }
+      };
       useEffect(() => {
             dispatch(asyncMovieLoader(id));
             return () => dispatch(removeMovie());
@@ -55,7 +87,7 @@ const MovieDetails = () => {
                                           </div>
                                           {/* End of Overlay Part */}
                                     </div>
-                                    <section className="px-5 overflow-x-hidden text-white  mt-3 w-full font-Stoshi">
+                                    <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
                                           {/* Start of Simple Div */}
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-black">{info.detail.title || info.detail.original_title}</h1>
@@ -103,7 +135,26 @@ const MovieDetails = () => {
                                                       <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
-
+                                          <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
+                                                <div className="w-full flex justify-between">
+                                                      <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Reviews</h1>
+                                                      <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-Stoshi leading-none">
+                                                            <span>5</span> comments
+                                                      </h1>
+                                                </div>
+                                                <div ref={containerRef} className={`flex relative mt-2 overflow-x-scroll  w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex   items-center`}>
+                                                      {/* These are movie List controller  */}
+                                                      <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
+                                                            <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                                                      </div>
+                                                      <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
+                                                            <CiCircleChevRight size="3rem" color="#e5e9de" />
+                                                      </div>
+                                                      <Review />
+                                                      <Review />
+                                                      <Review />
+                                                </div>
+                                          </div>
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
                                                       <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:underline md:my-10 font-bold font-Stoshi leading-none">You might also like</h1>
