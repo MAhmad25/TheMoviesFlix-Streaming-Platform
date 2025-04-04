@@ -7,9 +7,11 @@ export const asyncTvLoader = (id) => async (dispatch) => {
       const recommendedTv = await api.get(`/tv/${id}/recommendations`);
       const similarTv = await api.get(`/tv/${id}/similar`);
       const videoLink = await api.get(`/tv/${id}/videos`);
+      const reviews = await api.get(`/tv/${id}/reviews`);
       const idDetail = {
             detail: details.data,
             castBy: castBy.data,
+            reviews: reviews.data.results,
             recommendedTv: recommendedTv.data.results,
             similarTvs: similarTv.data.results,
             videoLink: videoLink.data.results.find((link) => link.type === "Trailer"),

@@ -60,7 +60,7 @@ const MovieDetails = () => {
                                     <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="" />
                                           <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0 ">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white font-black">{info.detail.title || info.detail.original_title}</h1>
+                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-Stoshi font-black">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                       {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
@@ -90,7 +90,7 @@ const MovieDetails = () => {
                                     <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
                                           {/* Start of Simple Div */}
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-black">{info.detail.title || info.detail.original_title}</h1>
+                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl font-Stoshi  text-3xl  font-black">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                       {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
@@ -135,26 +135,27 @@ const MovieDetails = () => {
                                                       <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
-                                          <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                                <div className="w-full flex justify-between">
-                                                      <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Reviews</h1>
-                                                      <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-Stoshi leading-none">
-                                                            <span>5</span> comments
-                                                      </h1>
-                                                </div>
-                                                <div ref={containerRef} className={`flex relative mt-2 overflow-x-scroll  w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex   items-center`}>
-                                                      {/* These are movie List controller  */}
-                                                      <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
-                                                            <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                                          {info.reviews.length !== 0 && (
+                                                <div className="mt-2 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
+                                                      <div className="w-full flex justify-between">
+                                                            <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Reviews</h1>
+                                                            <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-Stoshi leading-none">
+                                                                  <span>{info.reviews.length}</span> comments
+                                                            </h1>
                                                       </div>
-                                                      <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
-                                                            <CiCircleChevRight size="3rem" color="#e5e9de" />
+                                                      <div ref={containerRef} className={`flex  mt-2 overflow-x-scroll  w-full cursor-pointer   ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex   items-center`}>
+                                                            {/* These are movie List controller  */}
+                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-[25%] top-0`}>
+                                                                  <CiCircleChevLeft size="2rem" color="#e5e9de" />
+                                                            </div>
+                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-[20%] top-0`}>
+                                                                  <CiCircleChevRight size="2rem" color="#e5e9de" />
+                                                            </div>
+                                                            {info.reviews && info.reviews.map((eachReview) => <Review review={eachReview} key={eachReview.id} />)}
                                                       </div>
-                                                      <Review />
-                                                      <Review />
-                                                      <Review />
                                                 </div>
-                                          </div>
+                                          )}
+
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
                                                       <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:underline md:my-10 font-bold font-Stoshi leading-none">You might also like</h1>

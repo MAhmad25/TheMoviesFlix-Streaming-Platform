@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../store/actions/tvAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
@@ -10,11 +10,43 @@ import style from "../../styles/TrendingContainer.module.css";
 import Card from "../partials/Card";
 import SeasonCard from "./SeasonCard";
 import { motion } from "motion/react";
+import Review from "../partials/Review";
+import { CiCircleChevRight } from "react-icons/ci";
+import { CiCircleChevLeft } from "react-icons/ci";
 const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
       const { id } = useParams();
+      const containerRef = useRef(null);
+      const [isEnd, setIsEnd] = useState(false);
+      const [isStart, setIsStart] = useState(true);
+      const scrollLeft = () => {
+            if (containerRef.current) {
+                  const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+                  if (scrollLeft + clientWidth > scrollWidth) setIsEnd(true);
+                  else setIsEnd(false);
+                  if (scrollLeft > 0) setIsStart(false);
+                  else setIsStart(true);
+                  containerRef.current.scrollBy({
+                        left: -600,
+                        behavior: "smooth",
+                  });
+            }
+      };
+      const scrollRight = () => {
+            const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
+            if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
+            else setIsEnd(false);
+            if (scrollLeft + clientWidth > 0) setIsStart(false);
+            else setIsStart(true);
+            if (containerRef.current) {
+                  containerRef.current.scrollBy({
+                        left: 600,
+                        behavior: "smooth",
+                  });
+            }
+      };
       useEffect(() => {
             dispatch(asyncTvLoader(id));
             return () => dispatch(removeTv());
@@ -106,6 +138,26 @@ const TvDetails = () => {
                                                 <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
                                                       <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Crew</h1>
                                                       <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center`}>{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                </div>
+                                          )}
+                                          {info.reviews.length !== 0 && (
+                                                <div className="mt-2 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
+                                                      <div className="w-full flex justify-between">
+                                                            <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Reviews</h1>
+                                                            <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-Stoshi leading-none">
+                                                                  <span>{info.reviews.length}</span> comments
+                                                            </h1>
+                                                      </div>
+                                                      <div ref={containerRef} className={`flex  mt-2 overflow-x-scroll  w-full cursor-pointer   ${style.scrollbar}  gap-1 h-48 md:min-h-fit min-[961px]:flex   items-center`}>
+                                                            {/* These are movie List controller  */}
+                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-[25%] top-0`}>
+                                                                  <CiCircleChevLeft size="2rem" color="#e5e9de" />
+                                                            </div>
+                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-[20%] top-0`}>
+                                                                  <CiCircleChevRight size="2rem" color="#e5e9de" />
+                                                            </div>
+                                                            {info.reviews && info.reviews.map((eachReview) => <Review review={eachReview} key={eachReview.id} />)}
+                                                      </div>
                                                 </div>
                                           )}
                                           {/* Recommend TV List */}
