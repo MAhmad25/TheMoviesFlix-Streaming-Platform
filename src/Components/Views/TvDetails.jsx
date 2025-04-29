@@ -9,7 +9,6 @@ import Exclude from "./Exclude";
 import style from "../../styles/TrendingContainer.module.css";
 import Card from "../partials/Card";
 import SeasonCard from "./SeasonCard";
-import { motion } from "motion/react";
 import Review from "../partials/Review";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
@@ -77,9 +76,9 @@ const TvDetails = () => {
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
                                                       <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <motion.span animate={{ scale: 1.2, transition: { duration: 1, delay: 0.5, repeat: Infinity } }}>
+                                                            <span>
                                                                   <MdOutlinePlayCircle color="white" size="3rem" />
-                                                            </motion.span>
+                                                            </span>
                                                             <p className="text-lg md:text-2xl text-white/90 tracking-tight leading-none">Watch Trailer</p>
                                                       </Link>
                                                 </div>
