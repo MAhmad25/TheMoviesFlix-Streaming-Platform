@@ -9,6 +9,7 @@ import MovieDetails from "../Components/Views/MovieDetails";
 import TvDetails from "../Components/Views/TvDetails";
 import PeopleDetails from "../Components/Views/PeopleDetails";
 import Trailer from "../Components/Views/Trailer";
+import NonExistingRoute from "../Components/partials/NonExistingRoute";
 const Router = () => {
       return (
             <>
@@ -25,6 +26,7 @@ const Router = () => {
                               <Route path="trailer" element={<Trailer />} />
                         </Route>
                         <Route path="/person/details/:id" element={<PeopleDetails />} />
+                        <Route path="*" element={<NonExistingRoute />} />
                   </Routes>
                   <Navbar />
             </>
