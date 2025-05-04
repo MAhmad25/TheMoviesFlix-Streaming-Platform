@@ -26,7 +26,7 @@ const Navbar = () => {
             {
                   to: "/people",
                   icon: <BsFillPeopleFill size={size} />,
-                  label: "People",
+                  label: "Celebrity",
             },
             {
                   to: "/tv",

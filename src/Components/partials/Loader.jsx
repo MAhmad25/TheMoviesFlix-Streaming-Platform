@@ -38,7 +38,7 @@ const Loader = () => {
                                           </li>
                                     </ul>
                               </div>
-                              <span>Hold for a second ! Fetching Data</span>
+                              <span>Hold for a second ! </span>
                         </div>
                   </StyledWrapper>
             </div>

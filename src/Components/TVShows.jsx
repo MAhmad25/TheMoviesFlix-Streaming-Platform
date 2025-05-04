@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const TVShows = () => {
       const [trendingTV, setTrendingTV] = useState([]);
       const [page, setPage] = useState(1);
-      const [category, setCategory] = useState("top_rated");
+      const [category, setCategory] = useState("airing_today");
       const getCategoryData = async () => {
             try {
                   const { data } = await api.get(`tv/${category}?language=en-US&page=${page}`);
@@ -19,7 +19,7 @@ const TVShows = () => {
       };
       const getTrendingTV = async () => {
             try {
-                  const { data } = await api.get(`trending/tv/week?page=${page}`);
+                  const { data } = await api.get(`trending/tv/day?page=${page}`);
                   setTrendingTV((prevData) => [...prevData, ...data.results]);
                   setPage((prev) => prev + 1);
             } catch (error) {
@@ -40,8 +40,8 @@ const TVShows = () => {
                               <span className="flex px-5 py-5 gap-4 items-center">
                                     <h1 className="text-2xl tracking-tighter leading-none text-white">Trending TV Shows</h1>
                                     <select onChange={(e) => setCategory(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">
-                                          <option className="text-green-900" defaultValue="top_rated" value="top_rated">
-                                                Top Rated
+                                          <option className="text-green-900" defaultValue="airing_today" value="airing_today">
+                                                Popular Today
                                           </option>
                                           <option className="text-green-900" value="on_the_air">
                                                 On the Air
