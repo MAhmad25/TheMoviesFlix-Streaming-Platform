@@ -35,7 +35,7 @@ const StyledWrapper = styled.div`
       .loader div {
             width: 8%;
             height: 24%;
-            background: rgb(128, 128, 128);
+            background: rgb(255,255,255);
             position: absolute;
             left: 50%;
             top: 30%;

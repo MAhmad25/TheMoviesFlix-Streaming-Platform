@@ -38,7 +38,7 @@ const Loader = () => {
                                           </li>
                                     </ul>
                               </div>
-                              <span>Loading</span>
+                              <span>Hold for a second ! Fetching Data</span>
                         </div>
                   </StyledWrapper>
             </div>
@@ -47,7 +47,7 @@ const Loader = () => {
 const StyledWrapper = styled.div`
       .loader {
             --background: linear-gradient(135deg, #3d4432, #1a3d39);
-            --shadow: #1A3D39;
+            --shadow: #1a3d39;
             --text: #6c7486;
             --page: rgba(255, 255, 255, 0.36);
             --page-fold: rgba(255, 255, 255, 0.52);
@@ -157,7 +157,7 @@ const StyledWrapper = styled.div`
             top: 100%;
             margin-top: 20px;
             text-align: center;
-            color: var(--text);
+            color: white;
       }
 
       @keyframes page-2 {
