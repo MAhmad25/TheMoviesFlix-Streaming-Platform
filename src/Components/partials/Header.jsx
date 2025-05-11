@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-// import version from 'tailwindcss/version.js';
 import { Carousel, createTheme, ThemeProvider } from "flowbite-react";
 import api from "../../utils/axios";
 import { Link } from "react-router-dom";
@@ -25,8 +24,8 @@ const Header = () => {
       const customTheme = createTheme({
             carousel: {
                   control: {
-                        base: "inline-flex items-center justify-center rounded-full bg-white text-white",
-                        icon: "rounded-full bg-white text-white",
+                        base: "inline-flex items-center justify-center rounded-full dark:bg-white dark:text-black bg-black text-white",
+                        icon: "rounded-full bg-black dark:bg-white dark:text-black text-white",
                   },
                   indicators: {
                         base: "h-3 w-3 rounded-full ",
