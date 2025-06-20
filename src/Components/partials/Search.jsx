@@ -6,20 +6,29 @@ import api from "../../utils/axios";
 import { Link } from "react-router-dom";
 import { ImCross } from "react-icons/im";
 import style from "../../styles/TrendingContainer.module.css";
+import axios from "axios";
 const Search = () => {
       const [query, setQuery] = useState("");
       const [movieData, setMovieData] = useState([]);
+      const controller = new AbortController();
       const getSearches = async () => {
             try {
-                  const { data } = await api.get(`/search/multi?query=${query}`);
+                  const { data } = await api.get(`/search/multi?query=${query}`, {
+                        signal: controller.signal,
+                  });
                   setMovieData(data.results);
             } catch (error) {
-                  console.log(error);
+                  if (axios.isCancel(error)) {
+                        console.log(error.message);
+                        return;
+                  }
+                  console.log(error.message);
             }
       };
       useEffect(() => {
             if (query.length <= 0) setMovieData([]);
             query && getSearches();
+            return () => controller.abort;
       }, [query]);
       return (
             <>
