@@ -38,7 +38,7 @@ const Navbar = () => {
       return (
             <>
                   <LiquidGlass />
-                  <nav className="w-full rounded-t-3xl  h-[10vh] pt-5  flex px-5 z-30 justify-center mx-auto sm:w-1/2 md:w-[40%] lg:w-[35%] min-[1150px]:w-[30%] sm:rounded-3xl overflow-visible items-center fixed bottom-0 sm:bottom-2 md:bottom-1 left-0 right-0 text-white ">
+                  <nav className="w-full rounded-t-3xl  h-[10vh] pt-5  flex px-5 z-30 justify-center mx-auto sm:w-1/2 md:w-[40%] lg:w-[35%] min-[1150px]:w-[30%] sm:rounded-3xl overflow-visible items-center fixed bottom-0 sm:bottom-2 md:bottom-1 left-0 right-0 text-white  backdrop-blur-[1px]">
                         <Dock items={dockItems} className="w-full" spring={{ mass: 0.2, stiffness: 120, damping: 10 }} magnification={80} distance={150} baseItemSize={50} />
                   </nav>
             </>

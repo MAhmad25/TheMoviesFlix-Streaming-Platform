@@ -71,10 +71,9 @@ function DockIcon({ children, className = "" }) {
       return <div className={`flex items-center justify-center ${className}`}>{children}</div>;
 }
 
-export default function Dock({ items, className = "", spring = { mass: 0.1, stiffness: 150, damping: 12 }, magnification = 70, distance = 200, panelHeight = 64, dockHeight = 256, baseItemSize = 50 }) {
+export default function Dock({ items, spring = { mass: 0.1, stiffness: 150, damping: 12 }, magnification = 70, distance = 200, panelHeight = 64, dockHeight = 256, baseItemSize = 50 }) {
       const mouseX = useMotionValue(Infinity);
       const isHovered = useMotionValue(0);
-
       const maxHeight = useMemo(() => Math.max(dockHeight, magnification + magnification / 2 + 4), [magnification, dockHeight]);
       const heightRow = useTransform(isHovered, [0, 1], [panelHeight, maxHeight]);
       const height = useSpring(heightRow, spring);
@@ -90,7 +89,7 @@ export default function Dock({ items, className = "", spring = { mass: 0.1, stif
                               isHovered.set(0);
                               mouseX.set(Infinity);
                         }}
-                        className={`${className} flex items-center justify-between w-full gap-2`}
+                        className=" flex items-center justify-between w-full gap-2"
                         style={{ height: panelHeight }}
                         role="toolbar"
                         aria-label="Application dock"

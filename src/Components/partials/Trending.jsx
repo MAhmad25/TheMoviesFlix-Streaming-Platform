@@ -31,7 +31,7 @@ const Trending = () => {
                                     <MdOutlineHorizontalRule size="1.4rem" color="white" />
                               </span>
                               <InfiniteScroll hasMore={true} next={getTrendingData} loader={<Loader />} dataLength={trendingMovie.length}>
-                                    <div className="px-2 w-full overflow-x-hidden gap-x-6 gap-y-4 grid grid-cols-2 ">{trendingMovie && trendingMovie.map((eachMovie, index) => <Card type="movie" key={index} eachMovie={eachMovie} />)}</div>
+                                    <div className="px-2 w-full overflow-x-hidden gap-x-6 gap-y-4 grid sm:grid-cols-3 grid-cols-2 ">{trendingMovie && trendingMovie.map((eachMovie, index) => <Card type="movie" key={index} eachMovie={eachMovie} />)}</div>
                               </InfiniteScroll>
                         </div>
                   ) : (

@@ -1,9 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 
 export default function LiquidGlass() {
-      const { pathname } = useLocation();
-
       const svgRef = useRef(null);
       const canvasRef = useRef(null);
 
@@ -78,12 +75,12 @@ export default function LiquidGlass() {
 
             const glass = document.querySelector("#glass");
             glass.style.backdropFilter = `url(#${id}_filter) blur(0.25px) contrast(1.2) brightness(1.05) saturate(1.1)`;
-      }, [pathname]);
+      }, []);
 
       return (
-            <div className="fixed bottom-0 left-0 pointer-events-none  grid place-content-center w-screen">
+            <div className="fixed bottom-0 sm:bottom-2 md:bottom-1 left-0 pointer-events-none  grid place-content-center w-screen">
                   <svg ref={svgRef} className="fixed top-0 left-0 pointer-events-none z-[9998] w-0 h-0" xmlns="http://www.w3.org/2000/svg" />
-                  <div id="glass" className="fixed bottom-0 left-1/2 -translate-x-1/2 rounded-t-2xl w-full h-[12dvh] overflow-hidden  shadow-lg shadow-black/25 inset-shadow-black/15 z-[9999]" />
+                  <div id="glass" className="fixed bottom-0 sm:bottom-2 md:bottom-3 left-1/2 -translate-x-1/2 rounded-t-3xl sm:rounded-full w-full mx-auto sm:w-1/2 md:w-[40%] lg:w-[35%] min-[1150px]:w-[30%] h-[10dvh] overflow-hidden  shadow-lg shadow-black/25 inset-shadow-black/15 z-[9999]" />
                   <canvas ref={canvasRef} className="hidden" />
             </div>
       );
