@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Carousel, createTheme, ThemeProvider } from "flowbite-react";
 import api from "../../utils/axios";

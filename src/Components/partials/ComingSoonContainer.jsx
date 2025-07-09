@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Card from "./Card";
 import styles from "../../styles/TrendingContainer.module.css";
 import { useEffect, useRef, useState } from "react";
