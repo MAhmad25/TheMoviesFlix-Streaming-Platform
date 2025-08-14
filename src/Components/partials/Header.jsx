@@ -61,7 +61,7 @@ const Header = () => {
                                                             </div>
                                                       </div>
                                                 )}
-                                                <img onLoad={() => setSkeleton(false)} className="w-full h-full object-cover  object-top" loading="lazy" src={`https://image.tmdb.org/t/p/original${eachMovieCard.backdrop_path || eachMovieCard.poster_path}`} alt="" />
+                                                <img onLoad={() => setSkeleton(false)} className="w-full h-full object-cover  object-top" src={`https://image.tmdb.org/t/p/original${eachMovieCard.backdrop_path || eachMovieCard.poster_path}`} alt="Poster" />
                                           </div>
                                     ))}
                               </Carousel>
