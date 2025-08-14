@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncMovieLoader, removeMovie } from "../../store/actions/movieAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdOutlinePlayCircle } from "react-icons/md";
-import Loader from "../partials/Loader";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Exclude from "./Exclude";
 import style from "../../styles/TrendingContainer.module.css";
@@ -11,6 +10,7 @@ import Card from "../partials/Card";
 import Review from "../partials/Review";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
+import DetailLoader from "../partials/Loaders/DetailLoader";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -171,7 +171,7 @@ const MovieDetails = () => {
                               </section>
                         </section>
                   ) : (
-                        <Loader />
+                        <DetailLoader />
                   )}
             </>
       );

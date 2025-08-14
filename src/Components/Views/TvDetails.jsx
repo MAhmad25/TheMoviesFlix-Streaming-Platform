@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../store/actions/tvAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdOutlinePlayCircle } from "react-icons/md";
-import Loader from "../partials/Loader";
 import { IoChevronBackOutline } from "react-icons/io5";
 import Exclude from "./Exclude";
 import style from "../../styles/TrendingContainer.module.css";
@@ -12,6 +11,7 @@ import SeasonCard from "./SeasonCard";
 import Review from "../partials/Review";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
+import DetailLoader from "../partials/Loaders/DetailLoader";
 const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -175,7 +175,7 @@ const TvDetails = () => {
                               </section>
                         </section>
                   ) : (
-                        <Loader />
+                        <DetailLoader />
                   )}
             </>
       );

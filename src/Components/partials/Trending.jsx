@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import Card from "./Card";
 import api from "../../utils/axios";
 import { MdOutlineHorizontalRule } from "react-icons/md";
-import Loader from "./Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import PageSkeleton from "./Loaders/PageLoader";
 
 const Trending = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
@@ -30,12 +30,12 @@ const Trending = () => {
                                     <h1 className="text-2xl text-white">Trending Movies</h1>
                                     <MdOutlineHorizontalRule size="1.4rem" color="white" />
                               </span>
-                              <InfiniteScroll hasMore={true} next={getTrendingData} loader={<Loader />} dataLength={trendingMovie.length}>
+                              <InfiniteScroll hasMore={true} next={getTrendingData} loader={<PageSkeleton />} dataLength={trendingMovie.length}>
                                     <div className="px-2 w-full overflow-x-hidden gap-x-6 gap-y-4 grid sm:grid-cols-3 grid-cols-2 ">{trendingMovie && trendingMovie.map((eachMovie, index) => <Card type="movie" key={index} eachMovie={eachMovie} />)}</div>
                               </InfiniteScroll>
                         </div>
                   ) : (
-                        <Loader />
+                        <PageSkeleton />
                   )}
             </>
       );

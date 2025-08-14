@@ -4,10 +4,10 @@ import { asyncPeopleLoader, removePeople } from "../../store/actions/peopleActio
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
-import Loader from "../partials/Loader";
 import ViewCard from "../partials/ViewCard";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
+import PeopleDetailSkeleton from "../partials/Loaders/PeopleDetailLoader";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
       const containerRef = useRef(null);
@@ -128,7 +128,7 @@ const PeopleDetails = () => {
                               </div>
                         </section>
                   ) : (
-                        <Loader />
+                        <PeopleDetailSkeleton />
                   )}
             </>
       );

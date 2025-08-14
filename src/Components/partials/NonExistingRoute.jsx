@@ -3,7 +3,7 @@ import styled from "styled-components";
 const NonExistingRoute = () => {
       return (
             <StyledWrapper>
-                  <div className="main_wrapper">
+                  <div className="main_wrapper bg-[rgb(31,71,69)] bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
                         <div className="main">
                               <div className="antenna">
                                     <div className="antenna_shadow" />
@@ -71,7 +71,6 @@ const StyledWrapper = styled.div`
             align-items: center;
             justify-content: center;
             width: 100vw;
-            // background-color: #083313;
             height: 100dvh;
       }
 
