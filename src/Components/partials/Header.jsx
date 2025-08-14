@@ -23,12 +23,11 @@ const Header = () => {
       const customTheme = createTheme({
             carousel: {
                   control: {
-                        base: "inline-flex items-center justify-center rounded-full dark:bg-white dark:text-black bg-black text-white",
-                        icon: "rounded-full bg-black dark:bg-white dark:text-black text-white",
+                        base: "inline-flex items-center justify-center scale-75 md:scale-100 rounded-full dark:bg-white dark:text-black bg-black text-white",
+                        icon: "rounded-full  bg-black dark:bg-white dark:text-black text-white",
                   },
                   indicators: {
-                        base: "h-3 w-3 rounded-full ",
-                        wrapper: "absolute bottom-5 left-1/2 flex -translate-x-1/2 space-x-3  text-red-900",
+                        base: "h-3 w-3 rounded-full  hidden ",
                   },
             },
       });
