@@ -79,9 +79,12 @@ const MovieDetails = () => {
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
+                                                      <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
+                                                            <MdOutlinePlayCircle size="2.4rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white tracking-tight leading-none">Watch Full Movie</p>
+                                                      </Link>
                                                       <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <MdOutlinePlayCircle color="white" size="2.4rem" />
-                                                            <p className="text-lg md:text-2xl text-white tracking-tight leading-none">Watch Trailer</p>
+                                                            <p className="text-lg md:text-2xl text-white rounded-2xl px-5 py-1 bg-[#764A05] tracking-tight leading-none">Trailer here</p>
                                                       </Link>
                                                 </div>
                                           </div>
@@ -105,13 +108,16 @@ const MovieDetails = () => {
                                                                   </h2>
                                                             ))}
                                                 </div>
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                <div className="w-full  mt-3 flex flex-wrap  justify-between md:justify-start md:gap-5 items-center">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
-                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
+                                                      <Link to="watch" className="flex gap-1  items-center justify-center">
                                                             <MdOutlinePlayCircle size="2.4rem" />
-                                                            <p className="text-lg md:text-2xl tracking-tight leading-none">Watch Trailer</p>
+                                                            <p className="text-lg md:text-2xl tracking-tight leading-none">Watch Full Movie</p>
+                                                      </Link>
+                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
+                                                            <p className="text-lg md:text-2xl text-[#654406] rounded-2xl px-5 py-2 bg-[#F5CD80] tracking-tight leading-none">See Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>

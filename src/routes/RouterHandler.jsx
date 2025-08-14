@@ -10,6 +10,7 @@ import TvDetails from "../Components/Views/TvDetails";
 import PeopleDetails from "../Components/Views/PeopleDetails";
 import Trailer from "../Components/Views/Trailer";
 import NonExistingRoute from "../Components/partials/NonExistingRoute";
+import WatchMovie from "../Components/pages/WatchMovie";
 const Router = () => {
       return (
             <>
@@ -21,6 +22,7 @@ const Router = () => {
                         <Route path="/people" element={<People />} />
                         <Route path="/movie/details/:id" element={<MovieDetails />}>
                               <Route path="trailer" element={<Trailer />} />
+                              <Route path="watch" element={<WatchMovie />} />
                         </Route>
                         <Route path="/tv/details/:id" element={<TvDetails />}>
                               <Route path="trailer" element={<Trailer />} />
