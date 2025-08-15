@@ -10,7 +10,3 @@ body::-webkit-scrollbar {
 .text-format {
       @apply tracking-tight leading-none;
 }
-.scroller-hidden::-webkit-scrollbar {
-      display: none;
-      scroll-behavior: smooth;
-}

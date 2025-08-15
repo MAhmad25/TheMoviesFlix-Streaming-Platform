@@ -1,7 +1,7 @@
 import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import NotFound from "../partials/NotFound";
+import { NotFound } from "../ui/index";
 import { motion } from "motion/react";
 import useFullScreen from "../../hooks/useFullScreen";
 

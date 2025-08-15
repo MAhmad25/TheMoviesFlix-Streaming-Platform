@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-
-/* eslint-disable react/prop-types */
 const ViewCard = ({ eachMovie, type = "movie" }) => {
       return (
             <Link className="w-1/2 shrink-0 h-[80%]" to={`/${eachMovie.media_type || type}/details/${eachMovie.id}`}>

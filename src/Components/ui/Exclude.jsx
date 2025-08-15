@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import CastLoader from "../partials/CastLoader";
+import { CastLoader } from "./index";
 import { motion } from "motion/react";
-
-/* eslint-disable react/prop-types */
 const Exclude = ({ eachActor }) => {
       const [showSkeleton, setSkeleton] = useState(true);
       return (

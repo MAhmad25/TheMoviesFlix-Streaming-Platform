@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Carousel, createTheme, ThemeProvider } from "flowbite-react";
 import api from "../../utils/axios";
 import { Link } from "react-router-dom";
-import ImageLoader from "./ImageLoader";
+import { ImageLoader } from "./index";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);

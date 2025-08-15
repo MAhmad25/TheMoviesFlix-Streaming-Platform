@@ -1,11 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Card from "../Components/partials/Card";
-import api from "../utils/axios";
+import { Card, PageSkeleton } from "../../ui/index";
+import api from "../../../utils/axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import PageSkeleton from "./partials/Loaders/PageLoader";
 
-const People = () => {
+const PeoplePage = () => {
       const [popularPeople, setPopularPeople] = useState([]);
       const [page, setPage] = useState(1);
 
@@ -40,4 +38,4 @@ const People = () => {
       );
 };
 
-export default People;
+export default PeoplePage;

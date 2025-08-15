@@ -2,9 +2,7 @@ import { MdHomeFilled } from "react-icons/md";
 import { FaFireAlt, FaSearch } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { RiTvFill } from "react-icons/ri";
-import Dock from "./Dock/Dock";
-import LiquidGlass from "./LiquidGlass";
-
+import { Dock, LiquidGlass } from "./index";
 const Navbar = () => {
       const size = "1.455rem";
       const dockItems = [
@@ -16,7 +14,7 @@ const Navbar = () => {
             {
                   to: "/trending",
                   icon: <FaFireAlt size={size} />,
-                  label: "Trending",
+                  label: "Movies",
             },
             {
                   to: "/search",

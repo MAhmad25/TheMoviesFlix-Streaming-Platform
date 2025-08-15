@@ -1,11 +1,8 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
-import Card from "./partials/Card";
-import api from "../utils/axios";
+import { Card, PageSkeleton } from "../../ui/index";
+import api from "../../../utils/axios";
 import InfiniteScroll from "react-infinite-scroll-component";
-import PageSkeleton from "./partials/Loaders/PageLoader";
-
-const TVShows = () => {
+const TVPage = () => {
       const [trendingTV, setTrendingTV] = useState([]);
       const [page, setPage] = useState(1);
       const [category, setCategory] = useState("airing_today");
@@ -62,4 +59,4 @@ const TVShows = () => {
       );
 };
 
-export default TVShows;
+export default TVPage;

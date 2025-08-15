@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { asyncPeopleLoader, removePeople } from "../../store/actions/peopleAction";
+import { asyncPeopleLoader, removePeople } from "../../../store/actions/peopleAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
-import ViewCard from "../partials/ViewCard";
-import { CiCircleChevRight } from "react-icons/ci";
-import { CiCircleChevLeft } from "react-icons/ci";
-import PeopleDetailSkeleton from "../partials/Loaders/PeopleDetailLoader";
+import { ViewCard, PeopleDetailSkeleton } from "../../ui/index";
+import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
       const containerRef = useRef(null);
@@ -87,9 +85,11 @@ const PeopleDetails = () => {
                                                             From: <span className="text-white">{info.personDetail.place_of_birth}</span>
                                                       </h1>
                                                 )}
-                                                <h1 className="text-white/60">
-                                                      Known For: <span className="text-white">{info.personDetail.known_for_department && info.personDetail.known_for_department}</span>
-                                                </h1>
+                                                {info?.personDetail?.known_for_department && (
+                                                      <h1 className="text-white/60">
+                                                            Known For: <span className="text-white">{info?.personDetail?.known_for_department}</span>
+                                                      </h1>
+                                                )}
                                           </div>
                                     </div>
                               </div>
@@ -110,19 +110,25 @@ const PeopleDetails = () => {
                                     <div className="w-full relative px-2  mt-5">
                                           <h1 className="text-2xl text-format">Recent Projects:</h1>
                                           {/* Now Here come the Card Container */}
-                                          <section ref={containerRef} className="w-full scroller-hidden  h-96 flex gap-4 items-center overflow-x-scroll overflow-y-hidden">
+                                          <section ref={containerRef} className="w-full [&::-webkit-scrollbar]:hidden  h-96 flex gap-4 items-center overflow-x-scroll overflow-y-hidden">
                                                 {/* Card */}
                                                 {/* These are movie List controller  */}
-                                                <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[30%]`}>
-                                                      <CiCircleChevLeft size="3rem" color="#e5e9de" />
-                                                </div>
-                                                <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[30%]`}>
-                                                      <CiCircleChevRight size="3rem" color="#e5e9de" />
-                                                </div>
-                                                {info.castedMovies.cast
-                                                      .map((eachMovie, index) => <ViewCard eachMovie={eachMovie} key={index} />)
-                                                      .reverse()
-                                                      .slice(0, 20)}
+                                                {info?.castedMovies?.cast.length > 0 ? (
+                                                      <>
+                                                            <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[30%]`}>
+                                                                  <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                                                            </div>
+                                                            <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[30%]`}>
+                                                                  <CiCircleChevRight size="3rem" color="#e5e9de" />
+                                                            </div>
+                                                            {info?.castedMovies.cast
+                                                                  .map((eachMovie, index) => <ViewCard eachMovie={eachMovie} key={index} />)
+                                                                  .reverse()
+                                                                  .slice(0, 20)}
+                                                      </>
+                                                ) : (
+                                                      <h1 className="text-white text-2xl md:text-4xl">There is no recent Projects that have been done !</h1>
+                                                )}
                                           </section>
                                     </div>
                               </div>

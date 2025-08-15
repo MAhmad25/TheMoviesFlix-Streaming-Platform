@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 const SeasonCard = ({ eachSeason }) => {
       return (
             <div className="w-32 md:w-52  md:h-full flex h-3/4 flex-col gap-1 shrink-0">

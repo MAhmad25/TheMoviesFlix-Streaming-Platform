@@ -1,11 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import Card from "./Card";
-import styles from "../../styles/TrendingContainer.module.css";
+import { Card } from "./index";
 import { useEffect, useRef, useState } from "react";
 import api from "../../utils/axios";
-import { CiCircleChevRight } from "react-icons/ci";
-import { CiCircleChevLeft } from "react-icons/ci";
-
+import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("all");
@@ -102,7 +98,7 @@ const TrendingContainer = () => {
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         ref={containerRef}
-                        className={`flex ${styles.scrollbar} overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full`}
+                        className="flex [&::-webkit-scrollbar]:hidden overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full"
                   >
                         {/* These are movie List controller  */}
                         <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>

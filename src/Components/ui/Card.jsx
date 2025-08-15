@@ -1,6 +1,5 @@
-/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
-import ImageLoader from "./ImageLoader";
+import { ImageLoader } from "./index";
 import { useState } from "react";
 import { motion } from "motion/react";
 
