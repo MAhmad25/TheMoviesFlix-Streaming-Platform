@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Card, PageSkeleton } from "../../ui/index";
+import { Card, PageSkeleton, CastLoader } from "../../ui/index";
 import api from "../../../utils/axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 const TVPage = () => {
+      document.title = "Trending TV Shows";
       const [trendingTV, setTrendingTV] = useState([]);
       const [page, setPage] = useState(1);
       const [category, setCategory] = useState("airing_today");
@@ -48,7 +49,7 @@ const TVPage = () => {
                                           </option>
                                     </select>
                               </span>
-                              <InfiniteScroll hasMore={true} next={getTrendingTV} loader={<PageSkeleton />} dataLength={trendingTV.length}>
+                              <InfiniteScroll hasMore={true} next={getTrendingTV} loader={<CastLoader />} dataLength={trendingTV.length}>
                                     <div className=" px-2 gap-x-6 overflow-x-hidden gap-y-4 grid sm:grid-cols-3 grid-cols-2 ">{trendingTV && trendingTV.map((eachTV, index) => <Card type="tv" key={index} eachMovie={eachTV} />)}</div>
                               </InfiniteScroll>
                         </div>

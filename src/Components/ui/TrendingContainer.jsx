@@ -1,7 +1,7 @@
 import { Card } from "./index";
 import { useEffect, useRef, useState } from "react";
 import api from "../../utils/axios";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("all");
@@ -101,11 +101,11 @@ const TrendingContainer = () => {
                         className="flex [&::-webkit-scrollbar]:hidden overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full"
                   >
                         {/* These are movie List controller  */}
-                        <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[28%]`}>
-                              <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                        <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md left-0 top-[9%]`}>
+                              <FaChevronLeft size="2rem" color="#e5e9de" />
                         </div>
-                        <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[28%]`}>
-                              <CiCircleChevRight size="3rem" color="#e5e9de" />
+                        <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md right-0 top-[9%]`}>
+                              <FaChevronRight size="2rem" color="#e5e9de" />
                         </div>
 
                         {trendingMovie &&

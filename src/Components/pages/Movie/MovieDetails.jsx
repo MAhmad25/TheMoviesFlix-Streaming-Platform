@@ -11,6 +11,7 @@ const MovieDetails = () => {
       const navigate = useNavigate();
       const containerRef = useRef(null);
       const info = useSelector((state) => state.movie.info);
+      document.title = info?.detail?.title || info?.detail?.original_title;
       const [isEnd, setIsEnd] = useState(false);
       const [isStart, setIsStart] = useState(true);
       const { id } = useParams();

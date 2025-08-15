@@ -11,6 +11,7 @@ const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
+      document.title = info?.detail?.name || info?.detail?.original_name;
       const { id } = useParams();
       const containerRef = useRef(null);
       const [isEnd, setIsEnd] = useState(false);

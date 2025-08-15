@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { ViewCard, PeopleDetailSkeleton } from "../../ui/index";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
       const containerRef = useRef(null);
@@ -13,6 +13,7 @@ const PeopleDetails = () => {
       const [isEnd, setIsEnd] = useState(false);
       const [isStart, setIsStart] = useState(true);
       const info = useSelector((state) => state.people.info);
+      document.title = info?.personDetail?.name;
       const { id } = useParams();
       useEffect(() => {
             dispatch(asyncPeopleLoader(id));
@@ -57,7 +58,7 @@ const PeopleDetails = () => {
                                           <div className="w-32 md:w-52 md:h-56 h-36 overflow-hidden rounded-2xl">
                                                 <img className="w-full h-full object-cover" src={info.personDetail.profile_path ? `https://image.tmdb.org/t/p/original${info.personDetail.profile_path}` : `/noImage.jpg`} alt="Profile Pic" />
                                           </div>
-                                          <h1 className="font-Stoshi mt-2 md:text-2xl text-format">{info.personDetail.name && info.personDetail.name}</h1>
+                                          <h1 className="font-Stoshi mt-2 md:text-2xl text-format">{info?.personDetail?.name}</h1>
                                           <h1 className="tracking-tight md:text-2xl mt-1 leading-none">⭐{info.personDetail.popularity && info.personDetail.popularity.toFixed(0)}</h1>
                                           <div className="flex gap-2 mt-4 flex-wrap justify-center items-center">
                                                 {info.castedMovies.cast.map((eachMovie, index) => {
@@ -115,11 +116,11 @@ const PeopleDetails = () => {
                                                 {/* These are movie List controller  */}
                                                 {info?.castedMovies?.cast.length > 0 ? (
                                                       <>
-                                                            <div onClick={scrollLeft} className={`absolute hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full left-0 top-[30%]`}>
-                                                                  <CiCircleChevLeft size="3rem" color="#e5e9de" />
+                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md left-0 top-[9%]`}>
+                                                                  <FaChevronLeft size="2rem" color="#e5e9de" />
                                                             </div>
-                                                            <div onClick={scrollRight} className={`absolute hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-xl rounded-full right-0 top-[30%]`}>
-                                                                  <CiCircleChevRight size="3rem" color="#e5e9de" />
+                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md right-0 top-[9%]`}>
+                                                                  <FaChevronRight size="2rem" color="#e5e9de" />
                                                             </div>
                                                             {info?.castedMovies.cast
                                                                   .map((eachMovie, index) => <ViewCard eachMovie={eachMovie} key={index} />)
