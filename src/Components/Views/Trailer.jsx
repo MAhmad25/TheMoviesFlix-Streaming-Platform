@@ -2,23 +2,14 @@ import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import NotFound from "../partials/NotFound";
-import { useEffect } from "react";
 import { motion } from "motion/react";
+import useFullScreen from "../../hooks/useFullScreen";
 
 const Trailer = () => {
+      useFullScreen();
       let { pathname } = useLocation();
       const isMovie = pathname.includes("movie") ? "movie" : "tv";
       const video = useSelector((state) => state[isMovie].info.videoLink);
-      useEffect(() => {
-            document.body.classList.add("overflow-hidden");
-            document.documentElement.style.overflow = "hidden";
-            document.body.style.height = "100dvh";
-            return () => {
-                  document.documentElement.style.overflow = "auto";
-                  document.body.style.height = "";
-                  document.body.classList.remove("overflow-hidden");
-            };
-      }, []);
       return (
             <>
                   {video ? (

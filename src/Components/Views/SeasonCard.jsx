@@ -7,7 +7,6 @@ const SeasonCard = ({ eachSeason }) => {
                   </div>
                   <div className="w-full  flex flex-col gap-2">
                         <h1 className="text-sm tracking-tight leading-none">{eachSeason.name}</h1>
-                        {eachSeason.overview && <p className="text-[0.6rem] tracking-tight leading-none">{eachSeason.overview.slice(0, 25)}...</p>}{" "}
                   </div>
             </div>
       );

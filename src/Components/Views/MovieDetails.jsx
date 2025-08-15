@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncMovieLoader, removeMovie } from "../../store/actions/movieAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { MdOutlinePlayCircle } from "react-icons/md";
-import { IoChevronBackOutline } from "react-icons/io5";
+import { MdClose, MdLiveTv } from "react-icons/md";
 import Exclude from "./Exclude";
+import { SiTrillertv } from "react-icons/si";
 import style from "../../styles/TrendingContainer.module.css";
 import Card from "../partials/Card";
 import Review from "../partials/Review";
@@ -53,12 +53,12 @@ const MovieDetails = () => {
             <>
                   {info ? (
                         <section className="w-full relative overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path || info.detail.poster_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path})` : `/icon.png` }}>
-                              <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
-                                    <IoChevronBackOutline size="1.5rem" color="black" />
+                              <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 right-5">
+                                    <MdClose size="1.5rem" color="black" />
                               </span>
                               <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
                                     <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
-                                          <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="" />
+                                          <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
                                           <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0 ">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-Stoshi font-black">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
@@ -80,11 +80,12 @@ const MovieDetails = () => {
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
                                                       <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
-                                                            <MdOutlinePlayCircle size="2.4rem" color={"white"} />
+                                                            <MdLiveTv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white tracking-tight leading-none">Watch Full Movie</p>
                                                       </Link>
                                                       <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <p className="text-lg md:text-2xl text-white rounded-2xl px-5 py-1 bg-[#764A05] tracking-tight leading-none">Trailer here</p>
+                                                            <SiTrillertv size="2.4rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none">Play Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>
@@ -113,7 +114,7 @@ const MovieDetails = () => {
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
                                                       <Link to="watch" className="flex gap-1  items-center justify-center">
-                                                            <MdOutlinePlayCircle size="2.4rem" />
+                                                            <MdLiveTv size="2.4rem" />
                                                             <p className="text-lg md:text-2xl tracking-tight leading-none">Watch Full Movie</p>
                                                       </Link>
                                                       <Link to="trailer" className="flex gap-1  items-center justify-center">

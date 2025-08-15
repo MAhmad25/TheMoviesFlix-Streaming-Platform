@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../store/actions/tvAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { MdOutlinePlayCircle } from "react-icons/md";
-import { IoChevronBackOutline } from "react-icons/io5";
+import { MdClose } from "react-icons/md";
 import Exclude from "./Exclude";
 import style from "../../styles/TrendingContainer.module.css";
 import Card from "../partials/Card";
@@ -11,6 +10,8 @@ import SeasonCard from "./SeasonCard";
 import Review from "../partials/Review";
 import { CiCircleChevRight } from "react-icons/ci";
 import { CiCircleChevLeft } from "react-icons/ci";
+import { SiTrillertv } from "react-icons/si";
+import { TbDeviceTv } from "react-icons/tb";
 import DetailLoader from "../partials/Loaders/DetailLoader";
 const TvDetails = () => {
       const dispatch = useDispatch();
@@ -54,13 +55,13 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full  overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path})` : `/icon.png` }}>
-                              <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
-                                    <IoChevronBackOutline size="1.5rem" color="black" />
+                              <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 right-5">
+                                    <MdClose size="1.5rem" color="black" />
                               </span>
                               <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
                                     <div className="w-full max-h-screen relative overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
-                                          <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0">
+                                          <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px]  md:px-5 md:py-5 md:bottom-0">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white  font-black">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
@@ -71,15 +72,17 @@ const TvDetails = () => {
                                                             </h2>
                                                       ))}
                                                 </div>
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                <div className="w-full  mt-3 flex justify-between md:justify-start flex-wrap  md:gap-5 items-center">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
-                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <span>
-                                                                  <MdOutlinePlayCircle color="white" size="3rem" />
-                                                            </span>
-                                                            <p className="text-lg md:text-2xl text-white/90 tracking-tight leading-none">Watch Trailer</p>
+                                                      <Link to="watch" className="flex gap-2 mix-blend-difference  items-center justify-center">
+                                                            <TbDeviceTv size="2.3rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none">Watch TV Show</p>
+                                                      </Link>
+                                                      <Link to="trailer" className="flex gap-2  items-center justify-center">
+                                                            <SiTrillertv size="2.4rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none">Play Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>
@@ -96,13 +99,18 @@ const TvDetails = () => {
                                                             </h2>
                                                       ))}
                                                 </div>
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                {/* Mobile Styling */}
+                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 flex-wrap  items-center">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
-                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <MdOutlinePlayCircle size="2rem" />
-                                                            <p className="text-lg md:text-2xl tracking-tight leading-none">Watch Trailer</p>
+                                                      <Link to="watch" className="flex gap-2 mix-blend-difference  items-center justify-center">
+                                                            <TbDeviceTv size="2rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none">Watch TV Show</p>
+                                                      </Link>
+                                                      <Link to="trailer" className="flex gap-2  items-center justify-center">
+                                                            <SiTrillertv size="2rem" color={"white"} />
+                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none">Play Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>
@@ -115,8 +123,8 @@ const TvDetails = () => {
                                           </div>
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="w-full md:flex md:justify-center md:items-center md:flex-col">
-                                                      <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">Tv Season</h1>
-                                                      <div className={`flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  md:justify-center  ${style.scrollbar}  gap-3 md:h-72  h-64`}>
+                                                      <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">TV Season</h1>
+                                                      <div className={`flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  md:justify-center-safe  ${style.scrollbar}  gap-3 md:h-72  h-64`}>
                                                             {info.detail.seasons.map((eachSeason, index) => (
                                                                   <SeasonCard key={index} eachSeason={eachSeason} />
                                                             ))}
