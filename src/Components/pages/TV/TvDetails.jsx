@@ -11,7 +11,7 @@ const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
-      document.title = info?.detail?.name || info?.detail?.original_name;
+      document.title = info?.detail?.name || info?.detail?.original_name || "Getting TV Detail";
       const { id } = useParams();
       const containerRef = useRef(null);
       const [isEnd, setIsEnd] = useState(false);
@@ -57,7 +57,7 @@ const TvDetails = () => {
                                     <div className="w-full max-h-screen relative overflow-hidden rounded-b-2xl">
                                           <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
                                           <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px]  md:px-5 md:py-5 md:bottom-0">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white  font-black">{info.detail.name || info.detail.original_name}</h1>
+                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                       <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
@@ -73,18 +73,18 @@ const TvDetails = () => {
                                                       </h1>
                                                       <Link to="watch" className="flex gap-2 mix-blend-difference  items-center justify-center">
                                                             <TbDeviceTv size="2.3rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none">Watch TV Show</p>
+                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none font-primary">Watch TV Show</p>
                                                       </Link>
                                                       <Link to="trailer" className="flex gap-2  items-center justify-center">
                                                             <SiTrillertv size="2.4rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none">Play Trailer</p>
+                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>
                                     </div>
                                     <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length == 0 && "pb-12"} text-white mt-3 w-full font-Stoshi`}>
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-black">{info.detail.name || info.detail.original_name}</h1>
+                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                       <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
@@ -101,20 +101,20 @@ const TvDetails = () => {
                                                       </h1>
                                                       <Link to="watch" className="flex gap-2 mix-blend-difference  items-center justify-center">
                                                             <TbDeviceTv size="2rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none">Watch TV Show</p>
+                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none font-primary">Watch TV Show</p>
                                                       </Link>
                                                       <Link to="trailer" className="flex gap-2  items-center justify-center">
                                                             <SiTrillertv size="2rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none">Play Trailer</p>
+                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
                                                       </Link>
                                                 </div>
                                           </div>
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2  md:justify-center items-center">
-                                                      <h1 className="text-2xl min-[961px]:text-5xl min-[961px]:underline md:text-3xl md:mb-3  font-semibold">Storyline</h1>
+                                                      <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-astralga font-semibold">Storyline</h1>
                                                       <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
                                                 </div>
-                                                <p className="tracking-tighter min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5">{info.detail.overview}</p>
+                                                <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="w-full md:flex md:justify-center md:items-center md:flex-col">
@@ -165,7 +165,7 @@ const TvDetails = () => {
                                           {/* Recommend TV List */}
                                           {info.recommendedTv.length != 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
-                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:underline md:my-10 font-bold font-Stoshi leading-none">You might also like</h1>
+                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-Stoshi leading-none">You might also like</h1>
                                                       <div className="flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll   items-center md:items-start cursor-pointer  [&::-webkit-scrollbar]:hidden  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit  h-72">
                                                             {info.recommendedTv.map((eachTv, index) => (
                                                                   <Card key={index} type="tv" eachMovie={eachTv} />
