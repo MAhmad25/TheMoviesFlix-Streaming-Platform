@@ -26,7 +26,7 @@ function DockItem({ children, className = "", onClick, to, mouseX, spring, dista
                   }}
                   onHoverStart={() => isHovered.set(1)}
                   onHoverEnd={() => isHovered.set(0)}
-                  onFocus={() => isHovered.set(1)}
+                  onFocus={() => isHovered.set(0)}
                   onBlur={() => isHovered.set(0)}
                   onClick={onClick}
                   className={`relative ${className}`}

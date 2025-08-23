@@ -24,3 +24,19 @@ body::-webkit-scrollbar {
 .text-format {
       @apply tracking-tight leading-none;
 }
+
+.bg-gradient::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(15px);
+      mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.99) 30%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.1) 100%);
+      -webkit-mask: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.99) 30%, rgba(0, 0, 0, 0.5) 70%, rgba(0, 0, 0, 0.1) 100%);
+      pointer-events: none;
+      z-index: 0;
+}
+
+.bg-gradient > * {
+      position: relative;
+      z-index: 1;
+}

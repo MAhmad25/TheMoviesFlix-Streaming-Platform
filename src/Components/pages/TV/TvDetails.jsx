@@ -7,6 +7,7 @@ import { Card, SeasonCard, Review, DetailLoader, Exclude } from "../../ui/index"
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import { SiTrillertv } from "react-icons/si";
 import { TbDeviceTv } from "react-icons/tb";
+import { motion } from "framer-motion";
 const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -54,9 +55,9 @@ const TvDetails = () => {
                                     <MdClose size="1.5rem" color="black" />
                               </span>
                               <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
-                                    <div className="w-full max-h-screen relative overflow-hidden rounded-b-2xl">
-                                          <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
-                                          <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px]  md:px-5 md:py-5 md:bottom-0">
+                                    <div className="w-full max-h-screen relative overflow-hidden rounded-b-3xl shadow-2xl">
+                                          <motion.img initial={{ scale: 1.1 }} animate={{ scale: 1, transition: { duration: 1.2, ease: "easeInOut" } }} className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
+                                          <div className="md:absolute hidden md:block w-full md:left-0  md:px-5 md:py-5 bg-gradient md:bottom-0">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
@@ -95,7 +96,7 @@ const TvDetails = () => {
                                                       ))}
                                                 </div>
                                                 {/* Mobile Styling */}
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 flex-wrap  items-center">
+                                                <div className="w-full mt-3 flex justify-between md:justify-start md:gap-5 flex-wrap  items-center">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
@@ -119,7 +120,7 @@ const TvDetails = () => {
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="w-full md:flex md:justify-center md:items-center md:flex-col">
                                                       <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">TV Season</h1>
-                                                      <div className="flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  md:justify-center-safe  [&::-webkit-scrollbar]:hidden  gap-3 md:h-72  h-64">
+                                                      <div className="flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  justify-center-safe  [&::-webkit-scrollbar]:hidden  gap-3 md:h-72  h-64">
                                                             {info.detail.seasons.map((eachSeason, index) => (
                                                                   <SeasonCard key={index} eachSeason={eachSeason} />
                                                             ))}

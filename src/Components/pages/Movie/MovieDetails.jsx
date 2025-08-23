@@ -6,6 +6,7 @@ import { MdClose, MdLiveTv } from "react-icons/md";
 import { SiTrillertv } from "react-icons/si";
 import { Card, Review, Exclude, DetailLoader } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { motion } from "framer-motion";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -53,9 +54,9 @@ const MovieDetails = () => {
                                     <MdClose size="1.5rem" color="black" />
                               </span>
                               <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
-                                    <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
-                                          <img className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
-                                          <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0 ">
+                                    <div className="w-full relative max-h-screen overflow-hidden rounded-b-3xl shadow-2xl">
+                                          <motion.img initial={{ scale: 1.1 }} animate={{ scale: 1, transition: { duration: 1.2, ease: "easeInOut" } }} className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
+                                          <div className="md:absolute hidden md:block w-full md:left-0  md:px-5 md:py-5 bg-gradient md:bottom-0">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
@@ -89,7 +90,7 @@ const MovieDetails = () => {
                                     </div>
                                     <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
                                           {/* Start of Simple Div */}
-                                          <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
+                                          <div className="md:absolute md:hidden w-full md:left-0  md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl font- font-semibold  text-3xl  ">{info.detail.title || info.detail.original_title}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
