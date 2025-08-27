@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Carousel, createTheme, ThemeProvider } from "flowbite-react";
 import api from "../../utils/axios";
 import { Link } from "react-router-dom";
-import { ImageLoader } from "./index";
+import { ImageLoader, Logo } from "./index";
 import { motion } from "motion/react";
 
 const Header = () => {
@@ -61,7 +61,7 @@ const Header = () => {
       return (
             <header className="w-full p-5 leading-none font-Stoshi">
                   <section className="overflow-hidden flex gap-4 items-center">
-                        <img src="/logo.svg" alt="Logo" />
+                        <Logo />
                         <h1 className="text-2xl md:text-3xl tracking-tighter text-[#c7a931]">MoviesFlix</h1>
                   </section>
                   <section className="w-full h-[35vh] sm:h-[60vh] lg:h-[90vh]  flex relative mt-3 overflow-hidden rounded-md">
