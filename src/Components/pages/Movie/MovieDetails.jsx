@@ -121,26 +121,30 @@ const MovieDetails = () => {
                                     </div>
                                     <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
                                           {/* Start of Simple Div */}
-                                          <div className="md:absolute md:hidden w-full md:left-0  md:px-5 md:py-5">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl font- font-semibold  text-3xl  ">{info.detail.title || info.detail.original_title}</h1>
-                                                <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
-                                                <div className="flex mt-3 flex-wrap gap-1 w-full">
+                                          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="md:absolute md:hidden w-full md:left-0  md:px-5 md:py-5">
+                                                <motion.h1 variants={childVariants} className="tracking-tight leading-none md:text-4xl lg:text-5xl font- font-semibold  text-3xl  ">
+                                                      {info.detail.title || info.detail.original_title}
+                                                </motion.h1>
+                                                <motion.h3 variants={childVariants} className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">
+                                                      {info.detail.tagline || info.detail.status}
+                                                </motion.h3>
+                                                <motion.div variants={childVariants} className="flex mt-3 flex-wrap gap-1 w-full">
                                                       {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
-                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                            <motion.h2 variants={childVariants} className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                   {Math.floor(info.detail.runtime / 60)}h {(info.detail.runtime % 60).toFixed(0)}min
-                                                            </h2>
+                                                            </motion.h2>
                                                       )}
                                                       {info.detail.genres.length != 0 &&
                                                             info.detail.genres.map((genre) => (
-                                                                  <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                  <motion.h2 variants={childVariants} key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                         {genre.name}
-                                                                  </h2>
+                                                                  </motion.h2>
                                                             ))}
-                                                </div>
-                                                <div className="w-full  mt-3 flex flex-wrap  justify-between md:justify-start md:gap-5 items-center">
-                                                      <h1 className="text-white text-lg md:text-xl font-medium">
+                                                </motion.div>
+                                                <motion.div variants={childVariants} className="w-full  mt-3 flex flex-wrap  justify-between md:justify-start md:gap-5 items-center">
+                                                      <motion.h1 variants={childVariants} className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info?.detail?.vote_average?.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                      </h1>
+                                                      </motion.h1>
                                                       <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
                                                             <MdLiveTv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
@@ -149,16 +153,21 @@ const MovieDetails = () => {
                                                             <SiTrillertv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
                                                       </Link>
-                                                </div>
-                                          </div>
-                                          <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
-                                                <div className="flex w-full gap-2  md:justify-center items-center">
-                                                      <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-medium font-astralga">Storyline</h1>
-                                                      <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date.split("-")[0]}</span>
-                                                </div>
-                                                <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
-                                          </div>
-
+                                                </motion.div>
+                                          </motion.div>
+                                          <motion.div variants={childVariants} className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
+                                                <motion.div variants={childVariants} className="flex w-full gap-2  md:justify-center items-center">
+                                                      <motion.h1 variants={childVariants} className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-medium font-astralga">
+                                                            Storyline
+                                                      </motion.h1>
+                                                      <motion.span variants={childVariants} className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">
+                                                            {info.detail.release_date.split("-")[0]}
+                                                      </motion.span>
+                                                </motion.div>
+                                                <motion.p variants={childVariants} className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5 font-primary">
+                                                      {info?.detail?.overview || "No Storyline available"}
+                                                </motion.p>
+                                          </motion.div>
                                           {info.castBy.cast.length != 0 && (
                                                 <div className="w-full mt-3">
                                                       <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-Stoshi leading-none">Cast</h1>
