@@ -6,7 +6,7 @@ import { MdClose, MdLiveTv } from "react-icons/md";
 import { SiTrillertv } from "react-icons/si";
 import { Card, Review, Exclude, DetailLoader } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -46,36 +46,67 @@ const MovieDetails = () => {
             dispatch(asyncMovieLoader(id));
             return () => dispatch(removeMovie());
       }, [id, dispatch]);
+      const containerVariants = {
+            hidden: { opacity: 0 },
+            visible: {
+                  opacity: 1,
+                  transition: {
+                        staggerChildren: 0.2,
+                        delayChildren: 0.2,
+                  },
+            },
+      };
+
+      const childVariants = {
+            hidden: {
+                  opacity: 0,
+                  y: 20,
+            },
+            visible: {
+                  opacity: 1,
+                  y: 0,
+                  transition: {
+                        duration: 0.5,
+                        ease: "easeOut",
+                  },
+            },
+      };
       return (
             <>
                   {info ? (
                         <section className="w-full relative overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path || info.detail.poster_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path})` : `/icon.png` }}>
-                              <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
-                                    <MdClose size="1.5rem" color="black" />
+                              <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
+                                    <motion.div whileHover={{ scale: 1.2 }}>
+                                          <MdClose size="1.5rem" color="black" />
+                                    </motion.div>
                               </span>
                               <section className="backdrop-blur-2xl overflow-x-hidden relative overflow-hidden w-full   sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
                                     <div className="w-full relative max-h-screen overflow-hidden rounded-b-3xl shadow-2xl">
-                                          <motion.img initial={{ scale: 1.1 }} animate={{ scale: 1, transition: { duration: 1.2, ease: "easeInOut" } }} className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
-                                          <div className="md:absolute hidden md:block w-full md:left-0  md:px-5 md:py-5 bg-gradient md:bottom-0">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
-                                                <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
-                                                <div className="flex mt-3 flex-wrap gap-1 w-full">
+                                          <motion.img initial={{ scale: 1.1, filter: "blur(10px)" }} animate={{ scale: 1, filter: "blur(0px)" }} transition={{ duration: 0.5, ease: "easeInOut" }} className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
+                                          <motion.div variants={containerVariants} initial="hidden" animate="visible" className="md:absolute hidden md:block w-full md:left-0  md:px-5 md:py-5 bg-gradient md:bottom-0">
+                                                <motion.h1 variants={childVariants} className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">
+                                                      {info.detail.title || info.detail.original_title}
+                                                </motion.h1>
+                                                <motion.h3 variants={childVariants} className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">
+                                                      {info.detail.tagline || info.detail.status}
+                                                </motion.h3>
+                                                <motion.div variants={childVariants} className="flex mt-3 flex-wrap gap-1 w-full">
                                                       {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
-                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                            <motion.h2 variants={childVariants} className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                   {Math.floor(info.detail.runtime / 60)}h {(info.detail.runtime % 60).toFixed(0)}min
-                                                            </h2>
+                                                            </motion.h2>
                                                       )}
                                                       {info.detail.genres.length != 0 &&
                                                             info.detail.genres.map((genre) => (
-                                                                  <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                  <motion.h2 variants={childVariants} key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                         {genre.name}
-                                                                  </h2>
+                                                                  </motion.h2>
                                                             ))}
-                                                </div>
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
-                                                      <h1 className="text-white text-lg md:text-xl font-medium">
+                                                </motion.div>
+                                                <motion.div variants={childVariants} className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                      <motion.h1 variants={childVariants} className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                      </h1>
+                                                      </motion.h1>
                                                       <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
                                                             <MdLiveTv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
@@ -84,8 +115,8 @@ const MovieDetails = () => {
                                                             <SiTrillertv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
                                                       </Link>
-                                                </div>
-                                          </div>
+                                                </motion.div>
+                                          </motion.div>
                                           {/* End of Overlay Part */}
                                     </div>
                                     <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
