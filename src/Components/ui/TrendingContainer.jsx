@@ -74,7 +74,7 @@ const TrendingContainer = () => {
             }
       };
       return (
-            <section className="w-full relative  px-5">
+            <section className="w-full  relative  px-5">
                   <div className="flex mb-3 justify-between items-center">
                         <h1 className="text-[#a5dbc9] sm:text-3xl sm:text-zinc-100 text-xl">Trending Now</h1>
                         <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="category" id="category">
@@ -98,7 +98,7 @@ const TrendingContainer = () => {
                         onTouchMove={handleTouchMove}
                         onTouchEnd={handleTouchEnd}
                         ref={containerRef}
-                        className="flex [&::-webkit-scrollbar]:hidden overflow-x-scroll  gap-4 sm:gap-16 md:h-[30rem] sm:h-96 h-72  w-full"
+                        className="flex [&::-webkit-scrollbar]:hidden overflow-x-scroll  gap-4 sm:gap-16 md:h-fit sm:h-96 h-72  w-full"
                   >
                         {/* These are movie List controller  */}
                         <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md left-0 top-[9%]`}>

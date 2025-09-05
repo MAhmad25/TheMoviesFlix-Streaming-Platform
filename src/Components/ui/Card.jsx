@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 const Card = ({ eachMovie, type = "all" }) => {
+      console.log(eachMovie);
       const [showSkeleton, setSkeleton] = useState(true);
       const containerVariants = {
             hidden: { opacity: 0 },
@@ -38,16 +39,23 @@ const Card = ({ eachMovie, type = "all" }) => {
                   </motion.section>
                   <motion.div variants={containerVariants} initial="hidden" animate="visible" className="mt-2  px-2 py-2 rounded-lg overflow-hidden flex flex-col gap-1 h-fit  w-full md:w-full md:bg-transparent  text-white">
                         {eachMovie.vote_average != 0 && (
-                              <motion.h3 variants={childVariants} className="text-white rounded-full whitespace-nowrap  text-xs leading-none  tracking-tighter ">
-                                    {eachMovie.vote_average && "⭐"}
-                                    {eachMovie.vote_average && eachMovie.vote_average.toFixed(1)}
-                              </motion.h3>
+                              <div className="w-full gap-10 flex  items-center justify-between ">
+                                    <motion.h3 variants={childVariants} className="text-white rounded-full whitespace-nowrap  text-xs leading-none  tracking-tighter ">
+                                          {eachMovie.vote_average && "⭐"}
+                                          {eachMovie.vote_average && eachMovie.vote_average.toFixed(1)}
+                                    </motion.h3>
+                                    {eachMovie?.release_date && (
+                                          <motion.h3 variants={childVariants} className="px-3 tracking-tighter leading-none py-1 bg-white/10 text-xs text-zinc-300 md:text-white rounded-full overflow-hidden flex w-fit justify-center items-center backdrop-blur-2xl">
+                                                {eachMovie?.release_date?.split("-")[0]}
+                                          </motion.h3>
+                                    )}
+                              </div>
                         )}
                         <motion.h3 variants={childVariants} className="text-white w-full text-wrap leading-none text-sm sm:text-lg tracking-tight ">
                               {eachMovie.name || eachMovie.title || eachMovie.original_title}
                         </motion.h3>
                         <motion.p variants={childVariants} className="w-full  leading-3 text-xs sm:text-sm text-zinc-300">
-                              {eachMovie.overview && eachMovie.overview.slice(0, 60)}
+                              {eachMovie.overview && eachMovie.overview.slice(0, 30)}
                         </motion.p>
                   </motion.div>
             </Link>
