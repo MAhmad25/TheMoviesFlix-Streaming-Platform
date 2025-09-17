@@ -4,7 +4,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 const Card = ({ eachMovie, type = "all" }) => {
-      console.log(eachMovie);
       const [showSkeleton, setSkeleton] = useState(true);
       const containerVariants = {
             hidden: { opacity: 0 },
