@@ -76,7 +76,7 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full  overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path})` : `/icon.png` }}>
-                              <span onClick={() => navigate(-1)} className="fixed z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
+                              <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
                                     <motion.div whileHover={{ scale: 1.2 }}>
                                           <MdClose size="1.5rem" color="black" />
                                     </motion.div>
