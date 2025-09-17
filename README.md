@@ -5,6 +5,14 @@
 
 **MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers 🎬 — not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** ▶️.
 
+## Screens & Features
+
+- 🏠 **Home**: curated lists, trending carousel, and featured content
+- 🔎 **Search**: full-text search with fast results and instant previews
+- 🎞️ **Movie/TV detail pages**: cast, seasons, reviews, trailers, and a dedicated **Stream** button
+- ▶️ **Stream pages**: optimized playback layout with keyboard accessibility, responsive controls, and an immersive viewing UI
+- 👤 **People pages**: biography, credits, and media galleries
+
 ## Key Highlights
 
 - ✅ **Purposeful video streaming**: built-in streaming player with adaptive UI for movies, trailers, and episodic TV playback — a core product feature that goes beyond static data displays. **Play full-length content** and trailers in a unified player ▶️🔥
@@ -39,14 +47,6 @@ Live demo: **https://themoviesflix.vercel.app/** 🌐
 - `src/store` — Redux-like slices and actions (moviesSlice, peopleSlicer, tvSlice)
 - `src/utils/axios.js` — API client
 - `index.html` — main HTML with root and meta
-
-## Screens & Features
-
-- 🏠 **Home**: curated lists, trending carousel, and featured content
-- 🔎 **Search**: full-text search with fast results and instant previews
-- 🎞️ **Movie/TV detail pages**: cast, seasons, reviews, trailers, and a dedicated **Stream** button
-- ▶️ **Stream pages**: optimized playback layout with keyboard accessibility, responsive controls, and an immersive viewing UI
-- 👤 **People pages**: biography, credits, and media galleries
 
 ## How to run locally
 
@@ -115,10 +115,3 @@ There are no automated tests included by default. Consider adding unit tests (Je
 This project is released under the MIT License.
 
 ---
-
-If you'd like, I can also:
-
-- Add structured JSON-LD examples to `index.html` for VideoObject and WebSite
-- Add more precise SEO tags (canonical, robots, social images) tailored to your Vercel URL
-
-If you want me to update `index.html` now, I'll proceed to add recommended SEO/meta tags and JSON-LD structured data.
