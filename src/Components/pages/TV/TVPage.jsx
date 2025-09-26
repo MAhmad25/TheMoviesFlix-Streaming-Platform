@@ -3,7 +3,7 @@ import { Card, PageSkeleton, CastLoader } from "../../ui/index";
 import api from "../../../utils/axios";
 import InfiniteScroll from "react-infinite-scroll-component";
 const TVPage = () => {
-      document.title = "Trending TV Shows";
+      document.title = "Trending TV Shows - Watch and Stream Unlimited Movies and TV Series";
       const [trendingTV, setTrendingTV] = useState([]);
       const [page, setPage] = useState(1);
       const [category, setCategory] = useState("airing_today");

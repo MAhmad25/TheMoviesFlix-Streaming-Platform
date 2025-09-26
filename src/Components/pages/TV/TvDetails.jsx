@@ -12,7 +12,7 @@ const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
-      document.title = info?.detail?.name || info?.detail?.original_name || "Getting TV Detail";
+      document.title = info?.detail?.name + " - Watch and Stream Unlimited Movies and TV Series" || info?.detail?.original_name || "Getting TV Detail";
       const { id } = useParams();
       const containerRef = useRef(null);
       const [isEnd, setIsEnd] = useState(false);

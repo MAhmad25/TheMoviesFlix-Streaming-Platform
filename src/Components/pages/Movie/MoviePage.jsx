@@ -5,7 +5,7 @@ import { MdOutlineHorizontalRule } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const MoviePage = () => {
-      document.title = "Trending Movies";
+      document.title = "The Movies Flix | Trending Movies - Watch and Stream Unlimited Movies and TV Series";
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [page, setPage] = useState(1);
       const getTrendingData = async () => {
