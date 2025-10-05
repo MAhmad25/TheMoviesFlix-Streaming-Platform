@@ -13,7 +13,7 @@ const PeopleDetails = () => {
       const [isEnd, setIsEnd] = useState(false);
       const [isStart, setIsStart] = useState(true);
       const info = useSelector((state) => state.people.info);
-      document.title = info?.personDetail?.name || "Getting People Details";
+      document.title = info?.personDetail?.name || "Hang On ! Getting Details for The Requested Movie";
       const { id } = useParams();
       useEffect(() => {
             dispatch(asyncPeopleLoader(id));
