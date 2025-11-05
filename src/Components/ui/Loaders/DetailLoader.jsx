@@ -5,7 +5,7 @@ const DetailLoader = () => {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <section className="w-full relative overflow-x-hidden [&::-webkit-scrollbar]:hidden bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
+            <section className="w-full relative overflow-x-hidden [&::-webkit-scrollbar]:hidden bg-[#031402]">
                   {/* Back Button */}
                   <span className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                         <div className="w-6 h-6 bg-black/20 rounded animate-pulse" />

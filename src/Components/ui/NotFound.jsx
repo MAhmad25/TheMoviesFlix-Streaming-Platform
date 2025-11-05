@@ -1,6 +1,6 @@
 const NotFound = () => {
       return (
-            <div className="w-full z-10 absolute inset-0 bg-black/70 backdrop-blur-3xl h-[195dvh]  flex py-40 justify-center">
+            <div className="w-full z-10 flex py-40 justify-center">
                   <div className="absolute  flex w-3/4  justify-center items-center overflow-hidden bg-white  shadow-lg max-w-96 rounded-xl">
                         <svg xmlns="http://www.w3.org/2000/svg" height="96" width="16">
                               <path

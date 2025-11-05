@@ -75,37 +75,39 @@ const MovieDetails = () => {
                                           <MdClose size="1.5rem" color="black" />
                                     </div>
                               </span>
-                              <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen bg-[#201d1d]/90">
-                                    <div className="w-full relative max-h-screen overflow-hidden rounded-b-3xl shadow-2xl">
+                              <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen bg-[#201d1d]/95">
+                                    <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
-                                          <div className="md:absolute hidden md:block w-full md:left-0  md:px-5 md:py-5 bg-gradient md:bottom-0">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
-                                                <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
-                                                <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                      {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
-                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                                  {Math.floor(info.detail.runtime / 60)}h {(info.detail.runtime % 60).toFixed(0)}min
-                                                            </h2>
-                                                      )}
-                                                      {info.detail.genres.length != 0 &&
-                                                            info.detail.genres.map((genre) => (
-                                                                  <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                                        {genre.name}
+                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 bg-gradient md:bottom-0">
+                                                <div className="w-full h-[45%]">
+                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
+                                                      <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
+                                                      <div className="flex mt-3 flex-wrap gap-1 w-full">
+                                                            {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
+                                                                  <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                        {Math.floor(info.detail.runtime / 60)}h {(info.detail.runtime % 60).toFixed(0)}min
                                                                   </h2>
-                                                            ))}
-                                                </div>
-                                                <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
-                                                      <h1 className="text-white text-lg md:text-xl font-medium">
-                                                            ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                      </h1>
-                                                      <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
-                                                            <MdLiveTv size="2.4rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
-                                                      </Link>
-                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <SiTrillertv size="2.4rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
-                                                      </Link>
+                                                            )}
+                                                            {info.detail.genres.length != 0 &&
+                                                                  info.detail.genres.map((genre) => (
+                                                                        <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
+                                                                              {genre.name}
+                                                                        </h2>
+                                                                  ))}
+                                                      </div>
+                                                      <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                            <h1 className="text-white text-lg md:text-xl font-medium">
+                                                                  ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                            </h1>
+                                                            <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
+                                                                  <MdLiveTv size="2.4rem" color={"white"} />
+                                                                  <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
+                                                            </Link>
+                                                            <Link to="trailer" className="flex gap-1  items-center justify-center">
+                                                                  <SiTrillertv size="2.4rem" color={"white"} />
+                                                                  <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
+                                                            </Link>
+                                                      </div>
                                                 </div>
                                           </div>
                                           {/* End of Overlay Part */}

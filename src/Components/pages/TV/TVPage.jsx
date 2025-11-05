@@ -34,7 +34,7 @@ const TVPage = () => {
       return (
             <>
                   {trendingTV.length ? (
-                        <div className="bg-[rgb(31,71,69)]  overflow-x-hidden w-full h-full bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
+                        <div className="overflow-x-hidden w-full h-full bg-[#031402]">
                               <span className="flex px-5 py-5 gap-4 items-center">
                                     <h1 className="text-2xl tracking-tighter leading-none text-white">Trending TV Shows</h1>
                                     <select onChange={(e) => setCategory(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">

@@ -5,7 +5,7 @@ export default function PageSkeleton() {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <div className="bg-[rgb(31,71,69)] overflow-x-hidden w-full h-full bg-[linear-gradient(27deg,_rgba(31,71,69,1)_10%,_rgba(16,36,27,1)_67%,_rgba(68,73,53,1)_100%)]">
+            <div className="bg-[#031402] overflow-x-hidden w-full h-full ">
                   {/* Header Section */}
                   <span className="flex px-5 py-5 gap-4 items-center">
                         <div className="h-8 bg-white/20 rounded-lg animate-pulse w-40" />
