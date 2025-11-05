@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 const Review = ({ review }) => {
       return (
             <section className="w-3/4 py-2 relative sm:w-[60%] min-[1270px]:w-[36%] min-[1270px]:h-full lg:w-[45%] lg:h-[93%] min-[1200px]:w-[40%] min-[1200px]:h-[96%] min-[932px]:w-1/2 md:w-[55%] px-4 shrink-0 sm:h-[80%] min-[932px]:h-[90%] md:h-[85%] h-3/4 rounded-xl backdrop-blur-sm flex flex-col">
@@ -22,4 +24,4 @@ const Review = ({ review }) => {
       );
 };
 
-export default Review;
+export default memo(Review);

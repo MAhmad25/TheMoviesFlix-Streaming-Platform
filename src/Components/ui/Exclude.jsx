@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Link } from "react-router-dom";
 import { CastLoader } from "./index";
 import { motion } from "motion/react";
@@ -13,7 +13,7 @@ const Exclude = ({ eachActor }) => {
                                           <CastLoader />
                                     </div>
                               )}
-                              <img onLoad={() => setSkeleton(false)} className={`w-full ${showSkeleton ? "invisible" : "visible"} h-full object-cover`} src={eachActor.profile_path ? `https://image.tmdb.org/t/p/original${eachActor.profile_path}` : `/noImage.jpg`} alt="" />
+                              <img loading="lazy" decoding="async" onLoad={() => setSkeleton(false)} className={`w-full ${showSkeleton ? "invisible" : "visible"} h-full object-cover`} src={eachActor.profile_path ? `https://image.tmdb.org/t/p/original${eachActor.profile_path}` : `/noImage.jpg`} alt="" />
                         </motion.div>
                         <div className="w-full flex mt-2 flex-col justify-center items-center tracking-tight h-fit text-white">
                               <h1 className="leading-none min-[961px]:text-2xl text-center">{eachActor.original_name.slice(0, 10) || eachActor.name.slice(0, 10)}</h1>
@@ -24,4 +24,4 @@ const Exclude = ({ eachActor }) => {
       );
 };
 
-export default Exclude;
+export default memo(Exclude);

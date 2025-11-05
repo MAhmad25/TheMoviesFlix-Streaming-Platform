@@ -14,7 +14,6 @@
             "@reduxjs/toolkit": "^2.5.1",
             "@vercel/speed-insights": "^1.2.0",
             "axios": "^1.7.9",
-            "caniuse-lite": "^1.0.30001716",
             "flowbite-react": "^0.11.7",
             "framer-motion": "^11.18.2",
             "motion": "^12.4.1",
