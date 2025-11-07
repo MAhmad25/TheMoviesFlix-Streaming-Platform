@@ -13,7 +13,7 @@ const Stream = ({ category }) => {
                               <MdClose size="1.5rem" color="black" />
                         </div>
                   </span>
-                  <iframe title="Build By Ahmad" src={url} width={"95%"} height={"95%"} allow="autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                  <iframe referrerPolicy="origin" title="Build By Ahmad" src={url} width={"95%"} height={"95%"} allow="autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
             </div>
       );
 };
