@@ -20,7 +20,6 @@ const TvDetails = () => {
       const rafRef = useRef(null);
       const [isEnd, setIsEnd] = useState(false);
       const [isStart, setIsStart] = useState(true);
-      // limit rendering of large lists to improve performance
       const [showAllReviews, setShowAllReviews] = useState(false);
       const [showAllRecommendations, setShowAllRecommendations] = useState(false);
 
@@ -45,7 +44,6 @@ const TvDetails = () => {
             rafRef.current = requestAnimationFrame(updateScrollState);
       }, [updateScrollState]);
 
-      // keep start/end flags in sync when user scrolls (throttled via rAF)
       useEffect(() => {
             const el = containerRef.current;
             if (!el) return;
