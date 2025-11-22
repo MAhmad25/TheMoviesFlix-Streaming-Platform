@@ -1,0 +1,38 @@
+# MoviesFlix Robots.txt
+# Allows search engines to crawl all pages and guides them to resources
+
+User-agent: *
+Allow: /
+Allow: /movie/
+Allow: /tv/
+Allow: /person/
+Allow: /search
+
+# Disallow crawling of unnecessary paths
+Disallow: /admin/
+Disallow: /*.json
+Disallow: /.git/
+Disallow: /.env
+
+# Specific rules for slower crawlers
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# Fast crawlers (Google, Bing) can crawl freely
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Link to sitemap for all search engines
+Sitemap: https://themoviesflix.vercel.app/sitemap.xml
+
+# Comment: Last updated 2025-01-01
+# MoviesFlix streaming platform
