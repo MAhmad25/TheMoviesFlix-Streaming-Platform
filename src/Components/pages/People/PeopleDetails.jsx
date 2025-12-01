@@ -48,7 +48,7 @@ const PeopleDetails = () => {
       return (
             <>
                   {info ? (
-                        <section className="min-w-screen px-3 relative md:flex md:gap-2 min-h-[100dvh] py-10 pb-16 text-white theme-bg">
+                        <section style={{ background: "radial-gradient(125% 125% at 50% 90%, #000000 40%, #1f4745 100%)" }} className="min-w-screen px-3 relative md:flex md:gap-2 min-h-[100dvh] py-10 pb-16 text-white">
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
