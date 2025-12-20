@@ -19,7 +19,7 @@ const Trailer = () => {
                         </div>
                   </span>
                   {video ? (
-                        <div className="w-[95%] h-[85%]  overflow-hidden rounded-xl">
+                        <div className="w-[95%] h-[95%]  overflow-hidden rounded-xl">
                               <ReactPlayer controls={true} url={`https://www.youtube.com/watch?v=${video.key}`} height="100%" width="100%" />
                         </div>
                   ) : (
