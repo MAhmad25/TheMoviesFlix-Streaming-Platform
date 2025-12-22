@@ -34,17 +34,17 @@ const TVPage = () => {
       return (
             <>
                   {trendingTV.length ? (
-                        <div className="overflow-x-hidden w-full h-full bg-[#031402]">
+                        <div className="overflow-x-hidden w-full h-full [background-image:var(--bg-gradient)]">
                               <span className="flex px-5 py-5 gap-4 items-center">
                                     <h1 className="text-2xl tracking-tighter leading-none text-white">Trending TV Shows</h1>
                                     <select onChange={(e) => setCategory(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs px-3 py-1" name="category" id="category">
-                                          <option className="text-green-900" defaultValue="airing_today" value="airing_today">
+                                          <option className="text-black" defaultValue="airing_today" value="airing_today">
                                                 Popular Today
                                           </option>
-                                          <option className="text-green-900" value="on_the_air">
+                                          <option className="text-black" value="on_the_air">
                                                 On the Air
                                           </option>
-                                          <option className=" text-green-900 " value="popular">
+                                          <option className=" text-black " value="popular">
                                                 Popular
                                           </option>
                                     </select>

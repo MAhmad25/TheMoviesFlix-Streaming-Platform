@@ -24,7 +24,7 @@ const MoviePage = () => {
       return (
             <>
                   {trendingMovie.length > 0 ? (
-                        <div className="overflow-x-hidden w-full  h-full bg-[#031402]">
+                        <div className="overflow-x-hidden w-full  h-full [background-image:var(--bg-gradient)]">
                               <span className="flex px-5 py-5  gap-4 items-center">
                                     <h1 className="text-2xl text-white">Trending Movies</h1>
                                     <MdOutlineHorizontalRule size="1.4rem" color="white" />

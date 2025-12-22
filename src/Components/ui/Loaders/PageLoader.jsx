@@ -5,7 +5,7 @@ export default function PageSkeleton() {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <div className="bg-[#031402] overflow-x-hidden w-full h-full ">
+            <div className="[background-image:var(--bg-gradient)] overflow-x-hidden w-full h-full ">
                   {/* Header Section */}
                   <span className="flex px-5 py-5 gap-4 items-center">
                         <div className="h-8 bg-white/20 rounded-lg animate-pulse w-40" />
@@ -18,7 +18,7 @@ export default function PageSkeleton() {
                               <div key={index} className="animate-pulse">
                                     {/* Movie Poster Section - matching w-44 sm:w-full sm:min-w-56 and heights */}
                                     <section className="w-44 relative sm:w-full sm:min-w-56 shrink-0 overflow-hidden rounded-xl sm:h-56 md:h-72 h-40">
-                                          <div className="w-full h-full bg-[rgb(31,71,69)]/60 relative overflow-hidden">
+                                          <div className="w-full h-full bg-white/60 relative overflow-hidden">
                                                 {/* Shimmer effect */}
                                                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full animate-shimmer" />
                                           </div>

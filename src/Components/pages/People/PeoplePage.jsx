@@ -23,7 +23,7 @@ const PeoplePage = () => {
       return (
             <>
                   {popularPeople.length ? (
-                        <div className="bg-[#031402] overflow-x-hidden w-full h-full">
+                        <div className="overflow-x-hidden [background-image:var(--bg-gradient)] w-full h-full">
                               <span className="flex px-5 py-5 gap-4 items-center">
                                     <h1 className="text-2xl tracking-tighter sm:text-3xl md:text-4xl leading-none text-white">Trending Celebrities</h1>
                               </span>

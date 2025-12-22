@@ -5,7 +5,7 @@ export default function PeopleDetailSkeleton() {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <section className="min-w-screen px-3 relative md:flex md:gap-2 min-h-[100dvh] py-10 pb-16 text-white bg-[#031402]">
+            <section className="min-w-screen px-3 relative md:flex md:gap-2 min-h-[100dvh] py-10 pb-16 text-white [background-image:var(--bg-gradient)]">
                   {/* Back Button Skeleton */}
                   <div className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                         <div className="w-6 h-6 bg-white/40 rounded-full animate-pulse" />
@@ -16,7 +16,7 @@ export default function PeopleDetailSkeleton() {
                         {/* Profile Picture and Basic Info */}
                         <div className="w-full flex flex-col justify-center items-center">
                               {/* Profile Image Skeleton */}
-                              <div className="w-32 md:w-52 md:h-56 h-36 bg-[rgb(31,71,69)]/60 rounded-2xl animate-pulse shimmer" />
+                              <div className="w-32 md:w-52 md:h-56 h-36 [background-image:var(--bg-gradient)] rounded-2xl animate-pulse shimmer" />
 
                               {/* Name Skeleton */}
                               <div className="h-6 md:h-8 bg-white/20 rounded-full animate-pulse w-32 md:w-40 mt-2" />
@@ -96,7 +96,7 @@ function ViewCardSkeleton() {
             <div className="w-1/2 shrink-0 h-[80%]">
                   <div className="w-full h-full">
                         {/* Image Skeleton */}
-                        <div className="w-full bg-[rgb(31,71,69)]/60 rounded-lg h-3/4 animate-pulse shimmer" />
+                        <div className="w-full [background-image:var(--bg-gradient)] rounded-lg h-3/4 animate-pulse shimmer" />
 
                         {/* Content Skeleton */}
                         <div className="mt-2 space-y-1">

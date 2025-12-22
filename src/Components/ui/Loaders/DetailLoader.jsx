@@ -14,7 +14,7 @@ const DetailLoader = () => {
                   <section className="backdrop-blur-2xl overflow-x-hidden [&::-webkit-scrollbar]:hidden relative overflow-hidden w-full sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
                         {/* Hero Image Section */}
                         <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
-                              <div className="w-full h-96 md:h-[500px] bg-[rgb(31,71,69)]/40 animate-pulse" />
+                              <div className="w-full h-96 md:h-[500px] [background-image:var(--bg-gradient)] animate-pulse" />
 
                               {/* Desktop Overlay */}
                               <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40 md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0">
@@ -75,7 +75,7 @@ const DetailLoader = () => {
                                     <div className="h-8 md:h-12 bg-white/20 rounded-full animate-pulse w-24 mb-4 md:mx-auto" />
                                     <div className="flex mt-2 [&::-webkit-scrollbar]:hidden overflow-x-scroll md:flex-wrap w-full gap-1 h-40 md:min-h-fit min-[961px]:justify-center items-center">
                                           {Array.from({ length: 6 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-24 h-36 bg-[rgb(31,71,69)]/60 rounded-lg animate-pulse" />
+                                                <div key={index} className="flex-shrink-0 w-24 h-36 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
                                           ))}
                                     </div>
                               </div>
@@ -85,7 +85,7 @@ const DetailLoader = () => {
                                     <div className="h-8 md:h-12 bg-white/20 rounded-full animate-pulse w-24 mb-4 md:mx-auto" />
                                     <div className="flex mt-2 overflow-x-scroll md:flex-wrap w-full gap-1 h-48 md:min-h-fit min-[961px]:justify-center items-center">
                                           {Array.from({ length: 6 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-24 h-44 bg-[rgb(31,71,69)]/60 rounded-lg animate-pulse" />
+                                                <div key={index} className="flex-shrink-0 w-24 h-44 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
                                           ))}
                                     </div>
                               </div>
@@ -98,7 +98,7 @@ const DetailLoader = () => {
                                     </div>
                                     <div className="flex mt-2 overflow-x-scroll [&::-webkit-scrollbar]:hidden w-full gap-1 h-48 md:min-h-fit items-center">
                                           {Array.from({ length: 3 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-80 h-44 bg-[rgb(31,71,69)]/60 rounded-lg animate-pulse" />
+                                                <div key={index} className="flex-shrink-0 w-80 h-44 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
                                           ))}
                                     </div>
                               </div>
@@ -108,7 +108,7 @@ const DetailLoader = () => {
                                     <div className="h-8 md:h-12 bg-white/20 rounded-lg animate-pulse w-48 mb-6 md:mx-auto" />
                                     <div className="flex mt-5 sm:mt-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden md:overflow-x-hidden md:overflow-y-scroll items-center md:items-start gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit h-72">
                                           {Array.from({ length: 8 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-48 md:w-full h-72 bg-[rgb(31,71,69)]/60 rounded-lg animate-pulse" />
+                                                <div key={index} className="flex-shrink-0 w-48 md:w-full h-72 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
                                           ))}
                                     </div>
                               </div>
