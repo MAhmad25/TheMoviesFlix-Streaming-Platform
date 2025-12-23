@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useCallback } from "react";
 import RouterHandler from "../src/routes/RouterHandler";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 const App = () => {
       const sound = new Audio("/sound/click.mp3");
-      useEffect(() => {
+      useCallback(() => {
             const handleClick = () => {
                   sound.play();
             };
