@@ -5,7 +5,7 @@ const DetailLoader = () => {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <section className="w-full relative overflow-x-hidden [&::-webkit-scrollbar]:hidden bg-[#031402]">
+            <section className="w-full relative overflow-x-hidden [&::-webkit-scrollbar]:hidden [background-image:var(--bg-gradient)]">
                   {/* Back Button */}
                   <span className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                         <div className="w-6 h-6 bg-black/20 rounded animate-pulse" />
@@ -67,49 +67,6 @@ const DetailLoader = () => {
                                           <div className="h-4 bg-white/15 rounded animate-pulse w-5/6" />
                                           <div className="h-4 bg-white/15 rounded animate-pulse w-4/5" />
                                           <div className="h-4 bg-white/15 rounded animate-pulse w-3/4" />
-                                    </div>
-                              </div>
-
-                              {/* Cast Section */}
-                              <div className="w-full mt-3">
-                                    <div className="h-8 md:h-12 bg-white/20 rounded-full animate-pulse w-24 mb-4 md:mx-auto" />
-                                    <div className="flex mt-2 [&::-webkit-scrollbar]:hidden overflow-x-scroll md:flex-wrap w-full gap-1 h-40 md:min-h-fit min-[961px]:justify-center items-center">
-                                          {Array.from({ length: 6 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-24 h-36 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
-                                          ))}
-                                    </div>
-                              </div>
-
-                              {/* Crew Section */}
-                              <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                    <div className="h-8 md:h-12 bg-white/20 rounded-full animate-pulse w-24 mb-4 md:mx-auto" />
-                                    <div className="flex mt-2 overflow-x-scroll md:flex-wrap w-full gap-1 h-48 md:min-h-fit min-[961px]:justify-center items-center">
-                                          {Array.from({ length: 6 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-24 h-44 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
-                                          ))}
-                                    </div>
-                              </div>
-
-                              {/* Reviews Section */}
-                              <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                    <div className="w-full flex justify-between mb-4">
-                                          <div className="h-8 md:h-12 bg-white/20 rounded-lg animate-pulse w-28" />
-                                          <div className="h-8 md:h-12 bg-white/20 rounded-lg animate-pulse w-32" />
-                                    </div>
-                                    <div className="flex mt-2 overflow-x-scroll [&::-webkit-scrollbar]:hidden w-full gap-1 h-48 md:min-h-fit items-center">
-                                          {Array.from({ length: 3 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-80 h-44 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
-                                          ))}
-                                    </div>
-                              </div>
-
-                              {/* Recommended Movies Section */}
-                              <div className="mt-2 overflow-x-hidden [&::-webkit-scrollbar]:hidden mb-20 w-full">
-                                    <div className="h-8 md:h-12 bg-white/20 rounded-lg animate-pulse w-48 mb-6 md:mx-auto" />
-                                    <div className="flex mt-5 sm:mt-3 overflow-x-scroll [&::-webkit-scrollbar]:hidden md:overflow-x-hidden md:overflow-y-scroll items-center md:items-start gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit h-72">
-                                          {Array.from({ length: 8 }).map((_, index) => (
-                                                <div key={index} className="flex-shrink-0 w-48 md:w-full h-72 [background-image:var(--bg-gradient)] rounded-lg animate-pulse" />
-                                          ))}
                                     </div>
                               </div>
                         </section>
