@@ -13,7 +13,7 @@ const SearchProvider = ({ children }) => {
       const disableSearchScreen = () => {
             setSearchModal(false);
             document.documentElement.style.overflow = "auto";
-            document.body.style.height = "";
+            document.body.style.height = "auto";
             document.body.classList.remove("overflow-hidden");
       };
       const states = {
