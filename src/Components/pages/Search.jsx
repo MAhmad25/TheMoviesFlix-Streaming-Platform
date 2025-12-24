@@ -31,7 +31,9 @@ const Search = () => {
       }, [query]);
       return (
             <>
-                  <section
+                  <motion.section
+                        initial={{ opacity: 0.5 }}
+                        animate={{ opacity: 1 }}
                         style={{
                               backgroundImage: "radial-gradient(transparent 1px, #6a6a6a79 1px)",
                               backgroundSize: "3px 3px",
@@ -58,7 +60,7 @@ const Search = () => {
                                     </Link>
                               ))}
                         </div>
-                  </section>
+                  </motion.section>
             </>
       );
 };

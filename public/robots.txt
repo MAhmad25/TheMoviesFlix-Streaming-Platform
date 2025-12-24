@@ -34,5 +34,5 @@ Allow: /
 # Link to sitemap for all search engines
 Sitemap: https://themoviesflix.vercel.app/sitemap.xml
 
-# Comment: Last updated 2025-01-01
+# Comment: Last updated 2025-12-12
 # MoviesFlix streaming platform

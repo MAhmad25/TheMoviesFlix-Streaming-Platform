@@ -21,13 +21,13 @@
 
   <!-- Movie Pages -->
   <url>
-    <loc>https://themoviesflix.vercel.app/movie/details/550</loc>
+    <loc>https://themoviesflix.vercel.app/movie/details/1084242</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Fight Club</video:title>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/5h2EsPKNDdB3MAtOk9MB9Ycg9Rz.jpg</video:thumbnail_loc>
+      <video:title>Zootopia 2</video:title>
       <video:description>A movie detail page with streaming options and reviews.</video:description>
       <video:duration>139</video:duration>
     </video:video>
@@ -35,13 +35,13 @@
 
   <!-- TV Show Pages -->
   <url>
-    <loc>https://themoviesflix.vercel.app/tv/details/1399</loc>
+    <loc>https://themoviesflix.vercel.app/tv/details/66732</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Breaking Bad</video:title>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/8zbAoryWbtH0DKdev8abFAjdufy.jpg</video:thumbnail_loc>
+      <video:title>Stranger Things</video:title>
       <video:description>A TV show detail page with seasons, episodes, and streaming options.</video:description>
     </video:video>
   </url>
@@ -56,62 +56,62 @@
 
   <!-- Stream Pages (Movie Stream Example) -->
   <url>
-    <loc>https://themoviesflix.vercel.app/movie/details/550/watch</loc>
+    <loc>https://themoviesflix.vercel.app/movie/details/1084242/watch</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Fight Club - Full Movie Stream</video:title>
-      <video:description>Stream Fight Club in high quality with adaptive bitrate.</video:description>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/5h2EsPKNDdB3MAtOk9MB9Ycg9Rz.jpg</video:thumbnail_loc>
+      <video:title>Zootopia 2 - Full Movie Stream</video:title>
+      <video:description>Stream Zootopia 2 in high quality with adaptive bitrate.</video:description>
       <video:duration>139</video:duration>
-      <video:content_loc>https://themoviesflix.vercel.app/stream/movie/550</video:content_loc>
+      <video:content_loc>https://themoviesflix.vercel.app/movie/details/1084242/watch</video:content_loc>
     </video:video>
   </url>
 
   <!-- Stream Pages (TV Stream Example) -->
   <url>
-    <loc>https://themoviesflix.vercel.app/tv/details/1399/watch</loc>
+    <loc>https://themoviesflix.vercel.app/tv/details/66732</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Breaking Bad - Stream Episodes</video:title>
-      <video:description>Stream all seasons of Breaking Bad with adaptive quality.</video:description>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/8zbAoryWbtH0DKdev8abFAjdufy.jpg</video:thumbnail_loc>
+      <video:title>Stranger Things - Stream Episodes</video:title>
+      <video:description>Stream all seasons of Stranger Things with adaptive quality.</video:description>
     </video:video>
   </url>
 
   <!-- Trailer Pages (Movie Trailer Example) -->
   <url>
-    <loc>https://themoviesflix.vercel.app/movie/details/550/trailer</loc>
+    <loc>https://themoviesflix.vercel.app/movie/details/1084242/trailer</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Fight Club - Trailer</video:title>
-      <video:description>Official trailer for Fight Club.</video:description>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/5h2EsPKNDdB3MAtOk9MB9Ycg9Rz.jpg</video:thumbnail_loc>
+      <video:title>Zootopia 2 - Trailer</video:title>
+      <video:description>Official trailer for Zootopia 2.</video:description>
       <video:duration>120</video:duration>
     </video:video>
   </url>
 
   <!-- Trailer Pages (TV Trailer Example) -->
   <url>
-    <loc>https://themoviesflix.vercel.app/tv/details/1399/trailer</loc>
+    <loc>https://themoviesflix.vercel.app/tv/details/66732/trailer</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <video:video>
-      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/poster.jpg</video:thumbnail_loc>
-      <video:title>Breaking Bad - Trailer</video:title>
-      <video:description>Official trailer for Breaking Bad.</video:description>
+      <video:thumbnail_loc>https://image.tmdb.org/t/p/original/8zbAoryWbtH0DKdev8abFAjdufy.jpg</video:thumbnail_loc>
+      <video:title>Stranger Things - Trailer</video:title>
+      <video:description>Official trailer for Stranger Things.</video:description>
     </video:video>
   </url>
 
   <!-- Popular Movies Index -->
   <url>
-    <loc>https://themoviesflix.vercel.app/movie/details</loc>
+    <loc>https://themoviesflix.vercel.app/trending</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
@@ -119,7 +119,7 @@
 
   <!-- Popular TV Shows Index -->
   <url>
-    <loc>https://themoviesflix.vercel.app/tv/details</loc>
+    <loc>https://themoviesflix.vercel.app/tv</loc>
     <lastmod>2025-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>

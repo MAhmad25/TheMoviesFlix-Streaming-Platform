@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import RouterHandler from "../src/routes/RouterHandler";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { SearchProvider } from "./context/SearchContext";
 const App = () => {
       const sound = new Audio("/sound/click.mp3");
       useCallback(() => {
@@ -15,7 +16,9 @@ const App = () => {
       return (
             <>
                   <SpeedInsights />
-                  <RouterHandler />
+                  <SearchProvider>
+                        <RouterHandler />
+                  </SearchProvider>
             </>
       );
 };

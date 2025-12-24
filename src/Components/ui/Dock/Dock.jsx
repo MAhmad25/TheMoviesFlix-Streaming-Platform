@@ -2,7 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-function DockItem({ children, className = "", onClick, to, mouseX, spring, distance, magnification, baseItemSize }) {
+function DockItem({ children, className = "", onClick, to, mouseX, spring, distance, magnification, baseItemSize, active = false }) {
       const ref = useRef(null);
       const isHovered = useMotionValue(0);
 
@@ -17,6 +17,14 @@ function DockItem({ children, className = "", onClick, to, mouseX, spring, dista
       const targetSize = useTransform(mouseDistance, [-distance, 0, distance], [baseItemSize, magnification, baseItemSize]);
       const size = useSpring(targetSize, spring);
 
+      const handleKeyDown = (e) => {
+            if (!onClick) return;
+            if (e.key === "Enter" || e.code === "Space") {
+                  e.preventDefault();
+                  onClick();
+            }
+      };
+
       const content = (
             <motion.div
                   ref={ref}
@@ -29,9 +37,11 @@ function DockItem({ children, className = "", onClick, to, mouseX, spring, dista
                   onFocus={() => isHovered.set(0)}
                   onBlur={() => isHovered.set(0)}
                   onClick={onClick}
-                  className={`relative ${className}`}
+                  onKeyDown={handleKeyDown}
+                  className={`relative ${className} ${active ? "ring-2 ring-white/30" : ""}`}
                   tabIndex={0}
                   role="button"
+                  aria-pressed={active}
                   aria-haspopup="true"
             >
                   {Children.map(children, (child) => cloneElement(child, { isHovered }))}
@@ -39,7 +49,14 @@ function DockItem({ children, className = "", onClick, to, mouseX, spring, dista
       );
 
       // If `to` is provided, wrap the content with a `Link`
-      return to ? <Link to={to}>{content}</Link> : content;
+      // ensure keyboard support also triggers onClick when wrapped in a Link
+      return to ? (
+            <Link to={to} onKeyDown={handleKeyDown} aria-pressed={active}>
+                  {content}
+            </Link>
+      ) : (
+            content
+      );
 }
 
 function DockLabel({ children, className = "", ...rest }) {
