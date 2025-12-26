@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { SearchContext } from "../context/SearchContext";
 const Router = () => {
       const { searchModal } = useContext(SearchContext);
-      console.log(searchModal);
       return (
             <>
                   {searchModal && <Search />}
