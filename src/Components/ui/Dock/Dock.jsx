@@ -2,7 +2,7 @@ import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-function DockItem({ children, className = "", onClick, to, mouseX, spring, distance, magnification, baseItemSize, active = false }) {
+function DockItem({ children, className = "", label, onClick, to, mouseX, spring, distance, magnification, baseItemSize, active = false }) {
       const ref = useRef(null);
       const isHovered = useMotionValue(0);
 
@@ -51,7 +51,7 @@ function DockItem({ children, className = "", onClick, to, mouseX, spring, dista
       // If `to` is provided, wrap the content with a `Link`
       // ensure keyboard support also triggers onClick when wrapped in a Link
       return to ? (
-            <Link to={to} onKeyDown={handleKeyDown} aria-pressed={active}>
+            <Link to={to} aria-label={label} onKeyDown={handleKeyDown} aria-pressed={active}>
                   {content}
             </Link>
       ) : (
@@ -109,7 +109,7 @@ export default function Dock({ items, spring = { mass: 0.1, stiffness: 150, damp
                         aria-label="Application dock"
                   >
                         {items.map((item, index) => (
-                              <DockItem key={index} onClick={item.onClick} to={item.to} className={item.className} mouseX={mouseX} spring={spring} distance={distance} magnification={magnification} baseItemSize={baseItemSize}>
+                              <DockItem key={index} onClick={item.onClick} to={item.to} label={item.label} className={item.className} mouseX={mouseX} spring={spring} distance={distance} magnification={magnification} baseItemSize={baseItemSize}>
                                     <DockIcon>{item.icon}</DockIcon>
                                     <DockLabel>{item.label}</DockLabel>
                               </DockItem>
