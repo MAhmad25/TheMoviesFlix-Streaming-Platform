@@ -5,16 +5,16 @@ const SearchContext = createContext();
 const SearchProvider = ({ children }) => {
       const [searchModal, setSearchModal] = useState(false);
       const enableSearchScreen = () => {
-            document.body.classList.add("overflow-hidden");
-            document.documentElement.style.overflow = "hidden";
+            document.body.classList.add("overflow-y-scroll");
+            document.documentElement.style.overflowX = "hidden";
             document.body.style.height = "100dvh";
             setSearchModal(true);
       };
       const disableSearchScreen = () => {
             setSearchModal(false);
-            document.documentElement.style.overflow = "auto";
+            document.documentElement.style.overflowX = "auto";
             document.body.style.height = "auto";
-            document.body.classList.remove("overflow-hidden");
+            document.body.classList.remove("overflow-y-scroll");
       };
       const states = {
             searchModal,

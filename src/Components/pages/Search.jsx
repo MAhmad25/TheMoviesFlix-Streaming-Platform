@@ -48,7 +48,7 @@ const Search = () => {
                               backdropFilter: "brightness(1) blur(10px)",
                               willChange: "filter, opacity, transform",
                         }}
-                        className="w-full min-h-dvh  [&::-webkit-scrollbar]:hidden  lg:flex lg:flex-col lg:items-center bg-black"
+                        className="w-full min-h-dvh  [&::-webkit-scrollbar]:hidden lg:flex lg:flex-col lg:items-center bg-black"
                   >
                         <motion.div initial={{ y: -100 }} animate={{ y: 0, transition: { ease: "backInOut", duration: 0.5 } }} className="relative [&::-webkit-scrollbar]:hidden top-5  lg:w-1/2 w-full">
                               <input value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full text-[#F5CD80] pr-12 pl-14 outline-none   font-Stoshi border-none rounded-full md:rounded-2xl bg-black/40 caret-[#d0ab67]  selection:bg-[#F5CD80] selection:text-black backdrop-blur-sm md:text-xl lg:text-2xl  py-3" placeholder="Search for movies, tv shows, people" type="text" />
