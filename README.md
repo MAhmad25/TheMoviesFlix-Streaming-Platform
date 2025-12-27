@@ -3,7 +3,7 @@
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?style=flat-square)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-**MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers 🎬 — not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
+**MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers  not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
 
 ## Screens & Features
 
