@@ -4,6 +4,7 @@
 
 :root {
       --bg-gradient: linear-gradient(#1a1a1a, rgb(26, 26, 26));
+      --txt: #f4f4f5;
 }
 @font-face {
       src: url("/fonts/astralaga.woff2");

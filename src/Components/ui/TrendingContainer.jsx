@@ -76,15 +76,15 @@ const TrendingContainer = () => {
       return (
             <section className="w-full  relative  px-5">
                   <div className="flex mb-3 justify-between items-center">
-                        <h1 className="text-[#a5dbc9] sm:text-3xl sm:text-zinc-100 text-xl">Trending Now</h1>
-                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-[#A5DBC9] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="category" id="category">
-                              <option className="text-green-900" defaultValue="all" value="all">
-                                    All
+                        <h1 className="sm:text-3xl text-zinc-100 text-xl">Trending Now</h1>
+                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-black bg-white border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="TV shows and Movies" id="TV_shows_and_Movies_category">
+                              <option aria-label="all movies and tv" defaultValue="all" value="all">
+                                    All Movies and TV
                               </option>
-                              <option className="text-green-900" value="tv">
+                              <option aria-label="tv" value="tv">
                                     TV
                               </option>
-                              <option className=" text-green-900 " value="movie">
+                              <option aria-label="movies" value="movie">
                                     Movies
                               </option>
                         </select>
