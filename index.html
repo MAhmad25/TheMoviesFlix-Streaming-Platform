@@ -4,15 +4,15 @@
             <meta charset="UTF-8" />
             <link rel="icon" type="image/svg+xml" href="/logo.svg" />
             <link rel="apple-touch-icon" sizes="180x180" href="/logo.svg" />
-            <meta name="theme-color" content="#3D4432" />
+            <meta name="theme-color" content="#1a1a1a" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <link href="https://api.fontshare.com/v2/css?f[]=satoshi@500&display=swap" rel="stylesheet" />
-            <title>MoviesFlix — Movie & TV Streaming Platform</title>
-            <meta name="description" content="MoviesFlix — a streaming platform with integrated video — a working streaming product for movies and TV shows." />
+            <title>MoviesFlix | Movie & TV Streaming Platform</title>
+            <meta name="description" content="MoviesFlix | A streaming platform with integrated video — a working streaming product for movies and TV shows." />
             <meta name="keywords" content="movies, tv shows, streaming platform, video streaming, movie player, trailers, HLS, Vite React, Tailwind, MoviesFlix" />
             <meta name="robots" content="index, follow" />
             <meta property="og:type" content="website" />
-            <meta property="og:title" content="MoviesFlix — Purposeful Movie & TV Streaming Platform" />
+            <meta property="og:title" content="MoviesFlix | Purposeful Movie & TV Streaming Platform" />
             <meta property="og:description" content="Integrated video playback, cinematic UI, fast search, and detailed pages for movies, TV shows, and people. Play full-length content and trailers in a unified player." />
             <meta property="og:url" content="https://themoviesflix.vercel.app/" />
             <meta name="twitter:card" content="summary_large_image" />
@@ -36,28 +36,16 @@
                               },
                               {
                                     "@type": "Organization",
-                                    "@id": "https://themoviesflix.vercel.app/Ahmad",
+                                    "@id": "https://themoviesflix.vercel.app/",
                                     "name": "MoviesFlix",
                                     "url": "https://themoviesflix.vercel.app/"
-                              },
-                              {
-                                    "@type": "VideoObject",
-                                    "name": "Sample Trailer - MoviesFlix",
-                                    "description": "Trailer demonstrating MoviesFlix integrated streaming player and cinematic UI.",
-                                    "uploadDate": "2025-01-01",
-                                    "duration": "PT2M30S",
-                                    "interactionStatistic": {
-                                          "@type": "InteractionCounter",
-                                          "interactionType": { "@type": "WatchAction" },
-                                          "userInteractionCount": 0
-                                    }
                               }
                         ]
                   }
             </script>
       </head>
       <body>
-            <div id="root"></div>
+            <div id="root" aria-hidden="true" tabindex="-1"></div>
             <script type="module" src="/src/main.jsx"></script>
       </body>
 </html>
