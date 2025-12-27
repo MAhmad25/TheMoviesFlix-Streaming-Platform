@@ -40,14 +40,14 @@ const Card = ({ eachMovie, type = "all" }) => {
                   <motion.div variants={containerVariants} initial="hidden" animate="visible" className="mt-2  px-2 py-2 rounded-lg overflow-hidden flex flex-col gap-1 h-fit  w-full md:w-full md:bg-transparent  text-white">
                         {eachMovie.vote_average != 0 && (
                               <div className="w-full gap-10 flex  items-center justify-between ">
-                                    <motion.h3 variants={childVariants} className="text-white rounded-full whitespace-nowrap  text-xs leading-none  tracking-tighter ">
+                                    <motion.span variants={childVariants} className="text-white rounded-full whitespace-nowrap  text-xs leading-none tracking-tighter ">
                                           {eachMovie.vote_average && "⭐"}
                                           {eachMovie.vote_average && eachMovie.vote_average.toFixed(1)}
-                                    </motion.h3>
+                                    </motion.span>
                                     {eachMovie?.release_date && (
-                                          <motion.h3 variants={childVariants} className="px-3 tracking-tighter leading-none py-1 bg-white/10 text-xs text-zinc-300 md:text-white rounded-full overflow-hidden flex w-fit justify-center items-center backdrop-blur-2xl">
+                                          <motion.span variants={childVariants} className="px-3 tracking-tighter leading-none py-1 bg-white/10 text-xs text-zinc-300 md:text-white rounded-full overflow-hidden flex w-fit justify-center items-center backdrop-blur-2xl">
                                                 {eachMovie?.release_date?.split("-")[0]}
-                                          </motion.h3>
+                                          </motion.span>
                                     )}
                               </div>
                         )}

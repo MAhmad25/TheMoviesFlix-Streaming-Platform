@@ -41,6 +41,7 @@ function DockItem({ children, className = "", label, onClick, to, mouseX, spring
                   className={`relative ${className} ${active ? "ring-2 ring-white/30" : ""}`}
                   tabIndex={0}
                   role="button"
+                  aria-label={label}
                   aria-pressed={active}
                   aria-haspopup="true"
             >
@@ -48,8 +49,6 @@ function DockItem({ children, className = "", label, onClick, to, mouseX, spring
             </motion.div>
       );
 
-      // If `to` is provided, wrap the content with a `Link`
-      // ensure keyboard support also triggers onClick when wrapped in a Link
       return to ? (
             <Link to={to} aria-label={label} onKeyDown={handleKeyDown} aria-pressed={active}>
                   {content}
