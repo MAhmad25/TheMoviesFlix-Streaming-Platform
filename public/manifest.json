@@ -4,40 +4,39 @@
       "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
       "icons": [
             {
-                  "src": "../favicon.png",
-                  "sizes": "256x256",
+                  "src": "/favicon.png",
+                  "sizes": "192x192",
                   "type": "image/png",
                   "purpose": "any"
             },
             {
-                  "src": "../favicon-512x512.png",
+                  "src": "/favicon-512x512.png",
                   "sizes": "512x512",
                   "type": "image/png",
                   "purpose": "any"
             },
             {
-                  "src": "../favicon-512x512.png",
-                  "sizes": "512x512",
+                  "src": "/favicon-624x624.png",
+                  "sizes": "624x624",
                   "type": "image/png",
                   "purpose": "maskable"
             }
       ],
       "screenshots": [
             {
-                  "src": "../ogimage.png",
+                  "src": "/ogimage.png",
                   "sizes": "844x392",
                   "type": "image/png",
                   "form_factor": "wide"
             },
             {
-                  "src": "../ogimage.png",
+                  "src": "/ogimage.png",
                   "sizes": "844x392",
                   "type": "image/png",
                   "form_factor": "narrow"
             }
       ],
-      "start_url": "/PWA",
-      "scope": "/PWA/",
+      "start_url": ".",
       "display": "fullscreen",
       "theme_color": "#14120b",
       "background_color": "#14120b"

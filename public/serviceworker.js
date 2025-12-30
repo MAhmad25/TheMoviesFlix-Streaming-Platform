@@ -1,5 +1,5 @@
 const cache_name = "version-1";
-const url_to_cache = ["offline.html", "index.html"];
+const url_to_cache = ["index.html", "offline.html"];
 
 // Install the service worker
 self.addEventListener("install", (event) => {
