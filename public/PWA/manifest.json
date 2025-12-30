@@ -36,7 +36,8 @@
                   "form_factor": "narrow"
             }
       ],
-      "start_url": ".",
+      "start_url": "/PWA",
+      "scope": "/PWA/",
       "display": "fullscreen",
       "theme_color": "#14120b",
       "background_color": "#14120b"
