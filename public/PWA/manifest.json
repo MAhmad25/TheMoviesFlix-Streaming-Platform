@@ -1,0 +1,43 @@
+{
+      "name": "Moviesflix",
+      "short_name": "Moviesflix PWA",
+      "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
+      "start_url": ".",
+      "icons": [
+            {
+                  "src": "../favicon.png",
+                  "sizes": "256x256",
+                  "type": "image/png",
+                  "purpose": "any"
+            },
+            {
+                  "src": "../favicon-512x512.png",
+                  "sizes": "512x512",
+                  "type": "image/png",
+                  "purpose": "any"
+            },
+            {
+                  "src": "../favicon-512x512.png",
+                  "sizes": "512x512",
+                  "type": "image/png",
+                  "purpose": "maskable"
+            }
+      ],
+      "screenshots": [
+            {
+                  "src": "../ogimage.png",
+                  "sizes": "844x392",
+                  "type": "image/png",
+                  "form_factor": "wide"
+            },
+            {
+                  "src": "../ogimage.png",
+                  "sizes": "844x392",
+                  "type": "image/png",
+                  "form_factor": "narrow"
+            }
+      ],
+      "display": "standalone",
+      "theme_color": "#14120b",
+      "background_color": "#14120b"
+}

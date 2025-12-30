@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-      --bg-gradient: linear-gradient(#1a1a1a, rgb(26, 26, 26));
-      --txt: #f4f4f5;
+      --bg-gradient: linear-gradient(#14120b, rgb(26, 26, 26));
+      --txt: #ece5db;
 }
 @font-face {
       src: url("/fonts/astralaga.woff2");

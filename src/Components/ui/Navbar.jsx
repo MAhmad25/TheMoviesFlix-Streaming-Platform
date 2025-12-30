@@ -3,23 +3,8 @@ import { FaFireAlt, FaSearch } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { RiTvFill } from "react-icons/ri";
 import { Dock, LiquidGlass } from "./index";
-import { useContext, useCallback, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { SearchContext } from "../../context/SearchContext";
 const Navbar = () => {
       const size = "1.455rem";
-      const { searchModal, enableSearchScreen, disableSearchScreen } = useContext(SearchContext);
-      const location = useLocation();
-
-      const handleSearchClick = useCallback(() => {
-            if (searchModal) disableSearchScreen();
-            else enableSearchScreen();
-      }, [searchModal, enableSearchScreen, disableSearchScreen]);
-
-      useEffect(() => {
-            if (searchModal) disableSearchScreen();
-      }, [location.pathname]);
-
       const dockItems = [
             {
                   to: "/",
@@ -32,9 +17,8 @@ const Navbar = () => {
                   label: "Movies",
             },
             {
-                  onClick: handleSearchClick,
-                  active: searchModal,
                   icon: <FaSearch size={size} />,
+                  to: "/search",
                   label: "Search",
             },
             {

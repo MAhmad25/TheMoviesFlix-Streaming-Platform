@@ -108,7 +108,7 @@ export default function Dock({ items, spring = { mass: 0.1, stiffness: 150, damp
                         aria-label="Application dock"
                   >
                         {items.map((item, index) => (
-                              <DockItem key={index} onClick={item.onClick} to={item.to} label={item.label} className={item.className} mouseX={mouseX} spring={spring} distance={distance} magnification={magnification} baseItemSize={baseItemSize}>
+                              <DockItem key={index} to={item.to} label={item.label} className={item.className} mouseX={mouseX} spring={spring} distance={distance} magnification={magnification} baseItemSize={baseItemSize}>
                                     <DockIcon>{item.icon}</DockIcon>
                                     <DockLabel>{item.label}</DockLabel>
                               </DockItem>
