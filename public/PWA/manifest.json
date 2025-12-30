@@ -1,8 +1,7 @@
 {
       "name": "Moviesflix",
-      "short_name": "Moviesflix PWA",
+      "short_name": "Moviesflix",
       "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
-      "start_url": ".",
       "icons": [
             {
                   "src": "../favicon.png",
@@ -37,7 +36,8 @@
                   "form_factor": "narrow"
             }
       ],
-      "display": "standalone",
+      "start_url": ".",
+      "display": "fullscreen",
       "theme_color": "#14120b",
       "background_color": "#14120b"
 }
