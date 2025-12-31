@@ -1,4 +1,4 @@
-# MoviesFlixWeb
+# MoviesFlix PWA
 
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?style=flat-square)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
