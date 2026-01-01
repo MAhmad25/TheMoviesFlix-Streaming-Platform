@@ -4,8 +4,8 @@
       "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
       "icons": [
             {
-                  "src": "/appicon-192-193.png",
-                  "sizes": "192x193",
+                  "src": "/appicon-192-192.png",
+                  "sizes": "192x192",
                   "type": "image/png",
                   "purpose": "any"
             },
