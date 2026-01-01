@@ -6,7 +6,7 @@ const Stream = ({ category }) => {
       useFullScreen();
       const { id } = useParams();
       const navigate = useNavigate();
-      const url = `https://vidsrc.to/embed/${category}/${id}`;
+      const url = `https://111movies.com/${category}/${id}`;
       return (
             <motion.div initial={{ opacity: 0, scaleY: 0, transformOrigin: "top" }} animate={{ opacity: 1, scaleY: 1, transition: { duration: 0.5, ease: "easeIn" } }} className="w-full fixed no-scroll inset-0 z-50 backdrop-blur-xl h-[92dvh] md:h-screen  flex justify-center items-center">
                   <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
