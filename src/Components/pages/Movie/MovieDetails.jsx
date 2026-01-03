@@ -69,13 +69,13 @@ const MovieDetails = () => {
       return (
             <>
                   {info ? (
-                        <section className="w-full relative overflow-x-hidden  bg-bottom " style={{ backgroundImage: info.detail.backdrop_path || info.detail.poster_path ? `url(https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path})` : `/icon.png` }}>
+                        <section className="w-full  [background-image:var(--bg-gradient)] relative overflow-x-hidden  bg-bottom ">
                               <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
                                     <div>
                                           <MdClose size="1.5rem" color="black" />
                                     </div>
                               </span>
-                              <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen bg-[#201d1d]/95">
+                              <section style={{ background: "url('/noise.png')" }} className="overflow-x-hidden relative overflow-hidden w-full min-h-screen ">
                                     <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
                                           <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0  md:bottom-0 bg-gradient">
