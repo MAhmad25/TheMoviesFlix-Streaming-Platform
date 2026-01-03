@@ -1,8 +1,8 @@
 import { MdHomeFilled } from "react-icons/md";
-import { FaFireAlt, FaSearch } from "react-icons/fa";
+import { FaFireAlt } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { RiTvFill } from "react-icons/ri";
-import { Dock, LiquidGlass } from "./index";
+import { Dock, LiquidGlass, SearchIcon } from "./index";
 const Navbar = () => {
       const size = "1.455rem";
       const dockItems = [
@@ -17,7 +17,7 @@ const Navbar = () => {
                   label: "Movies",
             },
             {
-                  icon: <FaSearch size={size} />,
+                  icon: <SearchIcon />,
                   to: "/search",
                   label: "Search",
             },

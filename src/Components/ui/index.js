@@ -16,4 +16,5 @@ import PageSkeleton from "./Loaders/PageLoader";
 import ImageLoader from "./Loaders/ImageLoader";
 import PeopleDetailSkeleton from "./Loaders/PeopleDetailLoader";
 import Dock from "./Dock/Dock";
-export { Card, CastLoader, ComingSoonContainer, Exclude, Header, LiquidGlass, Navbar, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton, Dock };
+import SearchIcon from "./Icons/SearchIcon";
+export { Card, CastLoader, ComingSoonContainer, SearchIcon, Exclude, Header, LiquidGlass, Navbar, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton, Dock };
