@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState } from "react";
 import { StarIcon, WatchIcon } from "../../ui/index";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 const TVSeasonModal = ({ season, onClick }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
       const totalEpisodes = season?.episode_count || 1;
@@ -21,7 +22,15 @@ const TVSeasonModal = ({ season, onClick }) => {
                         }}
                         className="container w-full h-full fixed z-40 flex justify-center items-center inset-0"
                   >
-                        <div className="drop-area [&::-webkit-scrollbar]:hidden max-w-[90%]  lg:min-w-[30rem] lg:min-h-96">
+                        <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                    duration: 0.8,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                              className="drop-area [&::-webkit-scrollbar]:hidden max-w-[90%]  lg:min-w-[30rem] lg:min-h-96"
+                        >
                               <div className="[background-image:var(--bg-gradient)]">
                                     <div className="preview-box relative flex flex-col [&::-webkit-scrollbar]:hidden lg:flex-row  w-full  h-96 overflow-y-scroll">
                                           {/* Overlay */}
@@ -55,7 +64,7 @@ const TVSeasonModal = ({ season, onClick }) => {
                                           </div>
                                     </div>
                               </div>
-                        </div>
+                        </motion.div>
                   </div>
             </StyledWrapper>
       );
