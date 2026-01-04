@@ -17,7 +17,7 @@ const Router = () => {
                         </Route>
                         <Route path="/tv/details/:id" element={<TvDetails />}>
                               <Route path="trailer" element={<Trailer />} />
-                              <Route path="watch" element={<Stream category={"tv"} />} />
+                              <Route path="watch/:season/:seasonID" element={<Stream category={"tv"} />} />
                         </Route>
                         <Route path="/person/details/:id" element={<PeopleDetails />} />
                         <Route path="*" element={<NonExistingRoute />} />

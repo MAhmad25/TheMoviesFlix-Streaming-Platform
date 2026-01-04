@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../../store/actions/tvAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
-import { Card, SeasonCard, Review, DetailLoader, Exclude } from "../../ui/index";
+import { Card, SeasonCard, Review, DetailLoader, Exclude, StarIcon } from "../../ui/index";
+import TVSeasonModal from "./TVSeasonModal";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import { SiTrillertv } from "react-icons/si";
-import { TbDeviceTv } from "react-icons/tb";
 const TvDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
+      const [selectedSeason, setSelectedSeason] = useState(null);
       useEffect(() => {
             const title = info?.detail?.name || info?.detail?.original_name || "Hang On ! Getting Details for The Requested TV Series";
             if (title) document.title = title;
@@ -22,7 +23,6 @@ const TvDetails = () => {
       const [isStart, setIsStart] = useState(true);
       const [showAllReviews, setShowAllReviews] = useState(false);
       const [showAllRecommendations, setShowAllRecommendations] = useState(false);
-
       const updateScrollState = useCallback(() => {
             const el = containerRef.current;
             if (!el) return;
@@ -52,7 +52,6 @@ const TvDetails = () => {
                   rafRef.current = requestAnimationFrame(updateScrollState);
             };
             el.addEventListener("scroll", onScroll, { passive: true });
-            // initial state
             updateScrollState();
             return () => {
                   el.removeEventListener("scroll", onScroll);
@@ -67,6 +66,7 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full overflow-x-hidden  bg-bottom [background-image:var(--bg-gradient)]">
+                              {selectedSeason && <TVSeasonModal onClick={() => setSelectedSeason(null)} season={selectedSeason} />}
                               <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
                                     <div>
                                           <MdClose size="1.5rem" color="black" />
@@ -91,16 +91,12 @@ const TvDetails = () => {
                                                       </div>
                                                       <div className="w-full mt-3 flex justify-between md:justify-start flex-wrap md:gap-5 items-center">
                                                             <h1 className="text-white text-lg md:text-xl font-medium">
-                                                                  ⭐{info.detail.vote_average.toFixed(0)}/10
-                                                                  <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                                  <div className="flex items-center justify-center">
+                                                                        <StarIcon />
+                                                                        {info.detail.vote_average.toFixed(0)}/10
+                                                                        <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                                  </div>
                                                             </h1>
-
-                                                            <div>
-                                                                  <Link to="watch" className="flex gap-2 mix-blend-difference items-center justify-center">
-                                                                        <TbDeviceTv size="2.3rem" color={"white"} />
-                                                                        <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch TV Show</p>
-                                                                  </Link>
-                                                            </div>
 
                                                             <div>
                                                                   <Link to="trailer" className="flex gap-2 items-center justify-center">
@@ -127,12 +123,12 @@ const TvDetails = () => {
                                                 {/* Mobile Styling */}
                                                 <div className="w-full mt-3 flex justify-between md:justify-start md:gap-5 flex-wrap  items-center">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
-                                                            ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                            <div className="flex items-center justify-center">
+                                                                  <StarIcon />
+                                                                  {info.detail.vote_average.toFixed(0)}/10
+                                                                  <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
+                                                            </div>
                                                       </h1>
-                                                      <Link to="watch" className="flex gap-2 mix-blend-difference  items-center justify-center">
-                                                            <TbDeviceTv size="2rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white   tracking-tight leading-none font-primary">Watch TV Show</p>
-                                                      </Link>
                                                       <Link to="trailer" className="flex gap-2  items-center justify-center">
                                                             <SiTrillertv size="2rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
@@ -147,11 +143,11 @@ const TvDetails = () => {
                                                 <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
                                           {info.detail.seasons.length != 0 && (
-                                                <div className="w-full md:flex md:justify-center md:items-center md:flex-col">
-                                                      <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">TV Season</h1>
+                                                <div className="w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
+                                                      <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-Stoshi leading-none">Watch TV Season</h1>
                                                       <div className="flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  justify-center-safe  [&::-webkit-scrollbar]:hidden  gap-3 md:h-72  h-64">
                                                             {info.detail.seasons.map((eachSeason, index) => (
-                                                                  <SeasonCard key={index} eachSeason={eachSeason} />
+                                                                  <SeasonCard onClick={() => setSelectedSeason(eachSeason)} key={index} eachSeason={eachSeason} />
                                                             ))}
                                                       </div>
                                                 </div>
@@ -188,7 +184,6 @@ const TvDetails = () => {
                                                             <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-sm rounded-full right-[20%] top-0`}>
                                                                   <CiCircleChevRight size="2rem" color="#e5e9de" />
                                                             </div>
-                                                            {/* render a limited number of reviews to avoid large DOM spikes */}
                                                             {info.reviews && (showAllReviews ? info.reviews : info.reviews.slice(0, 8)).map((eachReview) => <Review review={eachReview} key={eachReview.id} />)}
                                                       </div>
                                                       {info.reviews.length > 8 && (
