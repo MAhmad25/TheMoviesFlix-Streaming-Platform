@@ -1,6 +1,7 @@
 {
       "name": "Moviesflix",
       "short_name": "Moviesflix",
+      "lang": "en-US",
       "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
       "icons": [
             {
@@ -36,8 +37,19 @@
                   "form_factor": "narrow"
             }
       ],
-      "start_url": ".",
+      "start_url": "/",
+      "id": "https://themoviesflix.vercel.app",
+      "scope": "/",
+      "orientation": "any",
       "display": "fullscreen",
       "theme_color": "#201d1d",
-      "background_color": "#201d1d"
+      "background_color": "#201d1d",
+      "shortcuts": [
+            {
+                  "name": "Search",
+                  "short_name": "Search",
+                  "url": "/search",
+                  "description": "Search movies and shows"
+            }
+      ]
 }
