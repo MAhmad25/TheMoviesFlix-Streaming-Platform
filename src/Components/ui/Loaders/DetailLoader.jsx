@@ -11,7 +11,7 @@ const DetailLoader = () => {
                         <div className="w-6 h-6 bg-black/20 rounded animate-pulse" />
                   </span>
 
-                  <section className="backdrop-blur-2xl overflow-x-hidden [&::-webkit-scrollbar]:hidden relative overflow-hidden w-full sm:min-h-[300dvh] md:min-h-[322dvh] bg-black/30">
+                  <section className="backdrop-blur-2xl overflow-x-hidden [&::-webkit-scrollbar]:hidden relative overflow-hidden w-full sm:min-h-10 md:min-h-10 bg-black/30">
                         {/* Hero Image Section */}
                         <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
                               <div className="w-full h-96 md:h-[500px] [background-image:var(--bg-gradient)] animate-pulse" />

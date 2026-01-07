@@ -20,7 +20,7 @@ const TVSeasonModal = ({ season, onClick }) => {
                               backdropFilter: "brightness(1) blur(10px)",
                               willChange: "filter, opacity, transform",
                         }}
-                        className="container w-full h-full fixed z-40 flex justify-center items-center inset-0"
+                        className="w-full h-full fixed z-40 flex justify-center items-center inset-0"
                   >
                         <motion.div
                               initial={{ opacity: 0, scale: 0.5 }}
@@ -34,8 +34,8 @@ const TVSeasonModal = ({ season, onClick }) => {
                               <div className="[background-image:var(--bg-gradient)]">
                                     <div className="preview-box relative flex flex-col [&::-webkit-scrollbar]:hidden lg:flex-row  w-full  h-96 overflow-y-scroll">
                                           {/* Overlay */}
-                                          <img className="lg:w-1/2 w-full h-full object-cover" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season?.poster_path} ` : "/noImage.jpg"} alt={season?.poster_path} />
-                                          <div className="lg:w-1/2 w-full">
+                                          <img className="lg:w-1/3 w-full h-full object-contain" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season?.poster_path} ` : "/noImage.jpg"} alt={season?.poster_path} />
+                                          <div className="lg:w-3/4 w-full">
                                                 <div className="text-[var(--txt)] text-lg space-y-4 p-5 w-full h-full">
                                                       <h2 className="text-3xl border-b-2 border-dashed w-fit">{season?.name}</h2>
                                                       <div className="flex items-center gap-1">
@@ -54,7 +54,7 @@ const TVSeasonModal = ({ season, onClick }) => {
                                                                   <EpisodeSelector totalEpisodes={totalEpisodes} currentEpisode={currentEpisode} setEpisode={setCurrentEpisode} />
                                                             </div>
                                                       </div>
-                                                      <div className="mt-5 w-full flex justify-center items-center">
+                                                      <div className="mt-2 w-full flex justify-center items-center">
                                                             <Link className="bg-[#1a2e05] flex items-center gap-1 justify-center text-lime-400  px-3 py-1 rounded uppercase font-medium w-fit" to={`watch/${season.season_number}/${currentEpisode}`}>
                                                                   <WatchIcon />
                                                                   Watch
@@ -71,13 +71,6 @@ const TVSeasonModal = ({ season, onClick }) => {
 };
 
 const StyledWrapper = styled.div`
-      .container {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-      }
-
       .drop-area {
             border: 2px dashed #ffffff;
             border-radius: 12px;
@@ -96,32 +89,17 @@ const StyledWrapper = styled.div`
 
 export default TVSeasonModal;
 
-const SwitchControl = ({ label, value, checked, disabled = false, size = "medium", icon, onClick }) => {
-      const getSizeClasses = () => {
-            if (icon) {
-                  if (size === "small") return "py-1 px-2";
-                  if (size === "large") return "p-3";
-                  return "py-2 px-3";
-            } else {
-                  if (size === "small") return "text-sm px-3";
-                  if (size === "large") return "text-base px-4";
-                  return "text-sm px-3";
-            }
-      };
-
+const SwitchControl = ({ label, value, checked, disabled = false, icon, onClick }) => {
       return (
-            <label className={`flex flex-1 h-full ${disabled ? "cursor-not-allowed pointer-events-none" : ""}`} onClick={() => !disabled && onClick(value)}>
-                  <span className={`flex items-center justify-center flex-1 cursor-pointer font-medium font-sans duration-150 rounded-md ${checked ? "bg-[#1a2e05]  text-lime-400" : "text-lime-400 hover:bg-[#1a2e05]/10"} ${disabled ? "text-slate-400" : ""} ${getSizeClasses()}`}>{icon ? <span className={size === "large" ? "scale-125" : ""}>{icon}</span> : label}</span>
+            <label className={`flex h-fit ${disabled ? "cursor-not-allowed pointer-events-none" : ""}`} onClick={() => !disabled && onClick(value)}>
+                  <span className={`flex items-center justify-center w-fit px-4 cursor-pointer font-medium  duration-75 rounded-md ${checked ? "bg-[#1a2e05]  text-lime-400" : "text-lime-400 hover:bg-[#1a2e05]/10"} ${disabled ? "text-slate-400" : ""}`}>{icon ? <span>{icon}</span> : label}</span>
             </label>
       );
 };
 
 export const Switch = ({ children, value, onChange, size = "medium", style }) => {
       const getContainerClasses = () => {
-            let classes = "grid grid-rows-3 grid-cols-8 gap-x-5 bg-transparent p-0 h-20";
-            if (size === "small") classes += " h-8";
-            else if (size === "large") classes += " h-12";
-            else classes += " h-10";
+            let classes = "grid  gap-x-5 grid-cols-5  sm:grid-cols-10  p-2 h-fit";
             return classes;
       };
 
@@ -142,7 +120,7 @@ Switch.Control = SwitchControl;
 // Episode Selector Component
 const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => {
       return (
-            <div className="w-full">
+            <div className="w-full grid grid-cols-1 overflow-y-scroll [&::-webkit-scrollbar]:hidden">
                   <Switch value={currentEpisode} onChange={setEpisode} size="medium">
                         {Array.from({ length: totalEpisodes }, (_, index) => {
                               const episodeNumber = index + 1;

@@ -65,7 +65,7 @@ const TvDetails = () => {
       return (
             <>
                   {info ? (
-                        <section className="w-full overflow-x-hidden  bg-bottom [background-image:var(--bg-gradient)]">
+                        <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
                               {selectedSeason && <TVSeasonModal onClick={() => setSelectedSeason(null)} season={selectedSeason} />}
                               <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
                                     <div>
@@ -74,16 +74,16 @@ const TvDetails = () => {
                               </span>
                               <section style={{ background: "url('/noise.png')" }} className="overflow-x-hidden relative overflow-hidden w-full min-h-screen  bg-[#201d1d]/95">
                                     <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
-                                          <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info.detail.backdrop_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path}` : `/noImage.jpg`} alt="" />
+                                          <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
                                           <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 bg-gradient md:bottom-0">
                                                 <div className="w-full h-[45%]">
-                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
-                                                      <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
+                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-primary font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
+                                                      <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info?.detail?.tagline || info?.detail?.status}</h3>
 
                                                       <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
+                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info?.detail?.number_of_seasons}</h2>
 
-                                                            {info.detail?.genres?.map((genre) => (
+                                                            {info?.detail?.genres?.map((genre) => (
                                                                   <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
                                                                         {genre?.name}
                                                                   </h2>
