@@ -9,17 +9,15 @@ const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
       const [showSkeleton, setSkeleton] = useState(true);
 
-      const getTrendingData = async () => {
-            try {
-                  const { data } = await api.get("/movie/now_playing");
-                  setNowPlaying(data.results);
-            } catch (error) {
-                  console.log(error);
-            }
-      };
-
       useEffect(() => {
-            getTrendingData();
+            (async () => {
+                  try {
+                        const { data } = await api.get("/movie/now_playing");
+                        setNowPlaying(data.results);
+                  } catch (error) {
+                        console.log(error);
+                  }
+            })();
       }, []);
 
       const OPTIONS = { loop: true };
