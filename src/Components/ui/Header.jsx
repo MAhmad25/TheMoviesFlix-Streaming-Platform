@@ -32,7 +32,7 @@ const Header = () => {
             },
       });
       return (
-            <header className="w-full p-5 leading-none font-Stoshi">
+            <header className="w-full p-5 leading-none font-primary">
                   <section className="w-full h-[35vh] sm:h-[60vh] lg:h-[90vh]  flex relative mt-3 overflow-hidden rounded-md">
                         <ThemeProvider theme={customTheme}>
                               <Carousel>

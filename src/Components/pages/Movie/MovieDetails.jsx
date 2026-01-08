@@ -112,7 +112,7 @@ const MovieDetails = () => {
                                           </div>
                                           {/* End of Overlay Part */}
                                     </div>
-                                    <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-Stoshi`}>
+                                    <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-primary`}>
                                           {/* Start of Simple Div */}
                                           <div className="md:absolute md:hidden w-full md:left-0  md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl font- font-semibold  text-3xl  ">{info.detail.title || info.detail.original_title}</h1>
@@ -144,7 +144,7 @@ const MovieDetails = () => {
                                                       </Link>
                                                 </div>
                                           </div>
-                                          <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-Stoshi mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
+                                          <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2  md:justify-center items-center">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-medium font-astralga">Storyline</h1>
                                                       <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date.split("-")[0]}</span>
@@ -153,21 +153,21 @@ const MovieDetails = () => {
                                           </div>
                                           {info.castBy.cast.length != 0 && (
                                                 <div className="w-full mt-3">
-                                                      <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-Stoshi leading-none">Cast</h1>
+                                                      <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h1>
                                                       <div className="flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  [&::-webkit-scrollbar]:hidden  gap-1 h-40  md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center  items-center">{info.castBy.cast.map((eachActor) => <Exclude key={eachActor.cast_id} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
                                           {info.castBy.crew.length != 0 && (
                                                 <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                                      <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Crew</h1>
+                                                      <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Crew</h1>
                                                       <div className="flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  [&::-webkit-scrollbar]:hidden  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center">{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
                                           {info.reviews.length !== 0 && (
                                                 <div className="mt-2 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
                                                       <div className="w-full flex justify-between">
-                                                            <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-Stoshi leading-none">Reviews</h1>
-                                                            <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-Stoshi leading-none">
+                                                            <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Reviews</h1>
+                                                            <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-primary leading-none">
                                                                   <span>{info.reviews.length}</span> comments
                                                             </h1>
                                                       </div>
@@ -193,7 +193,7 @@ const MovieDetails = () => {
 
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
-                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-Stoshi leading-none">You might also like</h1>
+                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">You might also like</h1>
                                                       <div className="flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll   items-center md:items-start cursor-pointer  [&::-webkit-scrollbar]:hidden  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit  h-72">
                                                             {(showAllRecommendations ? info.recommendedMovies : info.recommendedMovies.slice(0, 12)).map((eachMovie, index) => (
                                                                   <Card key={index} type="movie" eachMovie={eachMovie} />

@@ -58,7 +58,7 @@ const PeopleDetails = () => {
                                           <div className="w-32 md:w-52 md:h-56 h-36 overflow-hidden rounded-2xl">
                                                 <img className="w-full h-full object-cover" src={info.personDetail.profile_path ? `https://image.tmdb.org/t/p/original${info.personDetail.profile_path}` : `/noImage.jpg`} alt="Profile Pic" />
                                           </div>
-                                          <h1 className="font-Stoshi mt-2 md:text-2xl text-format">{info?.personDetail?.name}</h1>
+                                          <h1 className="font-primary mt-2 md:text-2xl text-format">{info?.personDetail?.name}</h1>
                                           <h1 className="tracking-tight md:text-2xl mt-1 leading-none">⭐{info.personDetail.popularity && info.personDetail.popularity.toFixed(0)}</h1>
                                           <div className="flex gap-2 mt-4 flex-wrap justify-center items-center">
                                                 {info.castedMovies.cast.map((eachMovie, index) => {
@@ -74,7 +74,7 @@ const PeopleDetails = () => {
                                     </div>
                                     {/* Top Div   Personal Info */}
                                     <div className="w-full  mt-7">
-                                          <h1 className="font-Stoshi  md:text-center md:text-3xl text-2xl text-format">Personal Info:</h1>
+                                          <h1 className="font-primary  md:text-center md:text-3xl text-2xl text-format">Personal Info:</h1>
                                           <div className="mt-2 md:flex md:flex-col md:text-xl md:justify-center md:items-center">
                                                 {info.personDetail.birthday && (
                                                       <h1 className="text-white/60">
@@ -96,7 +96,7 @@ const PeopleDetails = () => {
                               </div>
                               {/*Bottom Div  Biography and Card  */}
 
-                              <div className="w-full md:w-[60%] md:shrink-0 font-Stoshi mt-5">
+                              <div className="w-full md:w-[60%] md:shrink-0 font-primary mt-5">
                                     {info.personDetail.biography && (
                                           <>
                                                 <h1 className="text-2xl flex gap-2 items-center  text-format">

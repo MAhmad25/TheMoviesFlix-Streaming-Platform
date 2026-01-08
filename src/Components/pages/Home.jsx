@@ -3,7 +3,7 @@ import { TrendingContainer, Header, ComingSoonContainer, CastLoader } from "../u
 const Home = () => {
       document.title = "MoviesFlix | Movie & TV Streaming ";
       return (
-            <div className="w-full [background-image:var(--bg-gradient)] relative overflow-hidden font-Stoshi min-h-full sm:pb-10 md:pb-0 sm:mb-0">
+            <div className="w-full [background-image:var(--bg-gradient)] relative overflow-hidden font-primary min-h-full sm:pb-10 md:pb-0 sm:mb-0">
                   <Header />
                   <Suspense fallback={<CastLoader />}>
                         <TrendingContainer />
