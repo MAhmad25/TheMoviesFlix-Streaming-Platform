@@ -21,7 +21,7 @@ const TrendingContainer = () => {
                         <span className="w-full hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <h1 className="sm:text-3xl  text-nowrap  text-[#fefefe] text-xl">Trending Now</h1>
                         <span className="w-full hidden lg:inline  border-dotted border-[1px] border-gray-400"></span>
-                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none bg-transparent  text-black bg-[#fefefe] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="TV shows and Movies" id="TV_shows_and_Movies_category">
+                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none  text-black bg-[#fefefe] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="TV shows and Movies" id="TV_shows_and_Movies_category">
                               <option aria-label="all movies and tv" defaultValue="all" value="all">
                                     All Movies and TV
                               </option>
