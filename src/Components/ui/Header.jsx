@@ -15,7 +15,7 @@ const Header = () => {
                         const { data } = await api.get("/movie/now_playing");
                         setNowPlaying(data.results);
                   } catch (error) {
-                        console.log(error);
+                        console.log(error.message);
                   }
             })();
       }, []);
