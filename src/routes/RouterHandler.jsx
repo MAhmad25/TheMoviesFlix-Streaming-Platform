@@ -23,6 +23,7 @@ const Router = () => {
                         <Route path="*" element={<NonExistingRoute />} />
                   </Routes>
                   <Navbar />
+                  {/* Will change the Nav Bar */}
             </>
       );
 };
