@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <img src="https://i.ibb.co/5W9fFr1r/Screenshot-2026-02-06-211259.png" alt="Screenshot 2026 02 06 211259" border="0">
-<img src="https://i.ibb.co/WN75ZTd4/to-Post.png" alt="to-Post" border="0">
+<img src="https://i.ibb.co/1tXZTT93/to-Post.png" alt="to Post" border="0">
 
 **MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers  not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
 
