@@ -110,7 +110,7 @@ const MovieDetails = () => {
                                           </div>
                                           {/* End of Overlay Part */}
                                     </div>
-                                    <section className={`px-5 ${info.recommendedMovies.length == 0 && "pb-12"}  overflow-x-hidden text-white  mt-3 w-full font-primary`}>
+                                    <section className={`px-5 ${info.recommendedMovies.length === 0 ? "pb-12" : ""} overflow-x-hidden text-white mt-3 w-full font-primary`}>
                                           {/* Start of Simple Div */}
                                           <div className="md:absolute md:hidden w-full md:left-0  md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl font- font-semibold  text-3xl  ">{info.detail.title || info.detail.original_title}</h1>
@@ -192,7 +192,7 @@ const MovieDetails = () => {
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
                                                       <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">You might also like</h1>
-                                                      <div className="flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll   items-center md:items-start cursor-pointer  [&::-webkit-scrollbar]:hidden  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit  h-72">
+                                                      <div className="mt-5 sm:mt-3 w-full overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden flex md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 gap-3 md:gap-6 items-stretch md:items-stretch">
                                                             {(showAllRecommendations ? info.recommendedMovies : info.recommendedMovies.slice(0, 12)).map((eachMovie, index) => (
                                                                   <Card key={index} type="movie" eachMovie={eachMovie} />
                                                             ))}

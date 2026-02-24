@@ -108,7 +108,7 @@ const TvDetails = () => {
                                                 </div>
                                           </div>
                                     </div>
-                                    <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length == 0 && "pb-12"} text-white mt-3 w-full font-primary`}>
+                                    <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length === 0 ? "pb-12" : ""} text-white mt-3 w-full font-primary`}>
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
                                                 <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
@@ -199,7 +199,7 @@ const TvDetails = () => {
                                           {info.recommendedTv.length != 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
                                                       <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">You might also like</h1>
-                                                      <div className="flex mt-5 sm:mt-3 overflow-x-scroll md:overflow-x-hidden md:overflow-y-scroll   items-center md:items-start cursor-pointer  [&::-webkit-scrollbar]:hidden  gap-3 sm:h-96 md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 md:min-h-fit  h-72">
+                                                      <div className="mt-5 sm:mt-3 w-full overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden flex md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 gap-3 md:gap-6 items-stretch md:items-stretch">
                                                             {(showAllRecommendations ? info.recommendedTv : info.recommendedTv.slice(0, 12)).map((eachTv, index) => (
                                                                   <Card key={index} type="tv" eachMovie={eachTv} />
                                                             ))}
