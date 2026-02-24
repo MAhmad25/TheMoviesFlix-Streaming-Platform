@@ -34,7 +34,6 @@ function extractPalette(imgEl, sampleCount = 8) {
 
       const sorted = Object.entries(buckets).sort((a, b) => b[1] - a[1]);
       const palette = [];
-      console.log(palette);
 
       for (const [key] of sorted) {
             const [r, g, b] = key.split(",").map(Number);
