@@ -16,7 +16,7 @@ const TrendingContainer = () => {
       }, [query]);
 
       return (
-            <section className="w-full  relative px-5">
+            <section className="w-full relative px-5">
                   <div className="flex mb-3 justify-between items-center">
                         <span className="w-full hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <h1 className="sm:text-3xl  text-nowrap  text-[#fefefe] text-xl">Trending Now</h1>

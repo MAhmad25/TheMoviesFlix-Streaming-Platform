@@ -5,12 +5,16 @@ const Home = () => {
       return (
             <div className="w-full [background-image:var(--bg-gradient)] relative overflow-hidden font-primary min-h-full sm:pb-10 md:pb-0 sm:mb-0">
                   <Header />
-                  <Suspense fallback={<CastLoader />}>
-                        <TrendingContainer />
-                  </Suspense>
-                  <Suspense fallback={<CastLoader />}>
-                        <ComingSoonContainer />
-                  </Suspense>
+                  <div className="min-h-40">
+                        <Suspense fallback={<CastLoader />}>
+                              <TrendingContainer />
+                        </Suspense>
+                  </div>
+                  <div className="min-h-40">
+                        <Suspense fallback={<CastLoader />}>
+                              <ComingSoonContainer />
+                        </Suspense>
+                  </div>
             </div>
       );
 };
