@@ -101,8 +101,12 @@ const StyledWrapper = styled.div`
             border-radius: 45%;
             transform: rotate(140deg);
             border: 4px solid transparent;
-            box-shadow: inset 0px 16px #a85103, inset 0px 16px 1px 1px #a85103;
-            -moz-box-shadow: inset 0px 16px #a85103, inset 0px 16px 1px 1px #a85103;
+            box-shadow:
+                  inset 0px 16px #a85103,
+                  inset 0px 16px 1px 1px #a85103;
+            -moz-box-shadow:
+                  inset 0px 16px #a85103,
+                  inset 0px 16px 1px 1px #a85103;
       }
       .antenna::after {
             content: "";
@@ -201,7 +205,9 @@ const StyledWrapper = styled.div`
             width: 17em;
             height: 9em;
             border-radius: 15px;
-            background: repeating-radial-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 50% 0/2500px 2500px, repeating-conic-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 60% 60%/2500px 2500px;
+            background:
+                  repeating-radial-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 50% 0/2500px 2500px,
+                  repeating-conic-gradient(#d36604 0 0.0001%, #00000070 0 0.0002%) 60% 60%/2500px 2500px;
             background-blend-mode: difference;
             opacity: 0.09;
       }
@@ -239,7 +245,9 @@ const StyledWrapper = styled.div`
             height: 7.85em;
             font-family: Montserrat;
             border: 2px solid #1d0e01;
-            background: repeating-radial-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 50% 0/2500px 2500px, repeating-conic-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 60% 60%/2500px 2500px;
+            background:
+                  repeating-radial-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 50% 0/2500px 2500px,
+                  repeating-conic-gradient(#000 0 0.0001%, #ffffff 0 0.0002%) 60% 60%/2500px 2500px;
             background-blend-mode: difference;
             animation: b 0.2s infinite alternate;
             border-radius: 10px;
@@ -254,7 +262,9 @@ const StyledWrapper = styled.div`
       }
       @keyframes b {
             100% {
-                  background-position: 50% 0, 60% 50%;
+                  background-position:
+                        50% 0,
+                        60% 50%;
             }
       }
 
@@ -339,7 +349,10 @@ const StyledWrapper = styled.div`
             border-radius: 50%;
             background-color: #7f5934;
             border: 2px solid black;
-            box-shadow: inset 2px 2px 1px #b49577, -2px 0px #513721, -2px 0px 0px 1px black;
+            box-shadow:
+                  inset 2px 2px 1px #b49577,
+                  -2px 0px #513721,
+                  -2px 0px 0px 1px black;
       }
       .b1::before {
             content: "";
@@ -379,7 +392,10 @@ const StyledWrapper = styled.div`
             border-radius: 50%;
             background-color: #7f5934;
             border: 2px solid black;
-            box-shadow: inset 2px 2px 1px #b49577, -2px 0px #513721, -2px 0px 0px 1px black;
+            box-shadow:
+                  inset 2px 2px 1px #b49577,
+                  -2px 0px #513721,
+                  -2px 0px 0px 1px black;
       }
       .b2::before {
             content: "";

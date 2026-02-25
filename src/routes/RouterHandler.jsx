@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Home, TVPage, PeoplePage, MovieDetails, Trailer, TvDetails, Stream, PeopleDetails, Search, MoviePage } from "../Components/pages/index";
-import { Navbar, NonExistingRoute } from "../Components/ui/index";
+import { Nav, NonExistingRoute } from "../components/ui/index";
 
 const Router = () => {
       return (
@@ -22,8 +22,7 @@ const Router = () => {
                         <Route path="/person/details/:id" element={<PeopleDetails />} />
                         <Route path="*" element={<NonExistingRoute />} />
                   </Routes>
-                  <Navbar />
-                  {/* Will change the Nav Bar */}
+                  <Nav />
             </>
       );
 };
