@@ -40,7 +40,7 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
       const [activeIndex, setActiveIndex] = useState(defaultIndex);
       const navigate = useNavigate();
       return (
-            <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} role="navigation" aria-label="Bottom Navigation" className={`border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-[320px] max-w-[95vw] h-[52px] ${stickyBottom && "fixed inset-x-0 bottom-4 mx-auto z-20 w-fit"} ${className}`}>
+            <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} role="navigation" aria-label="Bottom Navigation" className={`border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-[320px] max-w-[95vw] h-[58px] ${stickyBottom && "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit"} ${className}`}>
                   {navItems.map((item, idx) => {
                         const Icon = item.icon;
                         const isActive = activeIndex === idx;
