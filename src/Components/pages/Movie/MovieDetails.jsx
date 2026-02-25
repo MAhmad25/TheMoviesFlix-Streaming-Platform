@@ -76,7 +76,7 @@ const MovieDetails = () => {
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen ">
                                     <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
-                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0  md:bottom-0 bg-gradient">
+                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0  md:bottom-0 [background-image:var(--bg-opac)]">
                                                 <div className="w-full h-[45%]">
                                                       <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
                                                       <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
@@ -97,7 +97,7 @@ const MovieDetails = () => {
                                                             <h1 className="text-white text-lg md:text-xl font-medium">
                                                                   ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                             </h1>
-                                                            <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
+                                                            <Link to="watch" className="flex gap-1 items-center justify-center">
                                                                   <MdLiveTv size="2.4rem" color={"white"} />
                                                                   <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
                                                             </Link>
@@ -132,7 +132,7 @@ const MovieDetails = () => {
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info?.detail?.vote_average?.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
-                                                      <Link to="watch" className="flex gap-1 mix-blend-difference items-center justify-center">
+                                                      <Link to="watch" className="flex gap-1  items-center justify-center">
                                                             <MdLiveTv size="2.4rem" color={"white"} />
                                                             <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
                                                       </Link>
@@ -145,7 +145,7 @@ const MovieDetails = () => {
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2  md:justify-center items-center">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-medium font-astralga">Storyline</h1>
-                                                      <span className="bg-yellow-500/60 text-white backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date.split("-")[0]}</span>
+                                                      <span className="font-astralga font-semibold bg-[var(--txt)] text-[#300b07] px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date.split("-")[0]}</span>
                                                 </div>
                                                 <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-zinc-300 leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>

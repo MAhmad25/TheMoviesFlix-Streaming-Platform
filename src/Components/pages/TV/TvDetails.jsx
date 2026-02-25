@@ -75,7 +75,7 @@ const TvDetails = () => {
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
                                     <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
-                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 bg-gradient md:bottom-0">
+                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 [background-image:var(--bg-opac)] md:bottom-0">
                                                 <div className="w-full h-[45%]">
                                                       <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-primary font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
                                                       <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info?.detail?.tagline || info?.detail?.status}</h3>
@@ -138,7 +138,7 @@ const TvDetails = () => {
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
                                                 <div className="flex w-full gap-2  md:justify-center items-center">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-astralga font-semibold">Storyline</h1>
-                                                      <span className="bg-[var(--txt)] text-[var(--bg-gradient)] backdrop-blur-sm px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
+                                                      <span className="px-3 md:text-lg text-xs py-1 font-astralga font-semibold bg-[var(--txt)] text-[#300b07] rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
                                                 </div>
                                                 <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-[#fefefe] leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>

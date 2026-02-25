@@ -55,12 +55,12 @@ const Header = () => {
                                                                   )}
                                                                   <div className="flex items-center mt-2 gap-2">
                                                                         {eachMovieCard.vote_average != 0 && (
-                                                                              <h4 className="backdrop-blur px-3 flex justify-center items-center gap-1 bg-transparent py-1 rounded-full text-lg lg:text-lg w-fit ">
+                                                                              <h4 className="border-[#d66722]/30 border px-3 flex justify-center items-center gap-1  py-1 rounded-full text-lg lg:text-lg w-fit ">
                                                                                     <StarIcon />
                                                                                     <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
                                                                               </h4>
                                                                         )}
-                                                                        <h4 className="backdrop-blur px-2 py-1 rounded-full w-fit  text-lg ">{eachMovieCard.release_date?.split("-")[0]}</h4>
+                                                                        <h4 className="border-[#d66722]/30 border px-2 py-1 rounded-full w-fit  text-lg ">{eachMovieCard.release_date?.split("-")[0]}</h4>
                                                                   </div>
                                                             </div>
                                                       </div>
