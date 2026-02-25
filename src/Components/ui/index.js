@@ -13,7 +13,6 @@ import DetailLoader from "./Loaders/DetailLoader";
 import PageSkeleton from "./Loaders/PageLoader";
 import ImageLoader from "./Loaders/ImageLoader";
 import PeopleDetailSkeleton from "./Loaders/PeopleDetailLoader";
-import StarIcon from "./Icons/StarIcon";
 import WatchIcon from "./Icons/WatchIcon";
 import Nav from "./Nav";
-export { Card, CastLoader, Nav, StarIcon, ComingSoonContainer, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };
+export { Card, CastLoader, Nav, ComingSoonContainer, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };
