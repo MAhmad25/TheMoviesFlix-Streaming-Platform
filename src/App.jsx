@@ -1,6 +1,6 @@
 import RouterHandler from "../src/routes/RouterHandler";
 const App = () => {
-      return <RouterHandler />
+      return <RouterHandler />;
 };
 
 export default App;

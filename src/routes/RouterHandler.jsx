@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Home, TVPage, PeoplePage, MovieDetails, Trailer, TvDetails, Stream, PeopleDetails, Search, MoviePage } from "../Components/pages/index";
-import { Nav, NonExistingRoute } from "../components/ui/index";
+import { Nav, NonExistingRoute } from "../Components/ui/index";
 
 const Router = () => {
       return (
