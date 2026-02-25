@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-      --bg-gradient: linear-gradient(#14120b, rgb(26, 26, 26));
-      --txt: #ece5db;
+      --bg-gradient: linear-gradient(#300b07, #300b07);
+      --txt: #d66722;
 }
 @font-face {
       src: url("/fonts/astralaga.woff2");
@@ -32,8 +32,8 @@ body::-webkit-scrollbar {
       position: absolute;
       inset: 0;
       backdrop-filter: blur(10px);
-      mask: linear-gradient(to top, rgba(39, 24, 20, 1) 0%, rgba(39, 24, 20, 0.99) 30%, rgba(39, 24, 20, 0.7) 70%, rgba(39, 24, 20, 0.3) 80%, rgba(39, 24, 20, 0) 100%);
-      -webkit-mask: linear-gradient(to top, rgba(39, 24, 20, 1) 0%, rgba(39, 24, 20, 0.99) 30%, rgba(39, 24, 20, 0.5) 70%, rgba(39, 24, 20, 0.1) 100%);
+      mask: linear-gradient(to top, rgba(48, 11, 7, 1) 0%, rgba(48, 11, 7, 0.99) 30%, rgba(48, 11, 7, 0.7) 70%, rgba(48, 11, 7, 0.3) 80%, rgba(48, 11, 7, 0) 100%);
+      -webkit-mask: linear-gradient(to top, rgba(48, 11, 7, 1) 0%, rgba(48, 11, 7, 0.99) 30%, rgba(48, 11, 7, 0.5) 70%, rgba(48, 11, 7, 0.1) 100%);
       pointer-events: none;
       z-index: 0;
 }
