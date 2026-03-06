@@ -1,5 +1,7 @@
-import { Suspense } from "react";
-import { TrendingContainer, Header, ComingSoonContainer, CastLoader } from "../ui/index";
+import { Suspense, lazy } from "react";
+import { Header, CastLoader } from "../ui/index";
+const TrendingContainer = lazy(() => import("../ui/TrendingContainer"));
+const ComingSoonContainer = lazy(() => import("../ui/ComingSoonContainer"));
 const Home = () => {
       document.title = "MoviesFlix | Movie & TV Streaming ";
       return (
