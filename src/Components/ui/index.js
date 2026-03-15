@@ -16,4 +16,5 @@ import PeopleDetailSkeleton from "./Loaders/PeopleDetailLoader";
 import StarIcon from "./Icons/StarIcon";
 import WatchIcon from "./Icons/WatchIcon";
 import Nav from "./Nav";
-export { Card, CastLoader, Nav, StarIcon, ComingSoonContainer, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };
+import AnimatedDropdown from "./DropDown";
+export { Card, CastLoader, Nav, StarIcon, ComingSoonContainer, AnimatedDropdown, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };

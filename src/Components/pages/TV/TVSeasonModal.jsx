@@ -36,7 +36,7 @@ const TVSeasonModal = ({ season, onClick }) => {
                                           {/* Overlay */}
                                           <img className="lg:w-1/3 w-full h-full object-contain" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season?.poster_path} ` : "/noImage.jpg"} alt={season?.poster_path} />
                                           <div className="lg:w-3/4 w-full">
-                                                <div className="text-[var(--txt)] text-lg space-y-4 p-5 w-full h-full">
+                                                <div className="text-[#fefefe] text-lg space-y-4 p-5 w-full h-full">
                                                       <h2 className="text-3xl border-b-2 border-dashed w-fit">{season?.name}</h2>
                                                       <div className="flex items-center gap-1">
                                                             <span title="episode" className="cursor-pointer w-fit flex items-center fill-lime-400 bg-lime-950 hover:bg-lime-900 rounded-md duration-75 p-2">

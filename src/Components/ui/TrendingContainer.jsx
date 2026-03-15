@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
 import Slider from "./Slider";
+import AnimatedDropdown from "./DropDown";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("all");
@@ -10,7 +11,7 @@ const TrendingContainer = () => {
                         const { data } = await api.get(`trending/${query}/day`);
                         setTrendingMovie(data.results);
                   } catch (error) {
-                        console.log(error);
+                        console.log(error.message);
                   }
             })();
       }, [query]);
@@ -21,17 +22,15 @@ const TrendingContainer = () => {
                         <span className="w-full hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <h1 className="sm:text-3xl lg:border-gray-400 lg:border-[1px] lg:px-4 lg:py-2 lg:rounded-3xl  text-nowrap  text-[#fefefe] text-xl">Trending Now</h1>
                         <span className="w-full hidden lg:inline  border-dotted border-[1px] border-gray-400"></span>
-                        <select onChange={(e) => setQuery(e.target.value)} className="outline-none  text-black bg-[#fefefe] border-[0.5px] rounded-xl text-xs sm:text-lg px-3 py-1" name="TV shows and Movies" id="TV_shows_and_Movies_category">
-                              <option aria-label="all movies and tv" defaultValue="all" value="all">
-                                    All Movies and TV
-                              </option>
-                              <option aria-label="tv" value="tv">
-                                    TV
-                              </option>
-                              <option aria-label="movies" value="movie">
-                                    Movies
-                              </option>
-                        </select>
+                        <AnimatedDropdown
+                              items={[
+                                    { name: "All Movies and TV", value: "all" },
+                                    { name: "TV", value: "tv" },
+                                    { name: "Movies", value: "movie" },
+                              ]}
+                              text="All Movies and TV"
+                              onSelect={(value) => setQuery(value)}
+                        />
                   </div>
                   <Slider trendingMovie={trendingMovie} />
             </section>
