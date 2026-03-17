@@ -34,7 +34,7 @@ const Search = () => {
             <>
                   <section className="w-full min-h-dvh  [&::-webkit-scrollbar]:hidden flex flex-col items-center  [background-image:var(--bg-gradient)] ">
                         <motion.div initial={{ y: -100 }} animate={{ y: 0, transition: { ease: "backInOut", duration: 0.5 } }} className="relative [&::-webkit-scrollbar]:hidden  top-3 lg:w-1/2 w-[80%]">
-                              <input value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full text-[#F5CD80] pr-12 pl-14 outline-none font-primary border-none rounded-full md:rounded-2xl bg-[#412f2d]/30  caret-[#d0ab67] selection:bg-[#F5CD80] selection:text-black backdrop-blur-xl md:text-xl lg:text-2xl py-3" placeholder="Search for movies, tv shows, people" type="text" />
+                              <input value={query} onChange={(e) => setQuery(e.target.value)} autoFocus className="w-full text-[#F5CD80] pr-12 pl-14 outline-none font-primary border-none rounded-full md:rounded-2xl bg-[#412f2d]/30  caret-[#d0ab67] selection:bg-[#F5CD80] selection:text-black backdrop-blur-xl text-xl lg:text-2xl py-3" placeholder="Search for movies, tv shows, people" type="text" />
                               <span className="absolute left-7 lg:top-4 top-3 -translate-x-1/2">
                                     <IoSearchOutline color="#F5CD80" size="1.5rem" />
                               </span>
