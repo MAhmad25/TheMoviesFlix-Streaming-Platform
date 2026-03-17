@@ -191,7 +191,7 @@ const MovieDetails = () => {
 
                                           {info.recommendedMovies.length !== 0 && (
                                                 <div className="mt-2 overflow-x-hidden mb-20 w-full">
-                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">You might also like</h1>
+                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">Similar Movies</h1>
                                                       <div className="mt-5 sm:mt-3 w-full overflow-x-auto md:overflow-visible [&::-webkit-scrollbar]:hidden flex md:grid md:grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 gap-3 md:gap-6 items-stretch md:items-stretch">
                                                             {(showAllRecommendations ? info.recommendedMovies : info.recommendedMovies.slice(0, 12)).map((eachMovie, index) => (
                                                                   <Card key={index} type="movie" eachMovie={eachMovie} />

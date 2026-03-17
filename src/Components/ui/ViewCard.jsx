@@ -9,7 +9,7 @@ const ViewCard = ({ eachMovie, type = "movie" }) => {
                   <div className="w-full h-full">
                         <div className="w-full overflow-hidden rounded-lg  h-3/4">
                               <AnimatePresence>{showSkeleton && <ImageLoader />} </AnimatePresence>
-                              <motion.img loading="lazy" decoding="async" whileHover={{ scale: 1.1, transition: { ease: "circInOut" } }} onLoad={() => setSkeleton(false)} className={`w-full ${showSkeleton ? "invisible" : "visible"} h-full object-cover`} src={eachMovie.backdrop_path || eachMovie.poster_path ? `https://image.tmdb.org/t/p/original${eachMovie?.backdrop_path || eachMovie?.poster_path}` : `/noImage.jpg`} alt={eachMovie?.backdrop_path || eachMovie?.poster_path} />
+                              <motion.img loading="lazy" decoding="async" whileHover={{ scale: 1.1, transition: { ease: "circInOut" } }} onLoad={() => setSkeleton(false)} className={`w-full ${showSkeleton ? "invisible" : "visible"} h-full object-cover`} src={eachMovie.backdrop_path || eachMovie.poster_path ? `https://image.tmdb.org/t/p/w500${eachMovie?.backdrop_path || eachMovie?.poster_path}` : `/noImage.jpg`} alt={eachMovie?.backdrop_path || eachMovie?.poster_path} />
                         </div>
                         <div className="mt-2 space-y-1">
                               <h1 className="text-sm text-format">{eachMovie.title || eachMovie.original_title || eachMovie.name} </h1>

@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
 import { Link } from "react-router-dom";
-import { ImageLoader, StarIcon } from "./index";
-import { Carousel, Slider, SliderContainer, SliderDotButton } from "./Carousal";
+import { StarIcon } from "./index";
+import { Carousel, Slider, SliderContainer } from "./Carousal";
 import Autoplay from "embla-carousel-autoplay";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
-      const [showSkeleton, setSkeleton] = useState(true);
       useEffect(() => {
             (async () => {
                   try {
@@ -40,8 +39,6 @@ const Header = () => {
                                     {nowPlaying.map((eachMovieCard, index) => (
                                           <Slider key={index} className="w-full">
                                                 <div className="w-full relative h-[60vh]  lg:h-[90vh]">
-                                                      {showSkeleton && <ImageLoader />}
-
                                                       <div className="bottom-0 [background-image:var(--bg-opac)]  px-4 text-white py-2 left-0 flex items-end overflow-hidden lg:inset-0 lg:h-full w-full h-[50%] absolute z-10">
                                                             <div className="w-full bg-transparent">
                                                                   <h1 className="text-3xl font-semibold  lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard.original_title || eachMovieCard.title}</h1>
@@ -64,16 +61,11 @@ const Header = () => {
                                                                   </div>
                                                             </div>
                                                       </div>
-
-                                                      <img loading="eager" onLoad={() => setSkeleton(false)} className="w-full h-full object-cover object-top" src={`https://image.tmdb.org/t/p/original${eachMovieCard.backdrop_path || eachMovieCard.poster_path}`} alt={eachMovieCard.original_title || eachMovieCard.title} />
+                                                      <img loading="eager" className="w-full h-full object-cover object-top" src={`https://image.tmdb.org/t/p/w780/${eachMovieCard.backdrop_path || eachMovieCard.poster_path}`} alt={eachMovieCard.original_title || eachMovieCard.title} />
                                                 </div>
                                           </Slider>
                                     ))}
                               </SliderContainer>
-
-                              <div className="lg:flex hidden lg:justify-center py-4 lg:absolute lg:bottom-0 lg:left-1/2 transform -translate-x-1/2 z-20">
-                                    <SliderDotButton />
-                              </div>
                         </Carousel>
                   </section>
             </header>

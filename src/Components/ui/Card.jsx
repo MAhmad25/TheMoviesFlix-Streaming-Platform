@@ -1,16 +1,13 @@
-import { memo, useRef, useState } from "react";
+import { memo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { ImageLoader } from "./index";
-import { AnimatePresence, motion } from "motion/react";
 
 const Card = ({ eachMovie, type = "all" }) => {
-      const [showSkeleton, setSkeleton] = useState(true);
       const navigate = useNavigate();
       const isDragging = useRef(false);
 
       const tmdbPath = eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path || null;
 
-      const displaySrc = tmdbPath ? `https://image.tmdb.org/t/p/original${tmdbPath}` : "/noImage.jpg";
+      const displaySrc = tmdbPath ? `https://image.tmdb.org/t/p/w500${tmdbPath}` : "/noImage.jpg";
       const handleClick = () => {
             if (!isDragging.current) {
                   navigate(`/${eachMovie.media_type || type}/details/${eachMovie.id}`);
@@ -30,8 +27,8 @@ const Card = ({ eachMovie, type = "all" }) => {
                   }}
             >
                   <section className="w-full relative overflow-hidden sm:h-56 md:h-72 h-40">
-                        <AnimatePresence>{showSkeleton && <ImageLoader />}</AnimatePresence>
-                        <motion.img loading="lazy" decoding="async" whileHover={{ scale: 1.08, transition: { ease: "circInOut", duration: 0.4 } }} onLoad={() => setSkeleton(false)} className={`w-full h-full object-cover pointer-events-none ${showSkeleton ? "invisible" : "visible"}`} src={displaySrc} alt={eachMovie.name || eachMovie.title || eachMovie.original_title} />
+                        {/* <AnimatePresence>{showSkeleton && <ImageLoader />}</AnimatePresence> */}
+                        <img loading="lazy" decoding="async" className={`w-full h-full object-cover pointer-events-none `} src={displaySrc} alt={eachMovie.name || eachMovie.title || eachMovie.original_title} />
                         <div
                               className="absolute inset-x-0  bottom-0 h-16 pointer-events-none"
                               style={{
