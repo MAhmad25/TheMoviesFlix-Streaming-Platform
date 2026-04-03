@@ -39,13 +39,13 @@ const Header = () => {
                                     {nowPlaying.map((eachMovieCard, index) => (
                                           <Slider key={index} className="w-full">
                                                 <div className="w-full relative h-[60vh]  lg:h-[90vh]">
-                                                      <div className="bottom-0 [background-image:var(--bg-opac)]  px-4 text-white py-2 left-0 flex items-end overflow-hidden lg:inset-0 lg:h-full w-full h-[50%] absolute z-10">
-                                                            <div className="w-full bg-transparent">
-                                                                  <h1 className="text-3xl font-semibold  lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard.original_title || eachMovieCard.title}</h1>
+                                                      <div className="bottom-0  [background-image:var(--bg-header)] md:[background-image:var(--bg-opac)]  px-4 text-white  left-0 flex items-end overflow-hidden lg:inset-0 lg:h-full w-full h-[50%] absolute z-10">
+                                                            <div className="w-full space-y-5 bg-transparent">
+                                                                  <h1 className="text-3xl h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard.original_title || eachMovieCard.title}</h1>
                                                                   {eachMovieCard.overview && (
                                                                         <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100  leading-none">
                                                                               {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link className="text-[var(--txt)] ml-1" to={`/movie/details/${eachMovieCard.id}`}>
+                                                                              <Link className="text-[var(--txt)] ml-1" to={`/movie/details/${eachMovieCard?.id}`}>
                                                                                     see full detail
                                                                               </Link>
                                                                         </p>

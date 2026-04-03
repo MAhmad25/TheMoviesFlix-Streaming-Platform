@@ -1,14 +1,12 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "../Components/pages/index";
+import { Home, Stream, Trailer } from "../Components/pages/index";
 import { Nav, NonExistingRoute } from "../Components/ui/index";
 const MoviePage = lazy(() => import("../Components/pages/Movie/MoviePage"));
 const TVPage = lazy(() => import("../Components/pages/TV/TVPage"));
 const PeoplePage = lazy(() => import("../Components/pages/People/PeoplePage"));
 const MovieDetails = lazy(() => import("../Components/pages/Movie/MovieDetails"));
-const Trailer = lazy(() => import("../Components/pages/Trailer"));
 const TvDetails = lazy(() => import("../Components/pages/TV/TvDetails"));
-const Stream = lazy(() => import("../Components/pages/Stream"));
 const PeopleDetails = lazy(() => import("../Components/pages/People/PeopleDetails"));
 const Search = lazy(() => import("../Components/pages/Search"));
 
@@ -35,6 +33,7 @@ const Router = () => {
                         </Routes>
                   </Suspense>
                   <Nav />
+                  <div className="fixed inset-0 [background-image:var(--bg-nav)] pointer-events-none"></div>
             </>
       );
 };

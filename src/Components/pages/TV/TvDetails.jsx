@@ -77,7 +77,7 @@ const TvDetails = () => {
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
                                           <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 [background-image:var(--bg-opac)] md:bottom-0">
                                                 <div className="w-full h-[45%]">
-                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-primary font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
+                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-astralga font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
                                                       <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info?.detail?.tagline || info?.detail?.status}</h3>
 
                                                       <div className="flex mt-3 flex-wrap gap-1 w-full">
@@ -110,7 +110,7 @@ const TvDetails = () => {
                                     </div>
                                     <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length === 0 ? "pb-12" : ""} text-white mt-3 w-full font-primary`}>
                                           <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-primary font-medium">{info.detail.name || info.detail.original_name}</h1>
+                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-astralga  font-medium">{info.detail.name || info.detail.original_name}</h1>
                                                 <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                 <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                       <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>

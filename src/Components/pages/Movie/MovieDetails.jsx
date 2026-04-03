@@ -78,7 +78,7 @@ const MovieDetails = () => {
                                           <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info.detail.backdrop_path || info.detail.poster_path ? `https://image.tmdb.org/t/p/original${info.detail.backdrop_path || info.detail.poster_path}` : `/noImage.jpg`} alt="Movie Poster Image" />
                                           <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0  md:bottom-0 [background-image:var(--bg-opac)]">
                                                 <div className="w-full h-[45%]">
-                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-primary font-semibold ">{info.detail.title || info.detail.original_title}</h1>
+                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl text-white/95 font-astralga font-semibold ">{info.detail.title || info.detail.original_title}</h1>
                                                       <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
                                                       <div className="flex mt-3 flex-wrap gap-1 w-full">
                                                             {(info.detail.runtime != 0 || info.detail.runtime != null || info.detail.runtime != undefined) && (
