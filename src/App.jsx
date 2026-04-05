@@ -3,10 +3,10 @@ import { ReactLenis, useLenis } from "lenis/react";
 const App = () => {
       useLenis();
       return (
-            <div className="bg-[#300b07]">
+            <section className="bg-[#300b07]">
                   <ReactLenis root />
                   <RouterHandler />;
-            </div>
+            </section>
       );
 };
 
