@@ -74,7 +74,7 @@ const TvDetails = () => {
                               </span>
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
                                     <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
-                                          <img loading="lazy" decoding="async" className="w-full h-full object-top object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
+                                          <img loading="lazy" decoding="async" className="w-full md:h-full h-[70dvh] object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
                                           <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 [background-image:var(--bg-opac)] md:bottom-0">
                                                 <div className="w-full h-[45%]">
                                                       <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-astralga font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
