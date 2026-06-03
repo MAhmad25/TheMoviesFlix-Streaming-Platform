@@ -3,89 +3,108 @@ import { useState } from "react";
 import { StarIcon, WatchIcon } from "../../ui/index";
 import { Link } from "react-router-dom";
 import { motion } from "motion/react";
+
+const DropArea = styled(motion.div)`
+      border: 2px dashed #ffffff;
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+      overflow-y: auto;
+`;
+
+const PreviewBox = styled.div`
+      border-radius: inherit;
+      font-size: 11px;
+      overflow-y: auto;
+
+      &::-webkit-scrollbar {
+            width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+            background: #300b07;
+            border-radius: 9999px;
+      }
+
+      &::-webkit-scrollbar-track {
+            background: transparent;
+      }
+
+      scrollbar-width: thin;
+      scrollbar-color: #fefefe transparent;
+`;
+
 const TVSeasonModal = ({ season, onClick }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
       const totalEpisodes = season?.episode_count || 1;
-      return (
-            <StyledWrapper>
-                  <div
-                        onClick={(e) => {
-                              if (e.target === e.currentTarget) {
-                                    onClick();
-                              }
-                        }}
-                        style={{
-                              backgroundImage: "radial-gradient(transparent 1px, #14120b 1px)",
-                              backgroundSize: "3px 3px",
-                              backdropFilter: "brightness(1) blur(10px)",
-                              willChange: "filter, opacity, transform",
-                        }}
-                        className="w-full h-full fixed z-40 flex justify-center items-center inset-0"
-                  >
-                        <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                    duration: 0.8,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                              className="drop-area [&::-webkit-scrollbar]:hidden max-w-[90%]  lg:min-w-[30rem] lg:min-h-96"
-                        >
-                              <div className="[background-image:var(--bg-gradient)]">
-                                    <div className="preview-box relative flex flex-col [&::-webkit-scrollbar]:hidden lg:flex-row  w-full  h-96 overflow-y-scroll">
-                                          {/* Overlay */}
-                                          <img className="lg:w-1/3 w-full h-full object-contain" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season?.poster_path} ` : "/noImage.jpg"} alt={season?.poster_path} />
-                                          <div className="lg:w-3/4 w-full">
-                                                <div className="text-[#fefefe] text-lg space-y-4 p-5 w-full h-full">
-                                                      <h2 className="text-3xl border-b-2 border-dashed w-fit">{season?.name}</h2>
-                                                      <div className="flex items-center gap-1">
-                                                            <span title="episode" className="cursor-pointer w-fit flex items-center fill-lime-400 bg-lime-950 hover:bg-lime-900 rounded-md duration-75 p-2">
-                                                                  <span className="text-sm text-lime-400 font-bold pr-1">Total Episode: {season?.episode_count || "0"}</span>
-                                                            </span>
-                                                            <p className="w-fit flex items-center gap-1">
-                                                                  <StarIcon /> {season?.vote_average || "Not rating"}
-                                                            </p>
-                                                      </div>
 
-                                                      <p>{season?.overview}</p>
-                                                      <div className="w-full max-w-4xl space-y-8">
-                                                            <div>
-                                                                  <h1 className="text-2xl font-bold  mb-2">Select Episode</h1>
-                                                                  <EpisodeSelector totalEpisodes={totalEpisodes} currentEpisode={currentEpisode} setEpisode={setCurrentEpisode} />
-                                                            </div>
+      return (
+            <div
+                  onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                              onClick();
+                        }
+                  }}
+                  style={{
+                        backgroundImage: "radial-gradient(transparent 1px, #14120b 1px)",
+                        backgroundSize: "3px 3px",
+                        backdropFilter: "brightness(1) blur(10px)",
+                        willChange: "filter, opacity, transform",
+                  }}
+                  className="fixed inset-0 z-40 flex items-center justify-center w-full h-full"
+            >
+                  <DropArea
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                              duration: 0.8,
+                              ease: [0, 0.71, 0.2, 1.01],
+                        }}
+                        className="max-w-[90%] lg:min-w-[30rem] lg:min-h-96"
+                  >
+                        <div className="[background-image:var(--bg-gradient)]">
+                              <PreviewBox className="relative flex flex-col w-full  h-[80dvh] lg:flex-row">
+                                    <img className="w-full h-full object-contain lg:w-1/3" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season.poster_path}` : "/noImage.jpg"} alt={season?.name} />
+
+                                    <div className="w-full lg:w-3/4">
+                                          <div className="w-full h-full p-5 space-y-4 text-lg text-[#fefefe]">
+                                                <h2 className="w-fit text-3xl border-b-2 border-dashed">{season?.name}</h2>
+
+                                                <div className="flex items-center gap-1">
+                                                      <span title="episode" className="flex items-center w-fit p-2 rounded-md cursor-pointer bg-lime-950 hover:bg-lime-900">
+                                                            <span className="pr-1 text-sm font-bold text-lime-400">Total Episodes: {season?.episode_count || 0}</span>
+                                                      </span>
+
+                                                      <p className="flex items-center gap-1 w-fit">
+                                                            <StarIcon />
+                                                            {season?.vote_average || "No rating"}
+                                                      </p>
+                                                </div>
+
+                                                <p>{season?.overview}</p>
+
+                                                <div className="w-full max-w-4xl space-y-8">
+                                                      <div>
+                                                            <h1 className="mb-2 text-2xl font-bold">Select Episode</h1>
+
+                                                            <EpisodeSelector totalEpisodes={totalEpisodes} currentEpisode={currentEpisode} setEpisode={setCurrentEpisode} />
                                                       </div>
-                                                      <div className="mt-2 w-full flex justify-center items-center">
-                                                            <Link className="bg-[#1a2e05] flex items-center gap-1 justify-center text-lime-400  px-3 py-1 rounded uppercase font-medium w-fit" to={`watch/${season.season_number}/${currentEpisode}`}>
-                                                                  <WatchIcon />
-                                                                  Watch
-                                                            </Link>
-                                                      </div>
+                                                </div>
+
+                                                <div className="flex items-center justify-center w-full mt-2">
+                                                      <Link className="flex items-center justify-center gap-1 px-3 py-1 font-medium uppercase rounded bg-[#1a2e05] text-lime-400 w-fit" to={`watch/${season.season_number}/${currentEpisode}`}>
+                                                            <WatchIcon />
+                                                            Watch
+                                                      </Link>
                                                 </div>
                                           </div>
                                     </div>
-                              </div>
-                        </motion.div>
-                  </div>
-            </StyledWrapper>
+                              </PreviewBox>
+                        </div>
+                  </DropArea>
+            </div>
       );
 };
-
-const StyledWrapper = styled.div`
-      .drop-area {
-            border: 2px dashed #ffffff;
-            border-radius: 12px;
-            padding: 16px;
-            position: relative;
-            overflow-y: scroll;
-            background-color: #1a1a1a;
-      }
-
-      .preview-box {
-            background-color: linear-gradient(#14120b, rgb(26, 26, 26));
-            border-radius: inherit;
-            font-size: 11px;
-      }
-`;
 
 export default TVSeasonModal;
 
@@ -99,7 +118,7 @@ const SwitchControl = ({ label, value, checked, disabled = false, icon, onClick 
 
 export const Switch = ({ children, value, onChange, size = "medium", style }) => {
       const getContainerClasses = () => {
-            let classes = "grid  gap-x-5 grid-cols-5  sm:grid-cols-10  p-2 h-fit";
+            let classes = "grid [&::-webkit-scrollbar]:hidden  gap-x-5 grid-cols-5  sm:grid-cols-10  p-2 h-fit";
             return classes;
       };
 
