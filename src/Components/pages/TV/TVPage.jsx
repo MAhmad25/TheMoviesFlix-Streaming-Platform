@@ -43,7 +43,7 @@ const TVPage = () => {
                                                 { name: "Popular Today", value: "airing_today" },
                                                 { name: "Popular", value: "popular" },
                                           ]}
-                                          text="Select"
+                                          text="Popular Today"
                                           onSelect={(value) => setCategory(value)}
                                     />
                               </span>

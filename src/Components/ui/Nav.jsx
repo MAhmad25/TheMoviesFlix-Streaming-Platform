@@ -49,7 +49,7 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                               <motion.button
                                     key={item.label}
                                     whileTap={{ scale: 0.97 }}
-                                    className={`flex items-center gap-0 px-3 py-2 rounded-full transition-colors duration-200 relative h-10 min-w-[44px] min-h-[40px] max-h-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe] dark:text-[#fefefe] gap-2" : "bg-transparent text-muted-foreground dark:text-muted-foreground hover:bg-muted dark:hover:bg-muted"} focus:outline-none focus-visible:ring-0`}
+                                    className={`flex items-center gap-0 px-3 py-2 rounded-full transition-colors duration-200 relative h-10 min-w-[44px] min-h-[40px] max-h-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe] dark:text-[#fefefe] gap-2" : "bg-transparent"} focus:outline-none focus-visible:ring-0`}
                                     onClick={() => {
                                           setActiveIndex(idx);
                                           navigate(item.to);

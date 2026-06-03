@@ -16,8 +16,8 @@ const Button = forwardRef(({ className, variant, ...props }, ref) => (
       <button
             ref={ref}
             className={`flex items-center justify-start px-2 py-2 whitespace-nowrap  gap-1.5 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50
-      ${variant === "outline" ? "border border-input bg-background hover:bg-accent hover:text-accent-foreground" : ""}
-      ${variant === "ghost" ? "hover:bg-accent hover:text-accent-foreground" : ""}
+      ${variant === "outline" ? "border border-input  hover:text-accent-foreground" : ""}
+      ${variant === "ghost" ? " hover:text-accent-foreground" : ""}
       ${className ?? ""}`}
             {...props}
       />

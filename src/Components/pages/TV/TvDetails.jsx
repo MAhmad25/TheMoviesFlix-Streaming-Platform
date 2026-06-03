@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../../store/actions/tvAction";
 import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
-import { Card, SeasonCard, Review, DetailLoader, Exclude, StarIcon } from "../../ui/index";
-import TVSeasonModal from "./TVSeasonModal";
+import { Card, Review, DetailLoader, Exclude, StarIcon, CoverFlow } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import { SiTrillertv } from "react-icons/si";
+import TVSeasonModal from "./TVSeasonModal";
 const TvDetails = () => {
+      const [selectedSeason, setSelectedSeason] = useState(null);
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
-      const [selectedSeason, setSelectedSeason] = useState(null);
       useEffect(() => {
             const title = info?.detail?.name || info?.detail?.original_name || "Hang On ! Getting Details for The Requested TV Series";
             if (title) document.title = title;
@@ -136,7 +136,7 @@ const TvDetails = () => {
                                                 </div>
                                           </div>
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
-                                                <div className="flex w-full gap-2  md:justify-center items-center">
+                                                <div className="flex w-full gap-2 justify-center items-center">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-astralga font-semibold">Storyline</h1>
                                                       <span className="px-3 md:text-lg text-xs py-1 font-astralga font-semibold bg-[var(--txt)] text-[#300b07] rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
                                                 </div>
@@ -144,16 +144,14 @@ const TvDetails = () => {
                                           </div>
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
-                                                      <h1 className="text-white text-2xl  md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch TV Season</h1>
-                                                      <div className="flex mt-4  items-center overflow-x-scroll w-full cursor-pointer  justify-center-safe  [&::-webkit-scrollbar]:hidden  gap-3 md:h-72  h-64">
-                                                            {info.detail.seasons.map((eachSeason, index) => (
-                                                                  <SeasonCard onClick={() => setSelectedSeason(eachSeason)} key={index} eachSeason={eachSeason} />
-                                                            ))}
+                                                      <h1 className="text-white text-center text-2xl  md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch TV Season</h1>
+                                                      <div className="flex mt-2  items-center w-full cursor-pointer  justify-center-safe  [&::-webkit-scrollbar]:hidden gap-3 md:min-h-96  h-96">
+                                                            <CoverFlow items={info?.detail?.seasons} setSeason={setSelectedSeason} itemWidth={250} itemHeight={300} initialIndex={0} enableScroll={true} scrollThreshold={60} centerGap={200} stackSpacing={180} enableAudio={true} enableReflection={true} />
                                                       </div>
                                                 </div>
                                           )}
                                           {info.castBy.cast.length != 0 && (
-                                                <div className="w-full mt-3">
+                                                <div className="w-full mt-10">
                                                       <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h1>
                                                       <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  [&::-webkit-scrollbar]:hidden  gap-1 h-40  md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center  items-center`}>
                                                             {info.castBy.cast.slice(0, 12).map((eachActor, index) => (
