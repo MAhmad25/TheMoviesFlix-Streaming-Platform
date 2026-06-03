@@ -6,8 +6,8 @@ const Stream = ({ category }) => {
       const { id, season, seasonID } = useParams();
       const navigate = useNavigate();
       let url;
-      if (category == "tv") url = `https://111movies.com/tv/${id}/${season}/${seasonID}`;
-      else url = `https://111movies.com/${category}/${id}`;
+      if (category == "tv") url = `https://web.nxsha.app/embed/tv/${id}/${season}/${seasonID}?lang=hindi&autoplay=true/`;
+      else url = `https://web.nxsha.app/embed/${category}/${id}?lang=hindi&autoplay=true`;
       return (
             <div className="w-full fixed no-scroll inset-0 z-50 backdrop-blur-xl h-[92dvh] md:h-screen  flex justify-center items-center">
                   <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
