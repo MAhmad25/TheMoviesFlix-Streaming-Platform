@@ -5,22 +5,22 @@
       "description": "Stream the latest movies and TV shows directly from your browser with offline support.",
       "icons": [
             {
-                  "src": "/logo.svg",
-                  "sizes": "192x192",
-                  "type": "image/svg",
+                  "src": "/logo-square187.png",
+                  "sizes": "187x187",
+                  "type": "image/png",
                   "purpose": "any"
             },
             {
-                  "src": "/logo.svg",
+                  "src": "/logo_600.png",
                   "sizes": "600x600",
-                  "type": "image/svg",
+                  "type": "image/png",
                   "purpose": "any"
             },
             {
-                  "src": "/logo.svg",
-                  "sizes": "192x192",
-                  "type": "image/svg",
-                  "purpose": "maskable"
+                  "src": "/logo-square187.png",
+                  "sizes": "187x187",
+                  "type": "image/png",
+                  "purpose": "any"
             }
       ],
       "screenshots": [
