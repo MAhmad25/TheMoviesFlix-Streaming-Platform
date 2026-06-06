@@ -4,7 +4,7 @@ import Slider from "./Slider";
 import AnimatedDropdown from "./DropDown";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
-      const [query, setQuery] = useState("all");
+      const [query, setQuery] = useState("tv");
       useEffect(() => {
             (async () => {
                   try {
@@ -24,11 +24,10 @@ const TrendingContainer = () => {
                         <span className="w-full hidden lg:inline  border-dotted border-[1px] border-gray-400"></span>
                         <AnimatedDropdown
                               items={[
-                                    { name: "All Movies and TV", value: "all" },
                                     { name: "TV", value: "tv" },
                                     { name: "Movies", value: "movie" },
                               ]}
-                              text="All Movies and TV"
+                              text="TV"
                               onSelect={(value) => setQuery(value)}
                         />
                   </div>

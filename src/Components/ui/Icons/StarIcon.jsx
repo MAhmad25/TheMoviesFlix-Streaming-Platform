@@ -1,7 +1,7 @@
 import { forwardRef, useImperativeHandle, useCallback } from "react";
 import { motion, useAnimate } from "motion/react";
 
-const StarIcon = forwardRef(({ size = 24, color = "currentColor", strokeWidth = 2, className = "" }, ref) => {
+const StarIcon = forwardRef(({ size = 24, color = "yellow", strokeWidth = 2, className = "" }, ref) => {
       const [scope, animate] = useAnimate();
       const start = useCallback(async () => {
             animate(".star-fill", { opacity: [0, 1], scale: [0.8, 1] }, { duration: 0.4, ease: "easeOut" });

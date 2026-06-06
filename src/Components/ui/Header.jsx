@@ -10,7 +10,7 @@ const Header = () => {
       useEffect(() => {
             (async () => {
                   try {
-                        const { data } = await api.get("/movie/now_playing");
+                        const { data } = await api.get("trending/all/day");
                         setNowPlaying(data.results);
                   } catch (error) {
                         console.log(error.message);
@@ -41,23 +41,24 @@ const Header = () => {
                                                 <div className="w-full relative h-[60vh]  lg:h-[90vh]">
                                                       <div className="bottom-0  [background-image:var(--bg-header)] md:[background-image:var(--bg-opac)]  px-4 text-white  left-0 flex items-end overflow-hidden lg:inset-0 lg:h-full w-full h-[50%] absolute z-10">
                                                             <div className="w-full space-y-5 bg-transparent">
-                                                                  <h1 className="text-3xl h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard.original_title || eachMovieCard.title}</h1>
+                                                                  <h1 className="text-3xl h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}</h1>
                                                                   {eachMovieCard.overview && (
                                                                         <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100  leading-none">
                                                                               {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link className="text-[var(--txt)] ml-1" to={`/movie/details/${eachMovieCard?.id}`}>
+                                                                              <Link className="text-yellow-300 ml-1" to={`/movie/details/${eachMovieCard?.id}`}>
                                                                                     see full detail
                                                                               </Link>
                                                                         </p>
                                                                   )}
                                                                   <div className="flex items-center mt-2 gap-2">
                                                                         {eachMovieCard.vote_average != 0 && (
-                                                                              <h4 className="border-[#d66722]/30 border px-3 flex justify-center items-center gap-1  py-1 rounded-full text-lg lg:text-lg w-fit ">
-                                                                                    <StarIcon />
+                                                                              <h4 className="font-bold border border-yellow-300  text-yellow-300 px-3 flex justify-center items-center gap-1  py-1 rounded-full text-lg lg:text-lg w-fit ">
+                                                                                    <StarIcon color="yellow" />
                                                                                     <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
                                                                               </h4>
                                                                         )}
-                                                                        <h4 className="border-[#d66722]/30 border px-2 py-1 rounded-full w-fit  text-lg ">{eachMovieCard.release_date?.split("-")[0]}</h4>
+                                                                        {(eachMovieCard?.release_date || eachMovieCard?.first_air_date) && <h4 className="font-bold border border-yellow-300  text-yellow-300 px-2 py-1 rounded-full w-fit text-lg ">{eachMovieCard?.release_date?.split("-")[0] || eachMovieCard?.first_air_date?.split("-")[0]}</h4>}
+                                                                        {eachMovieCard?.media_type && <span className="text-lg font-bold border border-yellow-300  px-3 py-1 rounded-full text-yellow-300">{eachMovieCard?.media_type?.toUpperCase()}</span>}
                                                                   </div>
                                                             </div>
                                                       </div>

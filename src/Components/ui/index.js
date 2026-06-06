@@ -1,7 +1,7 @@
 import Exclude from "./Exclude";
 import Card from "./Card";
 import CastLoader from "./Loaders/CastLoader";
-import ComingSoonContainer from "./ComingSoonContainer";
+import HomeSections from "./HomeSections";
 import Header from "./Header";
 import NotFound from "./NotFound";
 import NonExistingRoute from "./NonExistingRoute";
@@ -18,4 +18,4 @@ import WatchIcon from "./Icons/WatchIcon";
 import Nav from "./Nav";
 import AnimatedDropdown from "./DropDown";
 import { CoverFlow } from "./Coverflow";
-export { Card, CastLoader, Nav, StarIcon, CoverFlow, ComingSoonContainer, AnimatedDropdown, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };
+export { Card, CastLoader, Nav, StarIcon, CoverFlow, HomeSections, AnimatedDropdown, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };

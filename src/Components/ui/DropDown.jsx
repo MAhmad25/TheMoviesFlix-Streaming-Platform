@@ -34,7 +34,7 @@ function OnClickOutside({ children, onClickOutside, classes }) {
       );
 }
 
-export default function AnimatedDropdown({ items, text = "Select", className, onSelect }) {
+export default function AnimatedDropdown({ items, text = "tv", className, onSelect }) {
       const [isOpen, setIsOpen] = useState(false);
       const [selected, setSelected] = useState(text);
 
