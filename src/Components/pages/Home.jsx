@@ -32,7 +32,7 @@ const Home = () => {
                               <HomeSections url={TopRatedMovies.current} sectionName={"Top Rated Movies"} />
                         </Suspense>
                   </div>
-                  <div className="min-h-40">
+                  <div className="min-h-40 pb-20 sm:pb-0">
                         <Suspense fallback={<CastLoader />}>
                               <HomeSections url={Animated.current} sectionName={"Animated"} />
                         </Suspense>
