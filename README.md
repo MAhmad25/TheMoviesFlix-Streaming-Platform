@@ -3,8 +3,7 @@
 [![Vercel](https://img.shields.io/badge/deployed%20on-Vercel-000000?style=flat-square)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-<img src="https://i.ibb.co/5W9fFr1r/Screenshot-2026-02-06-211259.png" alt="Screenshot 2026 02 06 211259" border="0">
-<img src="https://i.ibb.co/1tXZTT93/to-Post.png" alt="to Post" border="0">
+<img src="https://i.ibb.co/DDQwDCfX/533shots-so.png" alt="533shots so" border="0">
 
 **MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers  not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
 
@@ -112,6 +111,8 @@ There are no automated tests included by default. Consider adding unit tests (Je
 -  Add server-side streaming support (HLS/DASH) and secure token delivery
 -  Implement search indexing + server-side rendering for improved SEO
 -  Add user accounts, watchlist, and personalized recommendations
+
+<img src="https://i.ibb.co/1tXZTT93/to-Post.png" alt="to Post" border="0">
 
 ## License
 
