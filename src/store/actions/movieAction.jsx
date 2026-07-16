@@ -11,7 +11,7 @@ export const asyncMovieLoader = (id) => async (dispatch) => {
             detail: details.data,
             castBy: castBy.data,
             recommendedMovies: recommendedMovies.data.results,
-            videoLink: videoLink.data.results.find((link) => link.type === "Trailer"),
+            videoLink: videoLink?.data?.results?.find((link) => link.type === "Trailer"),
             reviews: reviews.data.results,
       };
       dispatch(getMovie(idDetail));

@@ -1,9 +1,9 @@
-import ReactPlayer from "react-player";
 import { useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { NotFound } from "../ui/index";
 import useFullScreen from "../../hooks/useFullScreen";
 import { MdClose } from "react-icons/md";
+import { Backlight } from "../ui/Backlight";
 
 const Trailer = () => {
       useFullScreen();
@@ -11,6 +11,8 @@ const Trailer = () => {
       const { pathname } = useLocation();
       const isMovie = pathname.includes("movie") ? "movie" : "tv";
       const video = useSelector((state) => state[isMovie].info.videoLink);
+      const embedUrl = video?.key ? `https://www.youtube.com/embed/${video.key}?autoplay=0&controls=1&origin=${window.location.origin}` : "";
+
       return (
             <section
                   style={{
@@ -19,16 +21,22 @@ const Trailer = () => {
                         backdropFilter: "brightness(1) blur(10px)",
                         willChange: "filter, opacity, transform",
                   }}
-                  className="w-full fixed no-scroll inset-0 z-50  h-[92dvh] md:h-screen  flex justify-center items-center"
+                  className="fixed inset-0 z-50 flex items-center justify-center w-full h-full"
             >
-                  <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-110 rounded-full p-2 top-3 right-3">
-                        <div>
-                              <MdClose size="1.5rem" color="black" />
-                        </div>
+                  <span onClick={() => navigate(-1)} className="fixed z-10 cursor-pointer bg-white/30 backdrop-blur md:scale-110 rounded-full p-2 top-3 right-3">
+                        <MdClose size="1.5rem" color="black" />
                   </span>
+
                   {video ? (
-                        <div className="w-[95%] h-[95%]  overflow-hidden rounded-xl">
-                              <ReactPlayer controls={true} url={`https://www.youtube.com/watch?v=${video.key}`} height="100%" width="100%" />
+                        // Container: centered, 16:9, fits within the viewport
+                        <div className="relative w-[95%] max-w-7xl aspect-video rounded-xl overflow-hidden">
+                              {/* Glow layer: uses Backlight with a static coloured div */}
+                              <Backlight blur={40} className="absolute inset-0 w-full h-full">
+                                    <div className="w-full h-full bg-gradient-to-br from-blue-500/50 to-purple-500/50" />
+                              </Backlight>
+
+                              {/* Video iframe: sits on top of the glow */}
+                              <iframe src={embedUrl} title="Gradient Loop Background" className="absolute inset-0 w-full h-full" allowFullScreen frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" />
                         </div>
                   ) : (
                         <NotFound />
