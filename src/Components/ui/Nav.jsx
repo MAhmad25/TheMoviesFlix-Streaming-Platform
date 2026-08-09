@@ -52,7 +52,9 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                                     className={`flex items-center gap-0 px-3 py-2 rounded-full transition-colors duration-200 relative h-10 min-w-[44px] min-h-[40px] max-h-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe] dark:text-[#fefefe] gap-2" : "bg-transparent"} focus:outline-none focus-visible:ring-0`}
                                     onClick={() => {
                                           setActiveIndex(idx);
-                                          navigate(item.to);
+                                          document.startViewTransition(() => {
+                                                navigate(item.to);
+                                          });
                                     }}
                                     aria-label={item.label}
                                     type="button"

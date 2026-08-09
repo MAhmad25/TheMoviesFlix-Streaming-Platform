@@ -104,7 +104,6 @@ function clampIndex(index, length) {
 
 export function CoverFlow({ items, itemWidth = 400, setSeason, itemHeight = 400, stackSpacing = 100, centerGap = 250, rotation = 50, initialIndex = 0, enableReflection = false, enableClickToSnap = true, enableScroll = true, enableAudio = false, scrollThreshold = 100, reduceMotion, className, onItemClick, onIndexChange, renderImage }) {
       const safeInitial = clampIndex(initialIndex, items.length);
-      console.log(items);
       const [activeIndex, setActiveIndex] = useState(safeInitial);
       const [isDragging, setIsDragging] = useState(false);
       const containerRef = useRef(null);

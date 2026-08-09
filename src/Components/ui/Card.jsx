@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 const Card = ({ eachMovie, type = "all" }) => {
       const navigate = useNavigate();
       const isDragging = useRef(false);
-
       const tmdbPath = eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path || null;
 
       const displaySrc = tmdbPath ? `https://image.tmdb.org/t/p/w500${tmdbPath}` : "/noImage.jpg";
       const handleClick = () => {
-            if (!isDragging.current) {
+            if (isDragging.current) return;
+            document.startViewTransition(() => {
                   navigate(`/${eachMovie.media_type || type}/details/${eachMovie.id}`);
-            }
+            });
       };
 
       return (
