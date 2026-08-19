@@ -120,31 +120,55 @@ body::-webkit-scrollbar {
 }
 
 ::view-transition-old(root) {
-      animation: skew-slide-out 500ms cubic-bezier(0.87, 0, 0.13, 1) both;
+      animation: glitch-out 400ms steps(6, end) both;
 }
 
 ::view-transition-new(root) {
-      animation: skew-slide-in 500ms cubic-bezier(0.87, 0, 0.13, 1) both;
+      animation: glitch-in 400ms steps(6, end) both;
 }
 
-@keyframes skew-slide-out {
-      from {
-            transform: skewX(0deg) translateX(0);
+@keyframes glitch-out {
+      0% {
+            transform: translate(0, 0);
             opacity: 1;
       }
-      to {
-            transform: skewX(-8deg) translateX(-100%);
+      20% {
+            transform: translate(-6px, 2px);
+            opacity: 0.9;
+      }
+      40% {
+            transform: translate(6px, -2px);
+            opacity: 0.7;
+      }
+      60% {
+            transform: translate(-4px, 0);
+            opacity: 0.5;
+      }
+      80% {
+            transform: translate(4px, 2px);
+            opacity: 0.2;
+      }
+      100% {
+            transform: translate(0, 0);
             opacity: 0;
       }
 }
 
-@keyframes skew-slide-in {
-      from {
-            transform: skewX(8deg) translateX(100%);
+@keyframes glitch-in {
+      0% {
+            transform: translate(4px, -2px);
             opacity: 0;
       }
-      to {
-            transform: skewX(0deg) translateX(0);
+      30% {
+            transform: translate(-6px, 2px);
+            opacity: 0.4;
+      }
+      60% {
+            transform: translate(6px, 0);
+            opacity: 0.8;
+      }
+      100% {
+            transform: translate(0, 0);
             opacity: 1;
       }
 }
