@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MdHomeFilled } from "react-icons/md";
 import { FaFireAlt } from "react-icons/fa";
@@ -6,6 +6,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { RiTvFill } from "react-icons/ri";
 import { CgSearch } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { bind, play } from "cuelume";
 const navItems = [
       {
             to: "/",
@@ -39,6 +40,9 @@ const MOBILE_LABEL_WIDTH = 72;
 const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
       const [activeIndex, setActiveIndex] = useState(defaultIndex);
       const navigate = useNavigate();
+      useEffect(() => {
+            bind();
+      }, []);
       return (
             <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} role="navigation" aria-label="Bottom Navigation" className={`border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-[320px] max-w-[95vw] h-[58px] ${stickyBottom && "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit"} ${className}`}>
                   {navItems.map((item, idx) => {
@@ -47,10 +51,12 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
 
                         return (
                               <motion.button
+                                    onMouseEnter={() => play("tick")}
                                     key={item.label}
                                     whileTap={{ scale: 0.97 }}
                                     className={`flex items-center gap-0 px-3 py-2 rounded-full transition-colors duration-200 relative h-10 min-w-[44px] min-h-[40px] max-h-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe] dark:text-[#fefefe] gap-2" : "bg-transparent"} focus:outline-none focus-visible:ring-0`}
                                     onClick={() => {
+                                          play("press");
                                           setActiveIndex(idx);
                                           document.startViewTransition(() => {
                                                 navigate(item.to);

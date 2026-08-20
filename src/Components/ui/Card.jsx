@@ -1,3 +1,4 @@
+import { play, setVolume } from "cuelume";
 import { memo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -5,7 +6,7 @@ const Card = ({ eachMovie, type = "all" }) => {
       const navigate = useNavigate();
       const isDragging = useRef(false);
       const tmdbPath = eachMovie.backdrop_path || eachMovie.poster_path || eachMovie.profile_path || null;
-
+      setVolume(0.5);
       const displaySrc = tmdbPath ? `https://image.tmdb.org/t/p/w500${tmdbPath}` : "/noImage.jpg";
       const handleClick = () => {
             if (isDragging.current) return;
@@ -16,6 +17,7 @@ const Card = ({ eachMovie, type = "all" }) => {
 
       return (
             <div
+                  onMouseEnter={() => play("whisper", { volume: 0.2 })}
                   onClick={handleClick}
                   onMouseDown={() => (isDragging.current = false)}
                   onMouseMove={() => (isDragging.current = true)}
