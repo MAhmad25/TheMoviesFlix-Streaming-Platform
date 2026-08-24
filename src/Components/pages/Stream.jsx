@@ -6,8 +6,8 @@ const Stream = ({ category }) => {
       const { id, season, seasonID } = useParams();
       const navigate = useNavigate();
       let url;
-      if (category == "tv") url = `https://web.nxsha.app/embed/tv/${id}/${season}/${seasonID}?lang=hindi&autoplay=true/`;
-      else url = `https://web.nxsha.app/embed/${category}/${id}?lang=hindi&autoplay=true`;
+      if (category == "tv") url = `https://cinemaos.tech/watch/tv/${id}?season=${season}&episode=${seasonID}`;
+      else url = `https://cinemaos.tech/player/${id}`;
       return (
             <section
                   style={{
