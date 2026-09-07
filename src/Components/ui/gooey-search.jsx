@@ -7,9 +7,10 @@ function detectUnsupportedBrowser() {
       if (typeof navigator === "undefined") return false;
 
       const userAgent = navigator.userAgent.toLowerCase();
+      const isFirefox = userAgent.includes("firefox") || userAgent.includes("fxios");
       const isSafari = userAgent.includes("safari") && !userAgent.includes("chrome") && !userAgent.includes("chromium") && !userAgent.includes("android") && !userAgent.includes("firefox");
 
-      return isSafari || userAgent.includes("crios");
+      return isFirefox || isSafari || userAgent.includes("crios");
 }
 
 function useDebounce(value, delay) {
