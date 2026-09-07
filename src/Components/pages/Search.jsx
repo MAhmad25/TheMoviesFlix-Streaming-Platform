@@ -60,10 +60,8 @@ const Search = () => {
 
       return (
             <>
-                  <section className="flex min-h-dvh w-full flex-col items-center overflow-hidden [background-image:var(--bg-gradient)] px-4 pb-28 pt-10 font-primary">
-                        <motion.div initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1, transition: { ease: "backInOut", duration: 0.5 } }} className="w-full max-w-xl">
-                              <GooeySearch onSearch={searchMovies} onSelect={handleSelect} onClear={handleClear} placeholder="e.g. Game of throne" buttonLabel="Search movies, TV shows, people" maxResults={10} />
-                        </motion.div>
+                  <section className="flex min-h-dvh w-full flex-col items-center overflow-hidden [background-image:var(--bg-gradient)] px-4 pt-10 font-primary">
+                        <GooeySearch onSearch={searchMovies} onSelect={handleSelect} onClear={handleClear} placeholder="e.g. Breaking Bad" buttonLabel="Movies, TV shows, people" maxResults={10} />
                         {searchError && <p className="mt-16 text-center text-sm text-primary-foreground/80">{searchError}</p>}
                   </section>
             </>

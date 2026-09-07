@@ -224,7 +224,7 @@ export function GooeySearch({ items = EMPTY_ITEMS, onSearch, placeholder = "Type
                               role={step === 1 ? "button" : undefined}
                               tabIndex={step === 1 ? 0 : undefined}
                               aria-label={step === 1 ? "Open search" : undefined}
-                              className="relative z-10"
+                              className="relative min-w-[45dvw] z-10"
                               style={{
                                     backgroundColor: "var(--gooey-search-surface)",
                                     color: "var(--gooey-search-foreground)",
