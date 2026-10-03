@@ -1,8 +1,8 @@
-import { motion } from "framer-motion";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import GooeySearch from "../../Components/ui/gooey-search";
+import { captureEvent } from "../../analytics/posthog.js";
 
 const getMovieTitle = (movie) => movie.name || movie.original_name || movie.original_title || movie.title || "Untitled";
 
@@ -20,6 +20,8 @@ const Search = () => {
       const requestId = useRef(0);
       const navigate = useNavigate();
 
+      useEffect(() => () => { requestId.current += 1; }, []);
+
       const searchMovies = useCallback(async (searchTerm) => {
             const currentRequest = ++requestId.current;
             try {
@@ -28,6 +30,7 @@ const Search = () => {
                   if (currentRequest === requestId.current) {
                         setMovieData(results);
                         setSearchError("");
+                        captureEvent("search_performed", { query_length: searchTerm.trim().length, result_count: data.total_results ?? results.length, has_results: results.length > 0 });
                   }
                   return results.slice(0, 5).map((movie) => ({
                         id: movie.id,
@@ -39,6 +42,7 @@ const Search = () => {
                   if (currentRequest === requestId.current) {
                         setMovieData([]);
                         setSearchError("We couldn't load results right now. Try again in a moment.");
+                        captureEvent("search_failed", { query_length: searchTerm.trim().length });
                   }
                   return [];
             }
@@ -47,7 +51,10 @@ const Search = () => {
       const handleSelect = useCallback(
             (result) => {
                   const selectedMovie = movieData.find((movie) => movie.id === result.id && movie.media_type === result.mediaType);
-                  if (selectedMovie) navigate(`/${selectedMovie.media_type}/details/${selectedMovie.id}`);
+                  if (selectedMovie) {
+                        captureEvent("search_result_selected", { content_id: String(selectedMovie.id), content_type: selectedMovie.media_type, content_title: getMovieTitle(selectedMovie) });
+                        navigate(`/${selectedMovie.media_type}/details/${selectedMovie.id}`);
+                  }
             },
             [movieData, navigate],
       );

@@ -88,6 +88,10 @@ VITE_API_KEY=your_api_key_here
 
 Add these in Vercel project settings as environment variables for production.
 
+## Analytics
+
+PostHog tracks anonymous visitors, routes, movie/TV detail views, watch and trailer opens, trailer playback, and search usage. See [analytics setup and reporting](docs/analytics.md) for Vercel environment variables, event definitions, and dashboard recipes. Copy `.env.example` for the available configuration options; local development is excluded by default.
+
 ## SEO & Social preview
 
 The project includes an `index.html` file you can extend with meta tags, Open Graph tags, Twitter Card tags, and JSON-LD structured data. This improves link previews and search appearance — **important for discoverability** .
@@ -104,7 +108,7 @@ Contributions are welcome — **thank you** for considering a PR!
 
 ## Tests
 
-There are no automated tests included by default. Consider adding unit tests (Jest + React Testing Library) and simple integration tests for the streaming flows.
+Run `npm run test:analytics` to verify PostHog configuration, route attribution, TV episode parameters, and title matching. Run `npm run build` to validate the production bundle.
 
 ## Roadmap / Next steps
 
