@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../../store/actions/tvAction";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import { Card, Review, DetailLoader, Exclude, StarIcon, CoverFlow } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
-import { SiTrillertv } from "react-icons/si";
 import TVSeasonModal from "./TVSeasonModal";
+import MediaActions from "../../ui/MediaActions";
 const TvDetails = () => {
       const [selectedSeason, setSelectedSeason] = useState(null);
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
+      const firstSeason = info?.detail?.seasons?.find((season) => season.season_number > 0 && season.episode_count > 0) || info?.detail?.seasons?.find((season) => season.episode_count > 0);
       useEffect(() => {
             const title = info?.detail?.name || info?.detail?.original_name || "Hang On ! Getting Details for The Requested TV Series";
             if (title) document.title = title;
@@ -66,7 +67,7 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
-                              {selectedSeason && <TVSeasonModal onClick={() => setSelectedSeason(null)} season={selectedSeason} />}
+                              {selectedSeason && <TVSeasonModal onClick={() => setSelectedSeason(null)} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} />}
                               <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
                                     <div>
                                           <MdClose size="1.5rem" color="black" />
@@ -89,7 +90,7 @@ const TvDetails = () => {
                                                                   </h2>
                                                             ))}
                                                       </div>
-                                                      <div className="w-full mt-3 flex justify-between md:justify-start flex-wrap md:gap-5 items-center">
+                                                      <div className="w-full mt-3">
                                                             <h1 className="text-white text-lg md:text-xl font-medium">
                                                                   <div className="flex items-center justify-center">
                                                                         <StarIcon />
@@ -98,12 +99,7 @@ const TvDetails = () => {
                                                                   </div>
                                                             </h1>
 
-                                                            <div>
-                                                                  <Link to="trailer" className="flex gap-2 items-center justify-center">
-                                                                        <SiTrillertv size="2.4rem" color={"white"} />
-                                                                        <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Play Trailer</p>
-                                                                  </Link>
-                                                            </div>
+                                                            <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
                                                       </div>
                                                 </div>
                                           </div>
@@ -121,7 +117,7 @@ const TvDetails = () => {
                                                       ))}
                                                 </div>
                                                 {/* Mobile Styling */}
-                                                <div className="w-full mt-3 flex justify-between md:justify-start md:gap-5 flex-wrap  items-center">
+                                                <div className="w-full mt-3">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             <div className="flex items-center justify-center">
                                                                   <StarIcon />
@@ -129,10 +125,7 @@ const TvDetails = () => {
                                                                   <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                             </div>
                                                       </h1>
-                                                      <Link to="trailer" className="flex gap-2  items-center justify-center">
-                                                            <SiTrillertv size="2rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
-                                                      </Link>
+                                                      <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
                                                 </div>
                                           </div>
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">

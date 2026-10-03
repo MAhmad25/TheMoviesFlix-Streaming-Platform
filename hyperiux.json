@@ -1,0 +1,20 @@
+{
+  "$schema": "https://vault.hyperiux.com/schema.json",
+  "framework": "react",
+  "router": null,
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/index.css"
+  },
+  "aliases": {
+    "components": "@/Components",
+    "effects": "@/Components/effects",
+    "hooks": "@/hooks",
+    "lib": "@/lib"
+  },
+  "installedEffects": {
+    "shiny-button": {
+      "installedAt": "2026-10-03T11:21:01.491Z"
+    }
+  }
+}

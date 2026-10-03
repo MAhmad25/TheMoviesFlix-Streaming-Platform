@@ -122,57 +122,309 @@ body::-webkit-scrollbar {
             --sidebar-ring: oklch(0.556 0 0);
       }
 }
-
 ::view-transition-old(root) {
-      animation: glitch-out 400ms steps(6, end) both;
+      animation: skew-slide-out 1100ms ease-in-out both;
 }
 
 ::view-transition-new(root) {
-      animation: glitch-in 400ms steps(6, end) both;
+      animation: skew-slide-in 1100ms ease-in-out both;
 }
 
-@keyframes glitch-out {
-      0% {
-            transform: translate(0, 0);
+@keyframes skew-slide-out {
+      from {
+            transform: skewX(0deg) translateX(0);
             opacity: 1;
       }
-      20% {
-            transform: translate(-6px, 2px);
-            opacity: 0.9;
-      }
-      40% {
-            transform: translate(6px, -2px);
-            opacity: 0.7;
-      }
-      60% {
-            transform: translate(-4px, 0);
-            opacity: 0.5;
-      }
-      80% {
-            transform: translate(4px, 2px);
-            opacity: 0.2;
-      }
-      100% {
-            transform: translate(0, 0);
+      to {
+            transform: skewX(-8deg) translateX(-100%);
             opacity: 0;
       }
 }
 
-@keyframes glitch-in {
-      0% {
-            transform: translate(4px, -2px);
+@keyframes skew-slide-in {
+      from {
+            transform: skewX(8deg) translateX(100%);
             opacity: 0;
       }
-      30% {
-            transform: translate(-6px, 2px);
-            opacity: 0.4;
-      }
-      60% {
-            transform: translate(6px, 0);
-            opacity: 0.8;
-      }
-      100% {
-            transform: translate(0, 0);
+      to {
+            transform: skewX(0deg) translateX(0);
             opacity: 1;
+      }
+}
+
+/* Media actions use only the MoviesFlix palette and locally hosted fonts. */
+.media-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+}
+
+.download-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      background: color-mix(in srgb, #300b07 85%, transparent);
+}
+
+.download-modal {
+      --download-border: color-mix(in srgb, var(--txt) 35%, transparent);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 81;
+      display: flex;
+      flex-direction: column;
+      width: min(560px, calc(100% - 32px));
+      max-height: calc(100dvh - 32px);
+      overflow: hidden;
+      border: 1px solid var(--download-border);
+      border-radius: 18px;
+      background: #300b07;
+      color: var(--txt);
+      font-family: Primary, sans-serif;
+      outline: none;
+}
+
+.download-modal--webview {
+      width: min(1100px, calc(100% - 32px));
+      height: min(840px, calc(100dvh - 32px));
+}
+
+.download-modal__header {
+      display: flex;
+      flex-shrink: 0;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid var(--download-border);
+}
+
+.download-modal__title {
+      font-family: Astralga, serif;
+      font-size: clamp(26px, 4vw, 32px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+}
+
+.download-modal__description {
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.4;
+      overflow-wrap: anywhere;
+}
+
+.download-modal__options {
+      padding: 24px;
+      overflow-y: auto;
+}
+
+.download-modal__intro {
+      margin-bottom: 20px;
+      font-size: 15px;
+      line-height: 1.5;
+}
+
+.download-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      width: 100%;
+      min-height: 88px;
+      padding: 18px;
+      border: 1px solid var(--download-border);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--txt) 6%, #300b07);
+      color: var(--txt);
+      text-align: left;
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+            background-color 150ms ease,
+            border-color 150ms ease;
+}
+
+.download-option + .download-option {
+      margin-top: 12px;
+}
+
+.download-option > svg {
+      flex-shrink: 0;
+}
+
+.download-option > span {
+      flex: 1;
+      min-width: 0;
+}
+
+.download-option strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 500;
+      line-height: 1.3;
+}
+
+.download-option span span {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      line-height: 1.4;
+}
+
+.download-option:hover {
+      border-color: var(--txt);
+      background: color-mix(in srgb, var(--txt) 12%, #300b07);
+}
+
+.download-option:focus-visible,
+.download-icon-button:focus-visible,
+.download-text-button:focus-visible {
+      outline: 2px solid var(--txt);
+      outline-offset: 3px;
+}
+
+.download-icon-button,
+.download-text-button {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 44px;
+      border-radius: 8px;
+      color: var(--txt);
+      font-size: 14px;
+      line-height: 1.3;
+      cursor: pointer;
+}
+
+.download-icon-button {
+      width: 44px;
+      border: 1px solid var(--download-border);
+}
+
+.download-text-button {
+      padding: 8px 12px;
+}
+
+.download-icon-button:hover,
+.download-text-button:hover {
+      background: color-mix(in srgb, var(--txt) 12%, #300b07);
+}
+
+.download-modal__footer {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 16px 8px 24px;
+      border-top: 1px solid var(--download-border);
+      font-size: 13px;
+}
+
+.download-webview__toolbar {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+}
+
+.download-webview__frame {
+      position: relative;
+      flex: 1;
+      min-height: 120px;
+      margin: 0 16px;
+      overflow: hidden;
+      border: 1px solid var(--download-border);
+      border-radius: 10px;
+}
+
+.download-webview__frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #300b07;
+}
+
+.download-webview__status {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px;
+      background: #300b07;
+      text-align: center;
+      pointer-events: none;
+}
+
+.download-webview__status a {
+      pointer-events: auto;
+}
+
+.download-webview__help {
+      flex-shrink: 0;
+      padding: 12px 24px;
+      font-size: 13px;
+      line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+      .media-actions {
+            display: grid;
+            grid-template-columns: repeat(var(--media-action-count, 3), minmax(0, 1fr));
+            gap: 8px;
+      }
+
+      .media-actions .shiny-button {
+            width: 100%;
+            min-width: 0;
+            padding-inline: 8px;
+            font-size: 15px;
+      }
+
+      .media-actions .shiny-button > span {
+            gap: 6px;
+      }
+
+      .download-modal__header,
+      .download-modal__options {
+            padding: 20px;
+      }
+
+      .download-modal--webview {
+            width: calc(100% - 16px);
+            height: calc(100dvh - 16px);
+            max-height: calc(100dvh - 16px);
+      }
+
+      .download-webview__toolbar {
+            padding-inline: 4px;
+      }
+
+      .download-webview__frame {
+            margin-inline: 8px;
+      }
+
+      .download-webview__help {
+            padding: 10px 16px;
+      }
+}
+
+@media (max-width: 359px) {
+      .media-actions[data-action-count="3"] {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .media-actions[data-action-count="3"] .shiny-button[aria-label="Watch"] {
+            grid-column: 1 / -1;
       }
 }

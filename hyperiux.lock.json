@@ -1,0 +1,11 @@
+{
+      "components": {
+            "shiny-button": {
+                  "version": "1.0.0",
+                  "installedAt": "2026-10-03T11:21:01.480Z",
+                  "files": {
+                        "src/Components/effects/shiny-button/index.jsx": "sha256:91c066cca31a82ed889b7a1eb57f8bfeeb8dbf660a9171295f29879a4c70bfb1"
+                  }
+            }
+      }
+}

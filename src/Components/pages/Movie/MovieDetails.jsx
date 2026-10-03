@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncMovieLoader, removeMovie } from "../../../store/actions/movieAction";
-import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
-import { MdClose, MdLiveTv } from "react-icons/md";
-import { SiTrillertv } from "react-icons/si";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { MdClose } from "react-icons/md";
+import MediaActions from "../../ui/MediaActions";
 import { Card, Review, Exclude, DetailLoader } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 const MovieDetails = () => {
@@ -93,18 +93,11 @@ const MovieDetails = () => {
                                                                         </h2>
                                                                   ))}
                                                       </div>
-                                                      <div className="w-full  mt-3 flex justify-between md:justify-start md:gap-5 items-center">
+                                                      <div className="w-full mt-3">
                                                             <h1 className="text-white text-lg md:text-xl font-medium">
                                                                   ⭐{info.detail.vote_average.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                             </h1>
-                                                            <Link to="watch" className="flex gap-1 items-center justify-center">
-                                                                  <MdLiveTv size="2.4rem" color={"white"} />
-                                                                  <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
-                                                            </Link>
-                                                            <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                                  <SiTrillertv size="2.4rem" color={"white"} />
-                                                                  <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
-                                                            </Link>
+                                                            <MediaActions mediaId={id} title={info.detail.title || info.detail.original_title} watchTo="watch" />
                                                       </div>
                                                 </div>
                                           </div>
@@ -128,18 +121,11 @@ const MovieDetails = () => {
                                                                   </h2>
                                                             ))}
                                                 </div>
-                                                <div className="w-full  mt-3 flex flex-wrap  justify-between md:justify-start md:gap-5 items-center">
+                                                <div className="w-full mt-3">
                                                       <h1 className="text-white text-lg md:text-xl font-medium">
                                                             ⭐{info?.detail?.vote_average?.toFixed(0)}/10 <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
                                                       </h1>
-                                                      <Link to="watch" className="flex gap-1  items-center justify-center">
-                                                            <MdLiveTv size="2.4rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white tracking-tight leading-none font-primary">Watch Full Movie</p>
-                                                      </Link>
-                                                      <Link to="trailer" className="flex gap-1  items-center justify-center">
-                                                            <SiTrillertv size="2.4rem" color={"white"} />
-                                                            <p className="text-lg md:text-2xl text-white  tracking-tight leading-none font-primary">Play Trailer</p>
-                                                      </Link>
+                                                      <MediaActions mediaId={id} title={info.detail.title || info.detail.original_title} watchTo="watch" />
                                                 </div>
                                           </div>
                                           <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">

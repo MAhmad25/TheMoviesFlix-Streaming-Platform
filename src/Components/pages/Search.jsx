@@ -20,7 +20,12 @@ const Search = () => {
       const requestId = useRef(0);
       const navigate = useNavigate();
 
-      useEffect(() => () => { requestId.current += 1; }, []);
+      useEffect(
+            () => () => {
+                  requestId.current += 1;
+            },
+            [],
+      );
 
       const searchMovies = useCallback(async (searchTerm) => {
             const currentRequest = ++requestId.current;

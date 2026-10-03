@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
-import { StarIcon, WatchIcon } from "../../ui/index";
-import { Link } from "react-router-dom";
+import { StarIcon } from "../../ui/index";
+import MediaActions from "../../ui/MediaActions";
 import { motion } from "motion/react";
 
 const DropArea = styled(motion.div)`
@@ -34,7 +34,7 @@ const PreviewBox = styled.div`
       scrollbar-color: #fefefe transparent;
 `;
 
-const TVSeasonModal = ({ season, onClick }) => {
+const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
       const totalEpisodes = season?.episode_count || 1;
 
@@ -71,8 +71,8 @@ const TVSeasonModal = ({ season, onClick }) => {
                                                 <h2 className="w-fit text-3xl border-b-2 border-dashed">{season?.name}</h2>
 
                                                 <div className="flex items-center gap-1">
-                                                      <span title="episode" className="flex items-center w-fit p-2 rounded-md cursor-pointer bg-lime-950 hover:bg-lime-900">
-                                                            <span className="pr-1 text-sm font-bold text-lime-400">Total Episodes: {season?.episode_count || 0}</span>
+                                                      <span title="episode" className="flex items-center w-fit p-2 rounded-md bg-[#ff7949]/10">
+                                                            <span className="pr-1 text-sm font-bold text-[var(--txt)]">Total Episodes: {season?.episode_count || 0}</span>
                                                       </span>
 
                                                       <p className="flex items-center gap-1 w-fit">
@@ -91,12 +91,7 @@ const TVSeasonModal = ({ season, onClick }) => {
                                                       </div>
                                                 </div>
 
-                                                <div className="flex items-center justify-center w-full mt-2">
-                                                      <Link className="flex items-center justify-center gap-1 px-3 py-1 font-medium uppercase rounded bg-[#1a2e05] text-lime-400 w-fit" to={`watch/${season.season_number}/${currentEpisode}`}>
-                                                            <WatchIcon />
-                                                            Watch
-                                                      </Link>
-                                                </div>
+                                                <MediaActions mediaId={mediaId} mediaType="tv" title={title} watchTo={`watch/${season.season_number}/${currentEpisode}`} showTrailer={false} season={season.season_number} episode={currentEpisode} />
                                           </div>
                                     </div>
                               </PreviewBox>
@@ -110,9 +105,9 @@ export default TVSeasonModal;
 
 const SwitchControl = ({ label, value, checked, disabled = false, icon, onClick }) => {
       return (
-            <label className={`flex h-fit ${disabled ? "cursor-not-allowed pointer-events-none" : ""}`} onClick={() => !disabled && onClick(value)}>
-                  <span className={`flex items-center justify-center w-fit px-4 cursor-pointer font-medium  duration-75 rounded-md ${checked ? "bg-[#1a2e05]  text-lime-400" : "text-lime-400 hover:bg-[#1a2e05]/10"} ${disabled ? "text-slate-400" : ""}`}>{icon ? <span>{icon}</span> : label}</span>
-            </label>
+            <button type="button" disabled={disabled} aria-pressed={checked} className={`flex min-h-11 min-w-11 items-center justify-center px-3 font-primary rounded-md border border-[#ff7949]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--txt)] ${checked ? "bg-[var(--txt)] text-[#300b07]" : "text-[var(--txt)] hover:bg-[#ff7949]/10"} disabled:opacity-50 disabled:cursor-not-allowed`} onClick={() => onClick(value)}>
+                  {icon || label}
+            </button>
       );
 };
 
