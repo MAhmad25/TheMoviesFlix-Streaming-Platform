@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../../store/actions/tvAction";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
-import { Card, Review, DetailLoader, Exclude, StarIcon, CoverFlow } from "../../ui/index";
+import { Card, Review, DetailLoader, Exclude, CoverFlow } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import TVSeasonModal from "./TVSeasonModal";
 import MediaActions from "../../ui/MediaActions";
+import DetailHero from "../../ui/DetailHero";
 const TvDetails = () => {
       const [selectedSeason, setSelectedSeason] = useState(null);
+      const closeSeason = useCallback(() => setSelectedSeason(null), []);
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
@@ -53,12 +55,14 @@ const TvDetails = () => {
                   rafRef.current = requestAnimationFrame(updateScrollState);
             };
             el.addEventListener("scroll", onScroll, { passive: true });
+            window.addEventListener("resize", onScroll);
             updateScrollState();
             return () => {
                   el.removeEventListener("scroll", onScroll);
+                  window.removeEventListener("resize", onScroll);
                   if (rafRef.current) cancelAnimationFrame(rafRef.current);
             };
-      }, [updateScrollState]);
+      }, [updateScrollState, info?.reviews, showAllReviews]);
       useEffect(() => {
             dispatch(asyncTvLoader(id));
             return () => dispatch(removeTv());
@@ -67,73 +71,21 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
-                              {selectedSeason && <TVSeasonModal onClick={() => setSelectedSeason(null)} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} />}
-                              <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-125 rounded-full p-2 top-5 right-5">
-                                    <div>
-                                          <MdClose size="1.5rem" color="black" />
-                                    </div>
-                              </span>
+                              {selectedSeason && <TVSeasonModal onClick={closeSeason} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} />}
+                              <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close">
+                                    <MdClose size="1.5rem" color="black" />
+                              </button>
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
-                                    <div className="w-[98%] left-1/2 -translate-x-1/2 relative max-h-screen overflow-hidden rounded-b-3xl shadow-[0px_4px_16px_rgba(255, 255, 255, 0.1),_0px_8px_24px_rgba(255, 255, 255, 0.1),_0px_16px_56px_rgba(236, 236, 236, 0.1)]">
-                                          <img loading="lazy" decoding="async" className="w-full md:h-full h-[70dvh] object-cover" src={info?.detail?.backdrop_path ? `https://image.tmdb.org/t/p/original${info?.detail?.backdrop_path}` : `/noImage.jpg`} alt="" />
-                                          <div className="md:absolute hidden md:flex w-full md:left-0  md:px-5 md:py-5  items-end inset-0 [background-image:var(--bg-opac)] md:bottom-0">
-                                                <div className="w-full h-[45%]">
-                                                      <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl text-3xl text-white font-astralga font-medium">{info?.detail?.name || info?.detail?.original_name}</h1>
-                                                      <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info?.detail?.tagline || info?.detail?.status}</h3>
-
-                                                      <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                            <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info?.detail?.number_of_seasons}</h2>
-
-                                                            {info?.detail?.genres?.map((genre) => (
-                                                                  <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                                        {genre?.name}
-                                                                  </h2>
-                                                            ))}
-                                                      </div>
-                                                      <div className="w-full mt-3">
-                                                            <h1 className="text-white text-lg md:text-xl font-medium">
-                                                                  <div className="flex items-center justify-center">
-                                                                        <StarIcon />
-                                                                        {info.detail.vote_average.toFixed(0)}/10
-                                                                        <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                                  </div>
-                                                            </h1>
-
-                                                            <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <section className={`px-5 overflow-x-hidden ${info.recommendedTv.length === 0 ? "pb-12" : ""} text-white mt-3 w-full font-primary`}>
-                                          <div className="md:absolute md:hidden md:bg-gradient-to-t md:from-zinc-700/40  md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5">
-                                                <h1 className="tracking-tight leading-none md:text-4xl lg:text-5xl  text-3xl  font-astralga  font-medium">{info.detail.name || info.detail.original_name}</h1>
-                                                <h3 className="text-white/70 md:text-white mt-2 text-lg md:text-lg tracking-tight leading-none">{info.detail.tagline || info.detail.status}</h3>
-                                                <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                                      <h2 className="px-3 py-1 shrink-0 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">Total Seasons: {info.detail.number_of_seasons}</h2>
-                                                      {info.detail.genres.map((genre) => (
-                                                            <h2 key={genre.id} className="px-3 shrink-0 tracking-tighter leading-none py-1 bg-white/10 text-sm md:text-lg text-zinc-300 md:text-white rounded-full overflow-hidden flex justify-center items-center backdrop-blur-sm">
-                                                                  {genre.name}
-                                                            </h2>
-                                                      ))}
-                                                </div>
-                                                {/* Mobile Styling */}
-                                                <div className="w-full mt-3">
-                                                      <h1 className="text-white text-lg md:text-xl font-medium">
-                                                            <div className="flex items-center justify-center">
-                                                                  <StarIcon />
-                                                                  {info.detail.vote_average.toFixed(0)}/10
-                                                                  <span className="text-zinc-300 md:text-white md:text-sm font-normal text-xs">{info.detail.vote_count} votes</span>
-                                                            </div>
-                                                      </h1>
-                                                      <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
-                                                </div>
-                                          </div>
-                                          <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center font-primary mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
-                                                <div className="flex w-full gap-2 justify-center items-center">
-                                                      <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl md:mb-3  font-astralga font-semibold">Storyline</h1>
+                                    <DetailHero detail={info.detail} mediaType="tv">
+                                          <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
+                                    </DetailHero>
+                                    <section className="px-5 pb-28 text-white mt-3 w-full font-primary">
+                                          <div className="detail-storyline">
+                                                <div className="detail-storyline__heading">
+                                                      <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-astralga font-semibold">Storyline</h1>
                                                       <span className="px-3 md:text-lg text-xs py-1 font-astralga font-semibold bg-[var(--txt)] text-[#300b07] rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
                                                 </div>
-                                                <p className="tracking-tight min-[961px]:text-2xl min-[961px]:w-1/2 md:text-xl text-[#fefefe] leading-5 font-primary">{info?.detail?.overview || "No Storyline available"}</p>
+                                                <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
@@ -146,7 +98,7 @@ const TvDetails = () => {
                                           {info.castBy.cast.length != 0 && (
                                                 <div className="w-full mt-10">
                                                       <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h1>
-                                                      <div className={`flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  [&::-webkit-scrollbar]:hidden  gap-1 h-40  md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center  items-center`}>
+                                                      <div className="detail-people">
                                                             {info.castBy.cast.slice(0, 12).map((eachActor, index) => (
                                                                   <Exclude key={index} eachActor={eachActor} />
                                                             ))}
@@ -156,25 +108,20 @@ const TvDetails = () => {
                                           {info.castBy.crew.length != 0 && (
                                                 <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
                                                       <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Crew</h1>
-                                                      <div className="flex mt-2 overflow-x-scroll md:flex-wrap w-full cursor-pointer rounded-3xl  [&::-webkit-scrollbar]:hidden  gap-1 h-48 md:min-h-fit min-[961px]:flex min-[961px]:justify-center min-[961px]:items-center items-center">{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                      <div className="detail-people">{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
                                           {info.reviews.length !== 0 && (
                                                 <div className="mt-2 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
-                                                      <div className="w-full flex justify-between">
-                                                            <h1 className="text-white text-2xl  md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Reviews</h1>
-                                                            <h1 className="text-white text-xl  md:text-2xl min-[961px]:text-4xl font-bold font-primary leading-none">
-                                                                  <span>{info.reviews.length}</span> comments
-                                                            </h1>
+                                                      <div className="detail-reviews__header">
+                                                            <h1 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h1>
+                                                            <div className="detail-reviews__tools">
+                                                                  <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
+                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow"><CiCircleChevLeft size="2rem" /></button>
+                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow"><CiCircleChevRight size="2rem" /></button>
+                                                            </div>
                                                       </div>
-                                                      <div ref={containerRef} className="flex  mt-2 overflow-x-scroll  w-full cursor-pointer  [&::-webkit-scrollbar]:hidden  gap-1 h-48 md:min-h-fit min-[961px]:flex   items-center">
-                                                            {/* These are movie List controller  */}
-                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-sm rounded-full right-[25%] top-0`}>
-                                                                  <CiCircleChevLeft size="2rem" color="#e5e9de" />
-                                                            </div>
-                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-10" : "cursor-auto opacity-100"}  bg-white/30 p-2 backdrop-blur-sm rounded-full right-[20%] top-0`}>
-                                                                  <CiCircleChevRight size="2rem" color="#e5e9de" />
-                                                            </div>
+                                                      <div ref={containerRef} className="detail-reviews__rail">
                                                             {info.reviews && (showAllReviews ? info.reviews : info.reviews.slice(0, 8)).map((eachReview) => <Review review={eachReview} key={eachReview.id} />)}
                                                       </div>
                                                       {info.reviews.length > 8 && (

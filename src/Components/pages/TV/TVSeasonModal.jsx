@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { MdClose } from "react-icons/md";
 import { StarIcon } from "../../ui/index";
 import MediaActions from "../../ui/MediaActions";
 import { motion } from "motion/react";
@@ -15,8 +16,6 @@ const DropArea = styled(motion.div)`
 const PreviewBox = styled.div`
       border-radius: inherit;
       font-size: 11px;
-      overflow-y: auto;
-
       &::-webkit-scrollbar {
             width: 8px;
       }
@@ -36,7 +35,37 @@ const PreviewBox = styled.div`
 
 const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
+      const dialogRef = useRef(null);
       const totalEpisodes = season?.episode_count || 1;
+      useEffect(() => {
+            const dialog = dialogRef.current;
+            const trigger = document.activeElement;
+            dialog?.focus({ preventScroll: true });
+            const handleKeyDown = (event) => {
+                  if (event.defaultPrevented || event.target.closest('[role="dialog"]') !== dialog) return;
+                  if (event.key === "Escape") {
+                        event.preventDefault();
+                        onClick();
+                  }
+                  if (event.key === "Tab") {
+                        const controls = Array.from(dialog.querySelectorAll('button:not(:disabled), a[href]'));
+                        const first = controls[0];
+                        const last = controls[controls.length - 1];
+                        if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+                              event.preventDefault();
+                              last?.focus();
+                        } else if (!event.shiftKey && document.activeElement === last) {
+                              event.preventDefault();
+                              first?.focus();
+                        }
+                  }
+            };
+            document.addEventListener("keydown", handleKeyDown);
+            return () => {
+                  document.removeEventListener("keydown", handleKeyDown);
+                  if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+            };
+      }, [onClick]);
 
       return (
             <div
@@ -60,17 +89,24 @@ const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
                               duration: 0.8,
                               ease: [0, 0.71, 0.2, 1.01],
                         }}
-                        className="max-w-[90%] lg:min-w-[30rem] lg:min-h-96"
+                        role="dialog"
+                        ref={dialogRef}
+                        tabIndex={-1}
+                        data-lenis-prevent
+                        aria-modal="true"
+                        aria-label={season?.name || "Select episode"}
+                        className="w-[calc(100%-32px)] max-w-5xl max-h-[calc(100dvh-32px)]"
                   >
+                        <button type="button" aria-label="Close season" onClick={onClick} className="relative ml-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--txt)]"><MdClose size="1.5rem" /></button>
                         <div className="[background-image:var(--bg-gradient)]">
-                              <PreviewBox className="relative flex flex-col w-full  h-[80dvh] lg:flex-row">
-                                    <img className="w-full h-full object-contain lg:w-1/3" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season.poster_path}` : "/noImage.jpg"} alt={season?.name} />
+                              <PreviewBox className="relative flex flex-col w-full min-w-0 lg:flex-row lg:items-start">
+                                    <img className="w-full max-h-[45dvh] object-contain shrink-0 lg:w-1/3" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season.poster_path}` : "/noImage.jpg"} alt={season?.name} />
 
-                                    <div className="w-full lg:w-3/4">
-                                          <div className="w-full h-full p-5 space-y-4 text-lg text-[#fefefe]">
-                                                <h2 className="w-fit text-3xl border-b-2 border-dashed">{season?.name}</h2>
+                                    <div className="w-full min-w-0 lg:flex-1">
+                                          <div className="w-full p-3 sm:p-5 space-y-4 text-lg text-[#fefefe] break-words">
+                                                <h2 className="w-fit max-w-full text-3xl border-b-2 border-dashed">{season?.name}</h2>
 
-                                                <div className="flex items-center gap-1">
+                                                <div className="flex flex-wrap items-center gap-2">
                                                       <span title="episode" className="flex items-center w-fit p-2 rounded-md bg-[#ff7949]/10">
                                                             <span className="pr-1 text-sm font-bold text-[var(--txt)]">Total Episodes: {season?.episode_count || 0}</span>
                                                       </span>
@@ -113,7 +149,7 @@ const SwitchControl = ({ label, value, checked, disabled = false, icon, onClick 
 
 export const Switch = ({ children, value, onChange, size = "medium", style }) => {
       const getContainerClasses = () => {
-            let classes = "grid [&::-webkit-scrollbar]:hidden  gap-x-5 grid-cols-5  sm:grid-cols-10  p-2 h-fit";
+            let classes = "grid gap-2 grid-cols-[repeat(auto-fit,minmax(44px,1fr))] h-fit";
             return classes;
       };
 
@@ -134,7 +170,7 @@ Switch.Control = SwitchControl;
 // Episode Selector Component
 const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => {
       return (
-            <div className="w-full grid grid-cols-1 overflow-y-scroll [&::-webkit-scrollbar]:hidden">
+            <div className="w-full min-w-0">
                   <Switch value={currentEpisode} onChange={setEpisode} size="medium">
                         {Array.from({ length: totalEpisodes }, (_, index) => {
                               const episodeNumber = index + 1;

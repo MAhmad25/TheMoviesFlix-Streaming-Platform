@@ -5,7 +5,7 @@ const App = () => {
       return (
             <section className="bg-[#300b07]">
                   <ReactLenis root />
-                  <RouterHandler />;
+                  <RouterHandler />
             </section>
       );
 };

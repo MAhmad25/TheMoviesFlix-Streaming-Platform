@@ -48,7 +48,7 @@ const PeopleDetails = () => {
       return (
             <>
                   {info ? (
-                        <section style={{ background: "radial-gradient(125% 125% at 50% 90%, #000000 20%,#300b07 50%)" }} className="min-w-screen px-3 relative md:flex md:gap-2 min-h-[100dvh] py-10 pb-16 text-white">
+                        <section style={{ background: "radial-gradient(125% 125% at 50% 90%, #000000 20%,#300b07 50%)" }} className="w-full px-3 relative md:flex md:gap-6 min-h-dvh py-10 pb-28 text-white">
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
@@ -96,7 +96,7 @@ const PeopleDetails = () => {
                               </div>
                               {/*Bottom Div  Biography and Card  */}
 
-                              <div className="w-full md:w-[60%] md:shrink-0 font-primary mt-5">
+                              <div className="min-w-0 w-full md:flex-1 font-primary mt-5">
                                     {info.personDetail.biography && (
                                           <>
                                                 <h1 className="text-2xl flex gap-2 items-center  text-format">
@@ -105,7 +105,7 @@ const PeopleDetails = () => {
                                                       </span>
                                                       Biography:
                                                 </h1>
-                                                <p className="mt-4  md:text-lg md:px-2 leading-none ">{info.personDetail.biography}</p>
+                                                <p className="mt-4 md:text-lg md:px-2 leading-relaxed break-words">{info.personDetail.biography}</p>
                                           </>
                                     )}
                                     <div className="w-full relative px-2  mt-5">
@@ -116,10 +116,10 @@ const PeopleDetails = () => {
                                                 {/* These are movie List controller  */}
                                                 {info?.castedMovies?.cast.length > 0 ? (
                                                       <>
-                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md left-0 top-[9%]`}>
+                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm px-1 rounded-md left-0 top-6 bottom-0 flex items-center`}>
                                                                   <FaChevronLeft size="2rem" color="#e5e9de" />
                                                             </div>
-                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm py-48 px-1  rounded-md right-0 top-[9%]`}>
+                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm px-1 rounded-md right-0 top-6 bottom-0 flex items-center`}>
                                                                   <FaChevronRight size="2rem" color="#e5e9de" />
                                                             </div>
                                                             {info?.castedMovies.cast

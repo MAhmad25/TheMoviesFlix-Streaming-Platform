@@ -123,32 +123,298 @@ body::-webkit-scrollbar {
       }
 }
 ::view-transition-old(root) {
-      animation: skew-slide-out 1100ms ease-in-out both;
+      animation: blur-out 600ms ease-in-out both;
 }
 
 ::view-transition-new(root) {
-      animation: skew-slide-in 1100ms ease-in-out both;
+      animation: blur-in 600ms ease-in-out both;
 }
 
-@keyframes skew-slide-out {
+@keyframes blur-out {
       from {
-            transform: skewX(0deg) translateX(0);
+            filter: blur(0px);
             opacity: 1;
+            transform: scale(1);
       }
       to {
-            transform: skewX(-8deg) translateX(-100%);
+            filter: blur(12px);
             opacity: 0;
+            transform: scale(1.02);
       }
 }
 
-@keyframes skew-slide-in {
+@keyframes blur-in {
       from {
-            transform: skewX(8deg) translateX(100%);
+            filter: blur(12px);
             opacity: 0;
+            transform: scale(0.98);
       }
       to {
-            transform: skewX(0deg) translateX(0);
+            filter: blur(0px);
             opacity: 1;
+            transform: scale(1);
+      }
+}
+.media-grid > .media-card {
+      width: 100%;
+}
+
+.home-hero-slide {
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      min-height: clamp(440px, 60dvh, 640px);
+      height: 100%;
+      overflow: hidden;
+}
+
+.home-hero-content {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding-block: 100px 24px;
+}
+
+@media (min-width: 1024px) {
+      .home-hero-slide {
+            min-height: 90dvh;
+      }
+}
+
+@media (max-width: 380px) {
+      .bottom-navigation .bottom-navigation__label {
+            display: none;
+      }
+
+      .bottom-navigation > button {
+            width: 44px;
+            padding-inline: 10px;
+            gap: 0;
+      }
+}
+
+.detail-hero {
+      position: relative;
+      width: 98%;
+      margin-inline: auto;
+      overflow: hidden;
+      border-radius: 0 0 24px 24px;
+      color: #fefefe;
+      font-family: Primary, sans-serif;
+}
+
+.detail-hero__image {
+      width: 100%;
+      height: clamp(240px, 45dvh, 420px);
+      object-fit: cover;
+}
+
+.detail-hero__content {
+      position: relative;
+      min-width: 0;
+      padding: 20px;
+}
+
+.detail-hero__title {
+      max-width: 24ch;
+      font-family: Astralga, serif;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+}
+
+.detail-hero__tagline {
+      margin-top: 8px;
+      font-size: 18px;
+      line-height: 1.4;
+      color: rgb(255 255 255 / 80%);
+      overflow-wrap: anywhere;
+}
+
+.detail-hero__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+}
+
+.detail-hero__tags > span {
+      max-width: 100%;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgb(255 255 255 / 10%);
+      font-size: 14px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+      backdrop-filter: blur(4px);
+}
+
+.detail-hero__rating {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 4px 12px;
+      margin-top: 16px;
+      font-variant-numeric: tabular-nums;
+}
+
+.detail-hero__score {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 20px;
+      line-height: 1.4;
+      white-space: nowrap;
+}
+
+.detail-hero__votes {
+      font-size: 14px;
+      color: rgb(255 255 255 / 80%);
+}
+
+.detail-close {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgb(255 255 255 / 30%);
+      backdrop-filter: blur(8px);
+}
+
+.detail-close:focus-visible,
+.detail-reviews__arrow:focus-visible {
+      outline: 2px solid var(--txt);
+      outline-offset: 3px;
+}
+
+.detail-storyline {
+      padding-block: 24px;
+      border-top: 0.5px solid rgb(212 212 216 / 70%);
+      font-family: Primary, sans-serif;
+}
+
+.detail-storyline__heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+}
+
+.detail-storyline__overview {
+      max-width: 52rem;
+      margin-inline: auto;
+      font-size: 16px;
+      line-height: 1.6;
+      color: #fefefe;
+      overflow-wrap: anywhere;
+}
+
+.detail-people {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-top: 16px;
+      padding-bottom: 16px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgb(255 255 255 / 25%) transparent;
+}
+
+.detail-reviews__header,
+.detail-reviews__tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+}
+
+.detail-reviews__header {
+      justify-content: space-between;
+}
+
+.detail-reviews__arrow {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgb(255 255 255 / 15%);
+      color: #fefefe;
+}
+
+.detail-reviews__arrow:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+}
+
+.detail-reviews__rail {
+      display: flex;
+      gap: 12px;
+      height: 260px;
+      margin-top: 16px;
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgb(255 255 255 / 25%) transparent;
+}
+
+@media (min-width: 768px) {
+      .detail-hero {
+            display: flex;
+            align-items: flex-end;
+            min-height: clamp(440px, 68dvh, 720px);
+      }
+
+      .detail-hero__image {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+      }
+
+      .detail-hero__content {
+            width: 100%;
+            padding: 100px clamp(20px, 3vw, 48px) 32px;
+            background-image: var(--bg-opac);
+      }
+
+      .detail-hero__title {
+            font-size: clamp(36px, 4vw, 48px);
+      }
+
+      .detail-hero__tags > span {
+            font-size: 18px;
+      }
+
+      .detail-storyline {
+            border-top: none;
+      }
+
+      .detail-storyline__heading,
+      .detail-people {
+            justify-content: center;
+      }
+
+      .detail-storyline__overview {
+            font-size: 20px;
+      }
+
+      .detail-people {
+            flex-wrap: wrap;
+            overflow: visible;
+            gap: 24px 16px;
+      }
+
+      .detail-reviews__rail {
+            height: 320px;
       }
 }
 

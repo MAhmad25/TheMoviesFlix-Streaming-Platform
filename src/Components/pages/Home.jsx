@@ -10,7 +10,7 @@ const Home = () => {
       const Animated = useRef("/search/multi?query=animated");
       const NowPlayingTVSeries = useRef("discover/tv?include_adult=true&include_video=true&language=en-US&page=1&sort_by=popularity.desc");
       return (
-            <div className="w-full [background-image:var(--bg-gradient)] relative space-y-5 overflow-hidden font-primary min-h-full sm:pb-10 md:pb-0 sm:mb-0">
+            <div className="w-full [background-image:var(--bg-gradient)] relative space-y-5 overflow-hidden font-primary min-h-dvh pb-28">
                   <Header />
                   <div className="min-h-40">
                         <Suspense fallback={<CastLoader />}>

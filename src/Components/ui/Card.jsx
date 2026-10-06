@@ -21,7 +21,7 @@ const Card = ({ eachMovie, type = "all" }) => {
                   onMouseDown={() => (isDragging.current = false)}
                   onMouseMove={() => (isDragging.current = true)}
                   onMouseUp={() => setTimeout(() => (isDragging.current = false), 100)}
-                  className="w-44 sm:w-56 h-full md:w-full shrink-0 rounded-xl overflow-hidden"
+                  className="media-card w-44 sm:w-56 min-w-0 h-full md:w-full shrink-0 rounded-xl overflow-hidden"
                   style={{
                         backgroundColor: "#0f0000",
                         transition: "background-color 0.6s ease",
@@ -40,7 +40,7 @@ const Card = ({ eachMovie, type = "all" }) => {
 
                   <div className="px-3 pb-3 pt-1.5 flex flex-col gap-1.5">
                         {eachMovie.vote_average !== 0 && (
-                              <div className="flex items-center justify-between gap-2">
+                              <div className="flex flex-wrap items-center justify-between gap-2">
                                     {eachMovie.vote_average > 0 && (
                                           <span className="text-xs font-medium tracking-tight leading-none" style={{ color: "#fefefe", transition: "color 0.5s ease" }}>
                                                 ⭐ {eachMovie.vote_average.toFixed(1)}
@@ -50,7 +50,7 @@ const Card = ({ eachMovie, type = "all" }) => {
                               </div>
                         )}
 
-                        <h3 className="w-full text-wrap leading-none text-sm sm:text-[1.2rem] tracking-tight" style={{ color: "#fafafa", transition: "color 0.5s ease" }}>
+                        <h3 className="w-full break-words leading-snug text-sm sm:text-[1.2rem] tracking-tight" style={{ color: "#fafafa", transition: "color 0.5s ease" }}>
                               {eachMovie.name || eachMovie.title || eachMovie.original_title}
                               {/* {eachMovie?.release_date && (
                                     <span

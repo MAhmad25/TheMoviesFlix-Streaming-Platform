@@ -44,7 +44,7 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
             bind();
       }, []);
       return (
-            <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} role="navigation" aria-label="Bottom Navigation" className={`border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-[320px] max-w-[95vw] h-[58px] ${stickyBottom && "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit"} ${className}`}>
+            <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} role="navigation" aria-label="Bottom Navigation" className={`bottom-navigation border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-0 max-w-[calc(100vw-24px)] h-[58px] ${stickyBottom && "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit"} ${className}`}>
                   {navItems.map((item, idx) => {
                         const Icon = item.icon;
                         const isActive = activeIndex === idx;
@@ -79,7 +79,7 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                                                 opacity: { duration: 0.19 },
                                                 marginLeft: { duration: 0.19 },
                                           }}
-                                          className="overflow-hidden flex items-center max-w-[72px]"
+                                          className="bottom-navigation__label overflow-hidden flex items-center max-w-[72px]"
                                     >
                                           <span className={`font-medium text-xs whitespace-nowrap select-none transition-opacity duration-200 overflow-hidden text-ellipsis text-[clamp(0.625rem,0.5263rem+0.5263vw,1rem)] leading-[1.9] ${isActive ? "text-[#fefefe]" : "opacity-0"} title=${item.label}`}>{item.label}</span>
                                     </motion.div>

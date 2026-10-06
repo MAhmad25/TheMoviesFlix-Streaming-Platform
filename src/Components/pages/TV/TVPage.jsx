@@ -34,8 +34,8 @@ const TVPage = () => {
       return (
             <>
                   {trendingTV.length ? (
-                        <div className="overflow-x-hidden w-full h-full [background-image:var(--bg-gradient)]">
-                              <span className="flex px-5 py-5 gap-4 items-center">
+                        <div className="overflow-x-hidden w-full min-h-dvh pb-28 [background-image:var(--bg-gradient)]">
+                              <span className="flex flex-wrap px-5 py-5 gap-4 items-center">
                                     <h1 className="text-2xl tracking-tighter leading-none text-white">Trending TV Shows</h1>
                                     <AnimatedDropdown
                                           items={[
@@ -48,7 +48,7 @@ const TVPage = () => {
                                     />
                               </span>
                               <InfiniteScroll hasMore={true} next={getTrendingTV} loader={<CastLoader />} dataLength={trendingTV.length}>
-                                    <div className=" px-2 gap-x-6 overflow-x-hidden gap-y-4 grid sm:grid-cols-3 grid-cols-2 ">{trendingTV && trendingTV.map((eachTV, index) => <Card type="tv" key={index} eachMovie={eachTV} />)}</div>
+                                    <div className="media-grid px-3 w-full gap-3 md:gap-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">{trendingTV && trendingTV.map((eachTV, index) => <Card type="tv" key={index} eachMovie={eachTV} />)}</div>
                               </InfiniteScroll>
                         </div>
                   ) : (

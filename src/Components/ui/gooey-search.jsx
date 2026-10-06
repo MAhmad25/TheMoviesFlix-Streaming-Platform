@@ -26,7 +26,7 @@ function useDebounce(value, delay) {
 
 const buttonMotionVariants = {
       step1: { x: 0, width: "clamp(220px, 55vw, 300px)" },
-      step2: { x: -22, width: "clamp(270px, 78vw, 360px)" },
+      step2: { x: -22, width: "min(clamp(270px, 78vw, 360px), calc(100vw - 98px))" },
 };
 
 const iconMotionVariants = {
@@ -143,7 +143,7 @@ export function GooeySearch({ items = EMPTY_ITEMS, onSearch, placeholder = "Type
       const resultPadding = isUnsupported ? "7px 10px" : "8px 14px";
 
       return (
-            <div className={cn("relative inline-flex w-full items-center justify-center", className)}>
+            <div className={cn("relative inline-flex w-full items-center justify-center", className)} style={{ paddingBottom: results.length * 62 }}>
                   <style>{`
                         .gooey-search-loading {
                               animation: gooeySearchSpin 0.5s linear infinite;
@@ -225,7 +225,7 @@ export function GooeySearch({ items = EMPTY_ITEMS, onSearch, placeholder = "Type
                               role={step === 1 ? "button" : undefined}
                               tabIndex={step === 1 ? 0 : undefined}
                               aria-label={step === 1 ? "Open search" : undefined}
-                              className="relative min-w-[45dvw] z-10"
+                              className="relative min-w-0 md:min-w-[45dvw] z-10"
                               style={{
                                     backgroundColor: "var(--gooey-search-surface)",
                                     color: "var(--gooey-search-foreground)",

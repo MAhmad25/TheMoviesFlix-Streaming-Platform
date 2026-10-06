@@ -56,7 +56,7 @@ export default function AnimatedDropdown({ items, text = "tv", className, onSele
 
                         <AnimatePresence>
                               {isOpen && (
-                                    <motion.div role="listbox" initial={{ opacity: 0, y: -10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.95 }} transition={{ duration: 0.2, ease: "easeOut" }} className="absolute top-[calc(100%+0.5rem)]  z-50 w-fit min-w-full -translate-x-1/2 overflow-hidden rounded-md bg-slate-100 dark:bg-zinc-900 border-2 border-[#fefefe] dark:border-[#fefefe] shadow-lg">
+                                    <motion.div role="listbox" initial={{ opacity: 0, y: -10, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.95 }} transition={{ duration: 0.2, ease: "easeOut" }} className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-fit min-w-full overflow-hidden rounded-md bg-[#300b07] border border-[#ff7949]/30 shadow-lg">
                                           <motion.div
                                                 initial="hidden"
                                                 animate="visible"
@@ -72,7 +72,7 @@ export default function AnimatedDropdown({ items, text = "tv", className, onSele
                                                                   hidden: { opacity: 0, x: -20 },
                                                                   visible: { opacity: 1, x: 0 },
                                                             }}
-                                                            className="inline-block w-full px-3 py-2 text-sm text-left border-b-2 border-[#fefefe] last:border-b-0 dark:border-[#fefefe] bg-slate-50 hover:bg-zinc-900 dark:bg-[#300b07] dark:hover:bg-zinc-800 transition-colors duration-150 text-[#fefefe]"
+                                                            className="inline-block w-full px-3 py-2 text-sm text-left border-b border-white/10 last:border-b-0 hover:bg-white/10 transition-colors duration-150 text-[#fefefe]"
                                                       >
                                                             {item.name}
                                                       </motion.button>
