@@ -122,39 +122,6 @@ body::-webkit-scrollbar {
             --sidebar-ring: oklch(0.556 0 0);
       }
 }
-::view-transition-old(root) {
-      animation: blur-out 400ms ease-in-out both;
-}
-
-::view-transition-new(root) {
-      animation: blur-in 400ms ease-in-out both;
-}
-
-@keyframes blur-out {
-      from {
-            filter: blur(0px);
-            opacity: 1;
-            transform: scale(1);
-      }
-      to {
-            filter: blur(12px);
-            opacity: 0;
-            transform: scale(1.02);
-      }
-}
-
-@keyframes blur-in {
-      from {
-            filter: blur(12px);
-            opacity: 0;
-            transform: scale(0.98);
-      }
-      to {
-            filter: blur(0px);
-            opacity: 1;
-            transform: scale(1);
-      }
-}
 .media-grid > .media-card {
       width: 100%;
 }

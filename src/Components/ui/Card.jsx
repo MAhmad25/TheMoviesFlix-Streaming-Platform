@@ -10,9 +10,7 @@ const Card = ({ eachMovie, type = "all" }) => {
       const handleClick = () => {
             if (isDragging.current) return;
             play("press");
-            document.startViewTransition(() => {
-                  navigate(`/${eachMovie.media_type || type}/details/${eachMovie.id}`);
-            });
+            navigate(`/${eachMovie.media_type || type}/details/${eachMovie.id}`);
       };
 
       return (

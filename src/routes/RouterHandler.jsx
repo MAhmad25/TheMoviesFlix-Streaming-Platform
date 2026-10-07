@@ -2,6 +2,7 @@ import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Home, Stream, Trailer } from "../Components/pages/index";
 import { Nav, NonExistingRoute } from "../Components/ui/index";
+import { TiltSlideTransition } from "../Components/sora-ui/catalog/tilt-slide-transition";
 const MoviePage = lazy(() => import("../Components/pages/Movie/MoviePage"));
 const TVPage = lazy(() => import("../Components/pages/TV/TVPage"));
 const PeoplePage = lazy(() => import("../Components/pages/People/PeoplePage"));
@@ -13,25 +14,29 @@ const Search = lazy(() => import("../Components/pages/Search"));
 const Router = () => {
       return (
             <>
-                  <Suspense fallback={<div>Loading...</div>}>
-                        <Routes>
-                              <Route path="/" element={<Home />} />
-                              <Route path="/trending" element={<MoviePage />} />
-                              <Route path="/tv" element={<TVPage />} />
-                              <Route path="/search" element={<Search />} />
-                              <Route path="/people" element={<PeoplePage />} />
-                              <Route path="/movie/details/:id" element={<MovieDetails />}>
-                                    <Route path="trailer" element={<Trailer />} />
-                                    <Route path="watch" element={<Stream category={"movie"} />} />
-                              </Route>
-                              <Route path="/tv/details/:id" element={<TvDetails />}>
-                                    <Route path="trailer" element={<Trailer />} />
-                                    <Route path="watch/:season/:seasonID" element={<Stream category={"tv"} />} />
-                              </Route>
-                              <Route path="/person/details/:id" element={<PeopleDetails />} />
-                              <Route path="*" element={<NonExistingRoute />} />
-                        </Routes>
-                  </Suspense>
+                  <TiltSlideTransition>
+                        {(location) => (
+                              <Suspense fallback={<div>Loading...</div>}>
+                                    <Routes location={location}>
+                                          <Route path="/" element={<Home />} />
+                                          <Route path="/trending" element={<MoviePage />} />
+                                          <Route path="/tv" element={<TVPage />} />
+                                          <Route path="/search" element={<Search />} />
+                                          <Route path="/people" element={<PeoplePage />} />
+                                          <Route path="/movie/details/:id" element={<MovieDetails />}>
+                                                <Route path="trailer" element={<Trailer />} />
+                                                <Route path="watch" element={<Stream category={"movie"} />} />
+                                          </Route>
+                                          <Route path="/tv/details/:id" element={<TvDetails />}>
+                                                <Route path="trailer" element={<Trailer />} />
+                                                <Route path="watch/:season/:seasonID" element={<Stream category={"tv"} />} />
+                                          </Route>
+                                          <Route path="/person/details/:id" element={<PeopleDetails />} />
+                                          <Route path="*" element={<NonExistingRoute />} />
+                                    </Routes>
+                              </Suspense>
+                        )}
+                  </TiltSlideTransition>
                   <Nav />
                   <div className="navigation-backdrop fixed inset-0 pointer-events-none"></div>
             </>

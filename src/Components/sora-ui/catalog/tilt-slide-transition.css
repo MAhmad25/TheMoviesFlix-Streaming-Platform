@@ -1,0 +1,67 @@
+/* Sora's tilted exit and diagonal entrance, using the active site theme. */
+::view-transition {
+      background: var(--bg-gradient, var(--background));
+      pointer-events: none;
+}
+
+::view-transition-group(root),
+::view-transition-group(route-navigation) {
+      animation: none;
+}
+
+::view-transition-old(root) {
+      animation: tilt-slide-out 1600ms cubic-bezier(0.65, 0, 0.35, 1) both;
+      mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+      animation: tilt-slide-in 1500ms cubic-bezier(0.65, 0, 0.35, 1) 250ms both;
+      mix-blend-mode: normal;
+}
+
+::view-transition-group(route-navigation) {
+      z-index: 100;
+}
+
+::view-transition-old(route-navigation) {
+      animation: none;
+      opacity: 0;
+}
+
+::view-transition-new(route-navigation) {
+      animation: none;
+}
+
+@keyframes tilt-slide-out {
+      0% {
+            transform: translateX(0%) translateY(0%) rotate(0deg) scale(1);
+            opacity: 1;
+      }
+      40% {
+            transform: translateX(0%) translateY(0%) rotate(0deg) scale(0.8);
+            opacity: 0.5;
+      }
+      100% {
+            transform: translateX(-50%) translateY(20%) rotate(-10deg) scale(0.65);
+            opacity: 0.25;
+      }
+}
+
+@keyframes tilt-slide-in {
+      from {
+            transform: translateX(100%) translateY(20%);
+            clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
+      }
+      to {
+            transform: translateX(0%) translateY(0%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+      }
+}
+
+@media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*),
+      ::view-transition-old(*),
+      ::view-transition-new(*) {
+            animation: none !important;
+      }
+}
