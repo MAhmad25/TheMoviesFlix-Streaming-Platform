@@ -123,11 +123,11 @@ body::-webkit-scrollbar {
       }
 }
 ::view-transition-old(root) {
-      animation: blur-out 600ms ease-in-out both;
+      animation: blur-out 400ms ease-in-out both;
 }
 
 ::view-transition-new(root) {
-      animation: blur-in 600ms ease-in-out both;
+      animation: blur-in 400ms ease-in-out both;
 }
 
 @keyframes blur-out {
@@ -163,7 +163,8 @@ body::-webkit-scrollbar {
       position: relative;
       display: flex;
       align-items: flex-end;
-      min-height: clamp(440px, 60dvh, 640px);
+      min-height: 100vh;
+      min-height: 100dvh;
       height: 100%;
       overflow: hidden;
 }
@@ -172,13 +173,22 @@ body::-webkit-scrollbar {
       position: relative;
       z-index: 1;
       width: 100%;
-      padding-block: 100px 24px;
+      padding-block: 32px calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
-@media (min-width: 1024px) {
-      .home-hero-slide {
-            min-height: 90dvh;
-      }
+/* Fade across the image, independently of the content's size or position. */
+.home-hero-slide::after,
+.detail-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--bg-header);
+      pointer-events: none;
+}
+
+.navigation-backdrop {
+      background-image: var(--bg-nav);
 }
 
 @media (max-width: 380px) {
@@ -195,24 +205,32 @@ body::-webkit-scrollbar {
 
 .detail-hero {
       position: relative;
-      width: 98%;
-      margin-inline: auto;
+      display: flex;
+      align-items: flex-end;
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      margin: 0;
       overflow: hidden;
-      border-radius: 0 0 24px 24px;
       color: #fefefe;
       font-family: Primary, sans-serif;
 }
 
 .detail-hero__image {
+      position: absolute;
+      inset: 0;
+      display: block;
       width: 100%;
-      height: clamp(240px, 45dvh, 420px);
+      height: 100%;
       object-fit: cover;
 }
 
 .detail-hero__content {
       position: relative;
+      z-index: 1;
+      width: 100%;
       min-width: 0;
-      padding: 20px;
+      padding: 32px 20px calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
 .detail-hero__title {
@@ -368,22 +386,12 @@ body::-webkit-scrollbar {
 }
 
 @media (min-width: 768px) {
-      .detail-hero {
-            display: flex;
-            align-items: flex-end;
-            min-height: clamp(440px, 68dvh, 720px);
-      }
-
-      .detail-hero__image {
-            position: absolute;
-            inset: 0;
-            height: 100%;
+      .home-hero-content {
+            padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
       }
 
       .detail-hero__content {
-            width: 100%;
-            padding: 100px clamp(20px, 3vw, 48px) 32px;
-            background-image: var(--bg-opac);
+            padding: 32px clamp(20px, 3vw, 48px) calc(80px + env(safe-area-inset-bottom, 0px));
       }
 
       .detail-hero__title {

@@ -117,8 +117,12 @@ const TvDetails = () => {
                                                             <h1 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h1>
                                                             <div className="detail-reviews__tools">
                                                                   <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
-                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow"><CiCircleChevLeft size="2rem" /></button>
-                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow"><CiCircleChevRight size="2rem" /></button>
+                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow">
+                                                                        <CiCircleChevLeft size="2rem" />
+                                                                  </button>
+                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow">
+                                                                        <CiCircleChevRight size="2rem" />
+                                                                  </button>
                                                             </div>
                                                       </div>
                                                       <div ref={containerRef} className="detail-reviews__rail">

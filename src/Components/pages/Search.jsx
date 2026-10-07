@@ -3,6 +3,7 @@ import api from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import GooeySearch from "../../Components/ui/gooey-search";
 import { captureEvent } from "../../analytics/posthog.js";
+import { play } from "cuelume";
 
 const getMovieTitle = (movie) => movie.name || movie.original_name || movie.original_title || movie.title || "Untitled";
 
@@ -57,6 +58,7 @@ const Search = () => {
             (result) => {
                   const selectedMovie = movieData.find((movie) => movie.id === result.id && movie.media_type === result.mediaType);
                   if (selectedMovie) {
+                        play("press");
                         captureEvent("search_result_selected", { content_id: String(selectedMovie.id), content_type: selectedMovie.media_type, content_title: getMovieTitle(selectedMovie) });
                         navigate(`/${selectedMovie.media_type}/details/${selectedMovie.id}`);
                   }

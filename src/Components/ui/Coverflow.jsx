@@ -2,6 +2,7 @@ import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import ShinyButton from "../effects/shiny-button/index.jsx";
 import { Play } from "lucide-react";
+import { play } from "cuelume";
 const AudioCtx = typeof window !== "undefined" ? (window.AudioContext ?? window.webkitAudioContext ?? null) : null;
 
 function useTickAudio(enabled) {
@@ -233,12 +234,13 @@ export function CoverFlow({ items, itemWidth = 400, setSeason, itemHeight = 400,
       const handleCardClick = useCallback(
             (item, index) => {
                   if (index === activeIndexRef.current) {
+                        if (enableAudio) play("press");
                         onItemClickRef.current?.(item, index);
                   } else if (enableClickToSnapRef.current) {
                         jumpToIndex(index);
                   }
             },
-            [jumpToIndex],
+            [enableAudio, jumpToIndex],
       );
 
       const onDragStart = useCallback(() => setIsDragging(true), []);
@@ -304,7 +306,10 @@ export function CoverFlow({ items, itemWidth = 400, setSeason, itemHeight = 400,
                               <AnimatePresence mode="wait">
                                     <motion.div key={activeIndex} initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -6 }} transition={{ duration: prefersReducedMotion ? 0 : 0.25, ease: "easeOut" }} className="text-center">
                                           <h3 className="text-2xl font-semibold  tracking-tight drop-shadow-md">{items[activeIndex]?.name}</h3>
-                                          <ShinyButton className="mt-3" label="Watch" icon={Play} primary onClick={() => setSeason(items[activeIndex])} />
+                                          <ShinyButton className="mt-3" label="Watch" icon={Play} primary onClick={() => {
+                                                if (enableAudio) play("press");
+                                                setSeason(items[activeIndex]);
+                                          }} />
                                     </motion.div>
                               </AnimatePresence>
                         </div>

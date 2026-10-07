@@ -1,12 +1,13 @@
 import { useState, memo } from "react";
 import { Link } from "react-router-dom";
+import { play } from "cuelume";
 import { CastLoader } from "./index";
 import { motion } from "motion/react";
 const Exclude = ({ eachActor }) => {
       const [showSkeleton, setSkeleton] = useState(true);
       return (
             <div className="w-32 min-[961px]:w-40 lg:w-52  shrink-0 h-fit">
-                  <Link to={`/person/details/${eachActor.id}`}>
+                  <Link onClick={() => play("press")} to={`/person/details/${eachActor.id}`}>
                         <motion.div whileHover={{ scale: 0.95, opacity: 0.7, transition: { duration: 0.4 } }} className="w-28 min-[961px]:w-36 lg:w-48 lg:h-48 min-[961px]:h-36 h-28  rounded-full overflow-hidden">
                               {showSkeleton && (
                                     <div className="flex justify-center items-center w-full h-full">

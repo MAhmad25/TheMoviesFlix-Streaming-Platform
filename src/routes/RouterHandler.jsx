@@ -33,7 +33,7 @@ const Router = () => {
                         </Routes>
                   </Suspense>
                   <Nav />
-                  <div className="fixed inset-0 [background-image:var(--bg-nav)] pointer-events-none"></div>
+                  <div className="navigation-backdrop fixed inset-0 pointer-events-none"></div>
             </>
       );
 };

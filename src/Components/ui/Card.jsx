@@ -9,6 +9,7 @@ const Card = ({ eachMovie, type = "all" }) => {
       const displaySrc = tmdbPath ? `https://image.tmdb.org/t/p/w500${tmdbPath}` : "/noImage.jpg";
       const handleClick = () => {
             if (isDragging.current) return;
+            play("press");
             document.startViewTransition(() => {
                   navigate(`/${eachMovie.media_type || type}/details/${eachMovie.id}`);
             });

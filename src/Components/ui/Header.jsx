@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { StarIcon } from "./index";
 import { Carousel, Slider, SliderContainer } from "./Carousal";
 import Autoplay from "embla-carousel-autoplay";
+import { play } from "cuelume";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
@@ -39,13 +40,13 @@ const Header = () => {
                                     {nowPlaying.map((eachMovieCard, index) => (
                                           <Slider key={index} className="w-full">
                                                 <div className="home-hero-slide">
-                                                      <div className="home-hero-content [background-image:var(--bg-header)] md:[background-image:var(--bg-opac)] px-4 text-white">
+                                                      <div className="home-hero-content px-4 text-white">
                                                             <div className="w-full space-y-5 bg-transparent">
                                                                   <h1 className="text-3xl break-words h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}</h1>
                                                                   {eachMovieCard.overview && (
                                                                         <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100 leading-relaxed">
                                                                               {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link className="text-yellow-300 ml-1" to={`/movie/details/${eachMovieCard?.id}`}>
+                                                                              <Link onClick={() => play("press")} className="text-yellow-300 ml-1" to={`/movie/details/${eachMovieCard?.id}`}>
                                                                                     see full detail
                                                                               </Link>
                                                                         </p>
