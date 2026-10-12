@@ -7,9 +7,13 @@ function Slider({ trendingMovie, type = "movie" }) {
       const carousel = useRef(null);
 
       useEffect(() => {
-            if (carousel.current) {
-                  setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
-            }
+            const rail = carousel.current;
+            if (!rail) return;
+            const updateWidth = () => setWidth(Math.max(0, rail.scrollWidth - rail.clientWidth));
+            updateWidth();
+            const observer = new ResizeObserver(updateWidth);
+            observer.observe(rail);
+            return () => observer.disconnect();
       }, [trendingMovie]);
 
       return (

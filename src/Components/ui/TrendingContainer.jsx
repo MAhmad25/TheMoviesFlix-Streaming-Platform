@@ -6,28 +6,31 @@ const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("tv");
       useEffect(() => {
+            const controller = new AbortController();
             (async () => {
                   try {
-                        const { data } = await api.get(`trending/${query}/day`);
+                        const { data } = await api.get(`trending/${query}/day`, { signal: controller.signal });
                         setTrendingMovie(data.results);
                   } catch (error) {
-                        console.log(error.message);
+                        if (!controller.signal.aborted) console.log(error.message);
                   }
             })();
+            return () => controller.abort();
       }, [query]);
 
       return (
             <section className="w-full relative px-5">
-                  <div className="flex mb-3 justify-between items-center">
-                        <span className="w-full hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
+                  <div className="flex flex-wrap lg:flex-nowrap gap-3 mb-3 justify-between items-center">
+                        <span className="flex-1 hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <h1 className="sm:text-3xl lg:border-gray-400 lg:border-[1px] lg:px-4 lg:py-2 lg:rounded-3xl  text-nowrap  text-[#fefefe] text-xl">Trending Now</h1>
-                        <span className="w-full hidden lg:inline  border-dotted border-[1px] border-gray-400"></span>
+                        <span className="flex-1 hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <AnimatedDropdown
                               items={[
-                                    { name: "TV", value: "tv" },
                                     { name: "Movies", value: "movie" },
+                                    { name: "TV Series", value: "tv" },
                               ]}
-                              text="TV"
+                              value={query}
+                              label="Trending media type"
                               onSelect={(value) => setQuery(value)}
                         />
                   </div>

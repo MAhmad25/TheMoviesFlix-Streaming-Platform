@@ -143,9 +143,13 @@ body::-webkit-scrollbar {
       padding-block: 32px calc(96px + env(safe-area-inset-bottom, 0px));
 }
 
-/* Fade across the image, independently of the content's size or position. */
-.home-hero-slide::after,
-.detail-hero::after {
+.hero-artwork {
+      position: absolute;
+      inset: 0;
+}
+
+/* Keep the brand fade across the artwork at every aspect ratio. */
+.hero-artwork::after {
       content: "";
       position: absolute;
       inset: 0;
@@ -158,16 +162,15 @@ body::-webkit-scrollbar {
       background-image: var(--bg-nav);
 }
 
-@media (max-width: 380px) {
-      .bottom-navigation .bottom-navigation__label {
-            display: none;
-      }
+.bottom-navigation__label {
+      max-width: clamp(40px, calc(100vw - 264px), 72px);
+}
 
-      .bottom-navigation > button {
-            width: 44px;
-            padding-inline: 10px;
-            gap: 0;
-      }
+/* Keep a 44px tap target around the slimmer visible navigation buttons. */
+.bottom-navigation > button::before {
+      content: "";
+      position: absolute;
+      inset: -4px 0;
 }
 
 .detail-hero {
@@ -183,6 +186,7 @@ body::-webkit-scrollbar {
       font-family: Primary, sans-serif;
 }
 
+.home-hero-image,
 .detail-hero__image {
       position: absolute;
       inset: 0;
@@ -192,12 +196,39 @@ body::-webkit-scrollbar {
       object-fit: cover;
 }
 
+.home-hero-image {
+      object-position: center top;
+}
+
 .detail-hero__content {
       position: relative;
       z-index: 1;
       width: 100%;
       min-width: 0;
       padding: 32px 20px calc(96px + env(safe-area-inset-bottom, 0px));
+}
+
+@media (max-width: 767px) {
+      .home-hero-slide,
+      .detail-hero {
+            flex-direction: column;
+            align-items: stretch;
+            min-height: 0;
+            height: auto;
+      }
+
+      .hero-artwork {
+            position: relative;
+            inset: auto;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            flex-shrink: 0;
+      }
+
+      .home-hero-content,
+      .detail-hero__content {
+            padding: 8px 16px 24px;
+      }
 }
 
 .detail-hero__title {

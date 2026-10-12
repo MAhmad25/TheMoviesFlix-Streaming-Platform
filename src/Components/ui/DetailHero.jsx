@@ -9,7 +9,9 @@ export default function DetailHero({ detail, mediaType = "movie", children }) {
 
       return (
             <header className="detail-hero">
-                  <img className="detail-hero__image" src={imagePath ? `https://image.tmdb.org/t/p/original${imagePath}` : "/noImage.jpg"} alt="" decoding="async" />
+                  <div className="hero-artwork">
+                        <img className="detail-hero__image" src={imagePath ? `https://image.tmdb.org/t/p/original${imagePath}` : "/noImage.jpg"} alt="" decoding="async" />
+                  </div>
                   <div className="detail-hero__content">
                         <h1 className="detail-hero__title">{title}</h1>
                         <p className="detail-hero__tagline">{detail.tagline || detail.status}</p>

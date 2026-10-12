@@ -20,7 +20,7 @@ const Card = ({ eachMovie, type = "all" }) => {
                   onMouseDown={() => (isDragging.current = false)}
                   onMouseMove={() => (isDragging.current = true)}
                   onMouseUp={() => setTimeout(() => (isDragging.current = false), 100)}
-                  className="media-card w-44 sm:w-56 min-w-0 h-full md:w-full shrink-0 rounded-xl overflow-hidden"
+                  className="media-card w-full min-w-0 h-full shrink-0 rounded-xl overflow-hidden"
                   style={{
                         backgroundColor: "#0f0000",
                         transition: "background-color 0.6s ease",

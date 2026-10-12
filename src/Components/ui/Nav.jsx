@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { MdHomeFilled } from "react-icons/md";
 import { FaFireAlt } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { RiTvFill } from "react-icons/ri";
 import { CgSearch } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { bind, play } from "cuelume";
 const navItems = [
       {
@@ -35,16 +35,20 @@ const navItems = [
       },
 ];
 
-const MOBILE_LABEL_WIDTH = 72;
-
 const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
-      const [activeIndex, setActiveIndex] = useState(defaultIndex);
+      const { pathname } = useLocation();
+      const reducedMotion = useReducedMotion();
+      const activeIndex = pathname.startsWith("/tv") ? 4
+            : pathname.startsWith("/people") || pathname.startsWith("/person/") ? 3
+            : pathname.startsWith("/search") ? 2
+            : pathname.startsWith("/trending") || pathname.startsWith("/movie/") ? 1
+            : defaultIndex;
       const navigate = useNavigate();
       useEffect(() => {
             bind();
       }, []);
       return (
-            <motion.nav initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} style={{ viewTransitionName: "route-navigation" }} role="navigation" aria-label="Bottom Navigation" className={`bottom-navigation border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-2 shadow-xl space-x-1 min-w-0 max-w-[calc(100vw-24px)] h-[58px] ${stickyBottom && "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit"} ${className}`}>
+            <motion.nav initial={reducedMotion ? false : { scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} style={{ viewTransitionName: "route-navigation" }} aria-label="Bottom Navigation" className={`bottom-navigation border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-1 shadow-xl gap-0.5 md:gap-1 min-w-0 max-w-[calc(100vw-16px)] h-[46px] ${stickyBottom ? "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit" : ""} ${className}`}>
                   {navItems.map((item, idx) => {
                         const Icon = item.icon;
                         const isActive = activeIndex === idx;
@@ -53,14 +57,14 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                               <motion.button
                                     onMouseEnter={() => play("tick")}
                                     key={item.label}
-                                    whileTap={{ scale: 0.97 }}
-                                    className={`flex items-center gap-0 px-3 py-2 rounded-full transition-colors duration-200 relative h-10 min-w-[44px] min-h-[40px] max-h-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe] dark:text-[#fefefe] gap-2" : "bg-transparent"} focus:outline-none focus-visible:ring-0`}
+                                    whileTap={reducedMotion ? undefined : { scale: 0.97 }}
+                                    className={`flex shrink-0 items-center gap-0 px-[11px] py-1 rounded-full transition-colors duration-200 relative h-9 min-w-[44px] ${isActive ? "bg-[#fefefe]/10 dark:bg-[#fefefe]/15 text-[#fefefe]" : "bg-transparent"} focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff7949] focus-visible:outline-offset-2`}
                                     onClick={() => {
                                           play("press");
-                                          setActiveIndex(idx);
                                           navigate(item.to);
                                     }}
                                     aria-label={item.label}
+                                    aria-current={isActive ? "page" : undefined}
                                     type="button"
                               >
                                     <Icon size={22} color="#fefefe" aria-hidden className="transition-colors duration-200" />
@@ -68,18 +72,19 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                                     <motion.div
                                           initial={false}
                                           animate={{
-                                                width: isActive ? `${MOBILE_LABEL_WIDTH}px` : "0px",
+                                                width: isActive ? "auto" : 0,
                                                 opacity: isActive ? 1 : 0,
-                                                marginLeft: isActive ? "8px" : "0px",
+                                                marginLeft: isActive ? 6 : 0,
                                           }}
-                                          transition={{
+                                          transition={reducedMotion ? { duration: 0 } : {
                                                 width: { type: "spring", stiffness: 350, damping: 32 },
                                                 opacity: { duration: 0.19 },
                                                 marginLeft: { duration: 0.19 },
                                           }}
-                                          className="bottom-navigation__label overflow-hidden flex items-center max-w-[72px]"
+                                          aria-hidden="true"
+                                          className="bottom-navigation__label overflow-hidden flex items-center"
                                     >
-                                          <span className={`font-medium text-xs whitespace-nowrap select-none transition-opacity duration-200 overflow-hidden text-ellipsis text-[clamp(0.625rem,0.5263rem+0.5263vw,1rem)] leading-[1.9] ${isActive ? "text-[#fefefe]" : "opacity-0"} title=${item.label}`}>{item.label}</span>
+                                          <span className="font-medium whitespace-nowrap select-none overflow-hidden text-ellipsis text-[11px] md:text-xs leading-[1.9]" title={item.label}>{item.label}</span>
                                     </motion.div>
                               </motion.button>
                         );
