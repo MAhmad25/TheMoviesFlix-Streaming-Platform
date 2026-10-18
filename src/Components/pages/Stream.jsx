@@ -6,8 +6,8 @@ const Stream = ({ category }) => {
       const { id, season, seasonID } = useParams();
       const navigate = useNavigate();
       let url;
-      if (category == "tv") url = `https://cinemaos.tech/watch/tv/${id}?season=${season}&episode=${seasonID}`;
-      else url = `https://cinemaos.tech/player/${id}`;
+      if (category == "tv") url = `https://vidcore.io/tv/${id}/${season}/${seasonID}?autoPlay=true`;
+      else url = `https://vidcore.io/movie/${id}?autoPlay=true`;
       return (
             <section
                   style={{

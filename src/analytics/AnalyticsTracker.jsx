@@ -32,7 +32,7 @@ export default function AnalyticsTracker() {
             lastContentVisit.current = visit;
             captureEvent(route.event, {
                   ...properties,
-                  ...(route.event === "watch_opened" && { player_provider: "cinemaos" }),
+                  ...(route.event === "watch_opened" && { player_provider: "vidcore" }),
                   ...(route.event === "trailer_opened" && { trailer_available: Boolean(info?.videoLink) }),
             });
       }, [visit, route, info]);

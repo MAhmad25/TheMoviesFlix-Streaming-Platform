@@ -49,7 +49,7 @@ Use **unique users** for visitors and **total events** for opens/views. A return
 | --- | --- | --- |
 | `$pageview` | Initial page and each router navigation, including back/forward | `route_name`, `route_pattern`, `$pathname`, `navigation_type`; content ID/type and TV season/episode when present |
 | `movie_viewed`, `tv_show_viewed`, `person_viewed` | Matching details have loaded on the detail route | `content_id`, `content_type`, `content_title`, `genres`, `release_year` (last two for movies/TV) |
-| `watch_opened` | Watch route's matching content has loaded | Content properties; `player_provider = cinemaos`; TV season/episode |
+| `watch_opened` | Watch route's matching content has loaded | Content properties; `player_provider = vidcore`; TV season/episode |
 | `trailer_opened` | Trailer route's matching content has loaded | Content properties; `trailer_available` |
 | `trailer_started` | Trailer playback starts for the first time in that opening | Content properties, `trailer_id`, `player_provider = youtube` |
 | `trailer_progress` | Trailer playhead first reaches 25%, 50%, or 75% | Trailer properties, `progress_percent` |
