@@ -1,4 +1,5 @@
 import StarIcon from "./Icons/StarIcon";
+import GlisseSurface from "./GlisseSurface";
 
 export default function DetailHero({ detail, mediaType = "movie", children }) {
       const isTV = mediaType === "tv";
@@ -9,7 +10,7 @@ export default function DetailHero({ detail, mediaType = "movie", children }) {
 
       return (
             <header className="detail-hero">
-                  <div className="hero-artwork">
+                  <div className="hero-artwork" data-glisse-backdrop>
                         <img className="detail-hero__image" src={imagePath ? `https://image.tmdb.org/t/p/original${imagePath}` : "/noImage.jpg"} alt="" decoding="async" />
                   </div>
                   <div className="detail-hero__content">
@@ -17,11 +18,11 @@ export default function DetailHero({ detail, mediaType = "movie", children }) {
                         <p className="detail-hero__tagline">{detail.tagline || detail.status}</p>
                         <div className="detail-hero__tags">
                               {isTV ? (
-                                    <span>Total Seasons: {detail.number_of_seasons}</span>
+                                    <GlisseSurface className="detail-hero__tag">Total Seasons: {detail.number_of_seasons}</GlisseSurface>
                               ) : runtime > 0 ? (
-                                    <span>{Math.floor(runtime / 60)}h {runtime % 60}min</span>
+                                    <GlisseSurface className="detail-hero__tag">{Math.floor(runtime / 60)}h {runtime % 60}min</GlisseSurface>
                               ) : null}
-                              {detail.genres?.map((genre) => <span key={genre.id}>{genre.name}</span>)}
+                              {detail.genres?.map((genre) => <GlisseSurface className="detail-hero__tag" key={genre.id}>{genre.name}</GlisseSurface>)}
                         </div>
                         <div className="detail-hero__rating">
                               <span className="detail-hero__score"><StarIcon className="shrink-0" />{rating.toFixed(0)}/10</span>

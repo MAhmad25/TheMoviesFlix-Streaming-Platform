@@ -1,20 +1,18 @@
 import useFullScreen from "../../hooks/useFullScreen";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
+import { getStreamUrl } from "../../utils/streamProvider";
 const Stream = ({ category }) => {
       useFullScreen();
       const { id, season, seasonID } = useParams();
       const navigate = useNavigate();
-      let url;
-      if (category == "tv") url = `https://vidcore.io/tv/${id}/${season}/${seasonID}?autoPlay=true`;
-      else url = `https://vidcore.io/movie/${id}?autoPlay=true`;
+      const url = getStreamUrl({ category, id, season, episode: seasonID });
       return (
             <section
                   style={{
                         backgroundImage: "radial-gradient(transparent 1px, #14120b 1px)",
                         backgroundSize: "3px 3px",
                         backdropFilter: "brightness(1) blur(10px)",
-                        willChange: "filter, opacity, transform",
                   }}
                   className="w-full fixed no-scroll inset-0 z-50  h-[92dvh] md:h-screen  flex justify-center items-center"
             >

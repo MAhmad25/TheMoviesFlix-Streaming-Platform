@@ -8,6 +8,8 @@ import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import TVSeasonModal from "./TVSeasonModal";
 import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
+import { Button } from "glisse";
+import GlisseSurface from "../../ui/GlisseSurface";
 const TvDetails = () => {
       const [selectedSeason, setSelectedSeason] = useState(null);
       const closeSeason = useCallback(() => setSelectedSeason(null), []);
@@ -72,9 +74,7 @@ const TvDetails = () => {
                   {info ? (
                         <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
                               {selectedSeason && <TVSeasonModal onClick={closeSeason} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} />}
-                              <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close">
-                                    <MdClose size="1.5rem" color="black" />
-                              </button>
+                              <Button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close" icon={<MdClose size="1.5rem" />} tint="#ffffff" />
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
                                     <DetailHero detail={info.detail} mediaType="tv">
                                           <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
@@ -83,7 +83,7 @@ const TvDetails = () => {
                                           <div className="detail-storyline">
                                                 <div className="detail-storyline__heading">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-astralga font-semibold">Storyline</h1>
-                                                      <span className="px-3 md:text-lg text-xs py-1 font-astralga font-semibold bg-[var(--txt)] text-[#300b07] rounded-full">{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</span>
+                                                      <GlisseSurface className="glass-year-pill px-3 md:text-lg text-xs py-1 font-astralga font-semibold rounded-full" style={{ "--lg-glass": "#ff7949", "--lg-glass-active": "#ff956e" }}>{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</GlisseSurface>
                                                 </div>
                                                 <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
@@ -148,9 +148,9 @@ const TvDetails = () => {
                                                       </div>
                                                       {info.recommendedTv.length > 12 && (
                                                             <div className="mt-3 flex justify-center">
-                                                                  <button onClick={() => setShowAllRecommendations((s) => !s)} className="px-4 py-2 rounded-md bg-white/10 text-white">
+                                                                  <Button onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
                                                                         {showAllRecommendations ? "Show fewer" : `Show all ${info.recommendedTv.length}`}
-                                                                  </button>
+                                                                  </Button>
                                                             </div>
                                                       )}
                                                 </div>

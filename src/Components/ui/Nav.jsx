@@ -7,6 +7,7 @@ import { RiTvFill } from "react-icons/ri";
 import { CgSearch } from "react-icons/cg";
 import { useLocation, useNavigate } from "react-router-dom";
 import { bind, play } from "cuelume";
+import GlisseSurface from "./GlisseSurface";
 const navItems = [
       {
             to: "/",
@@ -48,7 +49,8 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
             bind();
       }, []);
       return (
-            <motion.nav initial={reducedMotion ? false : { scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} style={{ viewTransitionName: "route-navigation" }} aria-label="Bottom Navigation" className={`bottom-navigation border-[#d66722]/30 border [background-image:var(--bg-gradient)] rounded-full flex items-center p-1 shadow-xl gap-0.5 md:gap-1 min-w-0 max-w-[calc(100vw-16px)] h-[46px] ${stickyBottom ? "fixed inset-x-0 bottom-6 md:bottom-2 mx-auto z-20 w-fit" : ""} ${className}`}>
+            <GlisseSurface className={`bottom-navigation-glass max-w-[calc(100vw-16px)] ${stickyBottom ? "bottom-navigation-glass--sticky" : ""} ${className}`}>
+            <motion.nav initial={reducedMotion ? false : { scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 300, damping: 26 }} aria-label="Bottom Navigation" className="bottom-navigation flex items-center gap-0.5 md:gap-1 min-w-0">
                   {navItems.map((item, idx) => {
                         const Icon = item.icon;
                         const isActive = activeIndex === idx;
@@ -90,6 +92,7 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                         );
                   })}
             </motion.nav>
+            </GlisseSurface>
       );
 };
 

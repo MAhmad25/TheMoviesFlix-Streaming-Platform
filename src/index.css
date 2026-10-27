@@ -166,6 +166,100 @@ body::-webkit-scrollbar {
       max-width: clamp(40px, calc(100vw - 264px), 72px);
 }
 
+.glisse-surface {
+      position: relative;
+      box-sizing: border-box;
+      display: inline-flex;
+      max-width: 100%;
+      align-items: center;
+      justify-content: center;
+      color: inherit;
+}
+
+.glass-section-heading,
+.glass-page-heading {
+      max-width: 100%;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-align: center;
+}
+
+.glass-section-heading h1,
+.glass-page-heading h1,
+.glass-season-heading h3 {
+      margin: 0;
+}
+
+.glass-section-heading {
+      font-size: inherit;
+}
+
+.glass-page-heading {
+      padding-inline: 8px;
+}
+
+.hero-meta-pill {
+      border-radius: 999px;
+      min-height: 34px;
+}
+
+.hero-detail-link {
+      vertical-align: middle;
+      margin-left: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      line-height: 1.4;
+      text-decoration: none;
+}
+
+.glass-year-pill {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      color: #300b07;
+      background-color: var(--txt);
+}
+
+.glass-action {
+      min-height: 44px;
+      color: #fff;
+      --lg-glass: rgb(255 255 255 / 14%);
+      --lg-glass-active: rgb(255 255 255 / 24%);
+      --lg-edge: rgb(255 255 255 / 25%);
+      --lg-ring: var(--txt);
+}
+
+.glass-season-heading {
+      margin: 0 auto;
+      padding: 8px 18px;
+      border-radius: 24px;
+      pointer-events: none;
+}
+
+.bottom-navigation-glass {
+      display: flex;
+      align-items: center;
+      width: fit-content;
+      min-width: 0;
+      height: 46px;
+      padding: 4px;
+      border: 1px solid rgb(214 103 34 / 30%);
+      border-radius: 999px;
+      box-shadow: 0 12px 24px rgb(0 0 0 / 24%);
+}
+
+.bottom-navigation-glass.bottom-navigation-glass--sticky {
+      position: fixed;
+      inset-inline: 0;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      z-index: 20;
+      margin-inline: auto;
+}
+
+.bottom-navigation {
+      height: 36px;
+      background: transparent;
+}
+
 /* Keep a 44px tap target around the slimmer visible navigation buttons. */
 .bottom-navigation > button::before {
       content: "";
@@ -257,15 +351,16 @@ body::-webkit-scrollbar {
       margin-top: 12px;
 }
 
-.detail-hero__tags > span {
+.detail-hero__tag {
       max-width: 100%;
       padding: 6px 12px;
       border-radius: 999px;
-      background: rgb(255 255 255 / 10%);
       font-size: 14px;
       line-height: 1.35;
       overflow-wrap: anywhere;
-      backdrop-filter: blur(4px);
+      --lg-glass: rgb(255 255 255 / 14%);
+      --lg-edge: rgb(255 255 255 / 22%);
+      --lg-blur: 9px;
 }
 
 .detail-hero__rating {
@@ -299,11 +394,22 @@ body::-webkit-scrollbar {
       z-index: 10;
       display: grid;
       place-items: center;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: rgb(255 255 255 / 30%);
-      backdrop-filter: blur(8px);
+      --lg-glass: rgb(255 255 255 / 32%);
+      --lg-glass-active: rgb(255 255 255 / 48%);
+      --lg-edge: rgb(255 255 255 / 42%);
+      --lg-blur: 16px;
+}
+
+.detail-close.lg-button {
+      position: fixed;
+      top: 16px;
+      right: max(16px, env(safe-area-inset-right, 0px));
+      z-index: 10;
+      width: 48px;
+      height: 48px;
 }
 
 .detail-close:focus-visible,
@@ -384,6 +490,10 @@ body::-webkit-scrollbar {
 }
 
 @media (min-width: 768px) {
+      .bottom-navigation-glass.bottom-navigation-glass--sticky {
+            bottom: 8px;
+      }
+
       .home-hero-content {
             padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
       }
@@ -396,7 +506,7 @@ body::-webkit-scrollbar {
             font-size: clamp(36px, 4vw, 48px);
       }
 
-      .detail-hero__tags > span {
+      .detail-hero__tag {
             font-size: 18px;
       }
 

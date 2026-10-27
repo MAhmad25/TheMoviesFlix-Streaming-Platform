@@ -5,6 +5,7 @@ import { StarIcon } from "./index";
 import { Carousel, Slider, SliderContainer } from "./Carousal";
 import Autoplay from "embla-carousel-autoplay";
 import { play } from "cuelume";
+import GlisseSurface from "./GlisseSurface";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
@@ -40,7 +41,7 @@ const Header = () => {
                                     {nowPlaying.map((eachMovieCard, index) => (
                                           <Slider key={index} className="w-full">
                                                 <div className="home-hero-slide">
-                                                      <div className="hero-artwork">
+                                                      <div className="hero-artwork" data-glisse-backdrop>
                                                             <img loading="eager" className="home-hero-image" src={eachMovieCard.backdrop_path || eachMovieCard.poster_path ? `https://image.tmdb.org/t/p/w780${eachMovieCard.backdrop_path || eachMovieCard.poster_path}` : "/noImage.jpg"} alt="" />
                                                       </div>
                                                       <div className="home-hero-content px-4 text-white">
@@ -49,20 +50,22 @@ const Header = () => {
                                                                   {eachMovieCard.overview && (
                                                                         <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100 leading-relaxed">
                                                                               {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link onClick={() => play("press")} className="text-yellow-300 ml-1" to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}`}>
+                                                                              <Link onClick={() => play("press")} className="lg-glass hero-detail-link text-yellow-300" to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}`}>
                                                                                     see full detail
                                                                               </Link>
                                                                         </p>
                                                                   )}
                                                                   <div className="flex flex-wrap items-center mt-2 gap-2">
                                                                         {eachMovieCard.vote_average != 0 && (
-                                                                              <h4 className="font-bold border border-yellow-300  text-yellow-300 px-3 flex justify-center items-center gap-1  py-1 rounded-full text-lg lg:text-lg w-fit ">
+                                                                              <GlisseSurface className="hero-meta-pill px-3 py-1 rounded-full w-fit">
+                                                                                    <h4 className="m-0 flex items-center gap-1 text-lg font-bold text-yellow-300">
                                                                                     <StarIcon color="yellow" />
                                                                                     <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
-                                                                              </h4>
+                                                                                    </h4>
+                                                                              </GlisseSurface>
                                                                         )}
-                                                                        {(eachMovieCard?.release_date || eachMovieCard?.first_air_date) && <h4 className="font-bold border border-yellow-300  text-yellow-300 px-2 py-1 rounded-full w-fit text-lg ">{eachMovieCard?.release_date?.split("-")[0] || eachMovieCard?.first_air_date?.split("-")[0]}</h4>}
-                                                                        {eachMovieCard?.media_type && <span className="text-lg font-bold border border-yellow-300  px-3 py-1 rounded-full text-yellow-300">{eachMovieCard?.media_type?.toUpperCase()}</span>}
+                                                                        {(eachMovieCard?.release_date || eachMovieCard?.first_air_date) && <GlisseSurface className="hero-meta-pill font-bold text-yellow-300 px-2 py-1 rounded-full w-fit text-lg">{eachMovieCard?.release_date?.split("-")[0] || eachMovieCard?.first_air_date?.split("-")[0]}</GlisseSurface>}
+                                                                        {eachMovieCard?.media_type && <GlisseSurface className="hero-meta-pill text-lg font-bold px-3 py-1 rounded-full text-yellow-300">{eachMovieCard?.media_type?.toUpperCase()}</GlisseSurface>}
                                                                   </div>
                                                             </div>
                                                       </div>

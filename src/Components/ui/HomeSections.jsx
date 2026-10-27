@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
 import Slider from "./Slider";
+import GlisseSurface from "./GlisseSurface";
 const HomeSections = ({ url, sectionName }) => {
       const [data, setData] = useState([]);
       useEffect(() => {
@@ -18,7 +19,7 @@ const HomeSections = ({ url, sectionName }) => {
             <section className="w-full sm:mb-10 relative  px-5">
                   <div className="flex w-full min-w-0 mb-3 justify-center items-center">
                         <span className="min-w-0 flex-1 border-dotted border-[1px] border-gray-400"></span>
-                        <h1 className="sm:text-3xl border-gray-400 border rounded-3xl px-4 py-2 text-center  text-[#fefefe] text-xl">{sectionName}</h1>
+                        <GlisseSurface className="glass-section-heading"><h1 className="sm:text-3xl text-center text-[#fefefe] text-xl">{sectionName}</h1></GlisseSurface>
                         <span className="min-w-0 flex-1 border-dotted border-[1px] border-gray-400"></span>
                   </div>
                   <Slider trendingMovie={data} />

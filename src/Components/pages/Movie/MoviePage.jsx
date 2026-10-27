@@ -3,6 +3,7 @@ import { Card, CastLoader, PageSkeleton } from "../../ui/index";
 import api from "../../../utils/axios";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroll-component";
+import GlisseSurface from "../../ui/GlisseSurface";
 
 const MoviePage = () => {
       document.title = "The Movies Flix | Trending Movies - Watch and Stream Unlimited Movies and TV Series";
@@ -25,7 +26,7 @@ const MoviePage = () => {
             <>
                   <div className="overflow-x-hidden w-full min-h-dvh pb-28 [background-image:var(--bg-gradient)]">
                         <span className="flex flex-wrap px-5 py-5  gap-4 items-center">
-                              <h1 className="text-2xl text-white">Trending Movies</h1>
+                              <GlisseSurface className="glass-page-heading"><h1 className="text-2xl text-white">Trending Movies</h1></GlisseSurface>
                               <MdOutlineHorizontalRule size="1.4rem" color="white" />
                         </span>
                         {trendingMovie.length > 0 ? (

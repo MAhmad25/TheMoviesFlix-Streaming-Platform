@@ -7,6 +7,8 @@ import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
 import { Card, Review, Exclude, DetailLoader } from "../../ui/index";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { Button } from "glisse";
+import GlisseSurface from "../../ui/GlisseSurface";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -71,9 +73,7 @@ const MovieDetails = () => {
             <>
                   {info ? (
                         <section className="w-full   [background-image:var(--bg-gradient)] relative overflow-x-hidden  bg-bottom ">
-                              <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close">
-                                    <MdClose size="1.5rem" color="black" />
-                              </button>
+                              <Button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close" icon={<MdClose size="1.5rem" />} tint="#ffffff" />
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen ">
                                     <DetailHero detail={info.detail} mediaType="movie">
                                           <MediaActions mediaId={id} title={info.detail.title || info.detail.original_title} watchTo="watch" />
@@ -82,7 +82,7 @@ const MovieDetails = () => {
                                           <div className="detail-storyline">
                                                 <div className="detail-storyline__heading">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-medium font-astralga">Storyline</h1>
-                                                      <span className="font-astralga font-semibold bg-[var(--txt)] text-[#300b07] px-3 md:text-lg text-xs py-1 rounded-full">{info.detail.release_date?.split("-")[0] || "Not Released"}</span>
+                                                      <GlisseSurface className="glass-year-pill font-astralga font-semibold px-3 md:text-lg text-xs py-1 rounded-full" style={{ "--lg-glass": "#ff7949", "--lg-glass-active": "#ff956e" }}>{info.detail.release_date?.split("-")[0] || "Not Released"}</GlisseSurface>
                                                 </div>
                                                 <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
@@ -131,9 +131,9 @@ const MovieDetails = () => {
                                                       </div>
                                                       {info.recommendedMovies.length > 12 && (
                                                             <div className="mt-3 flex justify-center">
-                                                                  <button onClick={() => setShowAllRecommendations((s) => !s)} className="px-4 py-2 rounded-md bg-white/10 text-white">
+                                                                  <Button onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
                                                                         {showAllRecommendations ? "Show fewer" : `Show all ${info.recommendedMovies.length}`}
-                                                                  </button>
+                                                                  </Button>
                                                             </div>
                                                       )}
                                                 </div>

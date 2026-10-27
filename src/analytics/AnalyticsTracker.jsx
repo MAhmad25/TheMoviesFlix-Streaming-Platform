@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useNavigationType } from "react-router-dom";
 import { getContentProperties, getRouteContext } from "./events.js";
 import { captureEvent } from "./posthog.js";
+import { getStreamProvider } from "../utils/streamProvider.js";
 
 export default function AnalyticsTracker() {
       const location = useLocation();
@@ -32,7 +33,7 @@ export default function AnalyticsTracker() {
             lastContentVisit.current = visit;
             captureEvent(route.event, {
                   ...properties,
-                  ...(route.event === "watch_opened" && { player_provider: "vidcore" }),
+                  ...(route.event === "watch_opened" && { player_provider: getStreamProvider() }),
                   ...(route.event === "trailer_opened" && { trailer_available: Boolean(info?.videoLink) }),
             });
       }, [visit, route, info]);
