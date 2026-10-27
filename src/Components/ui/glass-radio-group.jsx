@@ -1,5 +1,6 @@
 import { Fragment, useId, useState } from "react";
 import styled from "styled-components";
+import GlisseSurface from "./GlisseSurface";
 
 // Adapted from Ravi Katiyar's Glass Radio Group source supplied by the user.
 export default function GlassRadioGroup({ options, value, defaultValue, onValueChange, label = "Choose an option", className = "" }) {
@@ -10,28 +11,30 @@ export default function GlassRadioGroup({ options, value, defaultValue, onValueC
 
       return (
             <StyledWrapper className={className}>
-                  <div className="glass-radio-group" role="radiogroup" aria-label={label} style={{ "--option-count": options.length, "--selected-index": Math.max(0, selectedIndex) }}>
-                        {options.map((option, index) => {
-                              const id = `${groupId}-${index}`;
-                              return (
-                                    <Fragment key={option.value}>
-                                          <input
-                                                type="radio"
-                                                name={groupId}
-                                                id={id}
-                                                value={option.value}
-                                                checked={selectedValue === option.value}
-                                                onChange={() => {
-                                                      setInternalValue(option.value);
-                                                      onValueChange?.(option.value);
-                                                }}
-                                          />
-                                          <label htmlFor={id}>{option.label}</label>
-                                    </Fragment>
-                              );
-                        })}
-                        <div className="glass-glider" aria-hidden="true" />
-                  </div>
+                  <GlisseSurface className="glass-radio-surface">
+                        <div className="glass-radio-group" role="radiogroup" aria-label={label} style={{ "--option-count": options.length, "--selected-index": Math.max(0, selectedIndex) }}>
+                              {options.map((option, index) => {
+                                    const id = `${groupId}-${index}`;
+                                    return (
+                                          <Fragment key={option.value}>
+                                                <input
+                                                      type="radio"
+                                                      name={groupId}
+                                                      id={id}
+                                                      value={option.value}
+                                                      checked={selectedValue === option.value}
+                                                      onChange={() => {
+                                                            setInternalValue(option.value);
+                                                            onValueChange?.(option.value);
+                                                      }}
+                                                />
+                                                <label htmlFor={id}>{option.label}</label>
+                                          </Fragment>
+                                    );
+                              })}
+                              <div className="glass-glider" aria-hidden="true" />
+                        </div>
+                  </GlisseSurface>
             </StyledWrapper>
       );
 }
@@ -42,21 +45,24 @@ const StyledWrapper = styled.div`
       font-family: Primary, sans-serif;
 
       .glass-radio-group {
-            --bg: rgba(255, 255, 255, 0.06);
             --text: #e5e5e5;
             display: grid;
             grid-template-columns: repeat(var(--option-count), minmax(0, 1fr));
             position: relative;
-            background: var(--bg);
-            border-radius: 1rem;
-            backdrop-filter: blur(12px);
-            box-shadow:
-                  inset 1px 1px 4px rgba(255, 255, 255, 0.2),
-                  inset -1px -1px 6px rgba(0, 0, 0, 0.3),
-                  0 4px 12px rgba(0, 0, 0, 0.15);
+            background: transparent;
+            border-radius: inherit;
             overflow: hidden;
             width: fit-content;
             max-width: 100%;
+      }
+
+      .glass-radio-surface {
+            overflow: hidden;
+            border-radius: 1rem;
+            --lg-glass: rgb(255 255 255 / 8%);
+            --lg-glass-active: rgb(255 255 255 / 12%);
+            --lg-edge: rgb(255 255 255 / 18%);
+            --lg-blur: 12px;
       }
 
       /* Visually hidden radios retain native Tab and arrow-key behavior. */

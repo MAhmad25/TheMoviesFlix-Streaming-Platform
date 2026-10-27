@@ -6,6 +6,7 @@ import { Carousel, Slider, SliderContainer } from "./Carousal";
 import Autoplay from "embla-carousel-autoplay";
 import { play } from "cuelume";
 import GlisseSurface from "./GlisseSurface";
+import { Clapperboard, Play } from "lucide-react";
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
@@ -47,14 +48,18 @@ const Header = () => {
                                                       <div className="home-hero-content px-4 text-white">
                                                             <div className="w-full space-y-5 bg-transparent">
                                                                   <h1 className="text-3xl break-words h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}</h1>
-                                                                  {eachMovieCard.overview && (
-                                                                        <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100 leading-relaxed">
-                                                                              {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link onClick={() => play("press")} className="hero-detail-link text-yellow-300" to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}`}>
-                                                                                    see full detail
+                                                                  <div className="hero-media-actions" aria-label={`Watch or view trailer for ${eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}`}>
+                                                                        <GlisseSurface className="hero-media-action hero-media-action--primary">
+                                                                              <Link onClick={() => play("press")} to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}/${eachMovieCard.media_type === "tv" ? "watch/1/1" : "watch"}`}>
+                                                                                    <Play size={18} fill="#ff7949" aria-hidden="true" /> Watch
                                                                               </Link>
-                                                                        </p>
-                                                                  )}
+                                                                        </GlisseSurface>
+                                                                        <GlisseSurface className="hero-media-action">
+                                                                              <Link onClick={() => play("press")} to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}/trailer`}>
+                                                                                    <Clapperboard size={18} aria-hidden="true" /> Trailer
+                                                                              </Link>
+                                                                        </GlisseSurface>
+                                                                  </div>
                                                                   <div className="flex flex-wrap items-center mt-2 gap-2">
                                                                         {eachMovieCard.vote_average != 0 && (
                                                                               <GlisseSurface className="hero-meta-pill px-3 py-1 rounded-full w-fit">

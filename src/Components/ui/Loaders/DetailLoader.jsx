@@ -5,7 +5,7 @@ const DetailLoader = () => {
             window.scrollTo(0, 0);
       }, []);
       return (
-            <section className="w-full relative overflow-x-hidden [&::-webkit-scrollbar]:hidden [background-image:var(--bg-gradient)]">
+            <section role="status" aria-label="Loading title details" aria-busy="true" className="w-full min-h-dvh relative overflow-x-hidden [&::-webkit-scrollbar]:hidden [background-image:var(--bg-gradient)]">
                   {/* Back Button */}
                   <span className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                         <div className="w-6 h-6 bg-black/20 rounded animate-pulse" />
@@ -14,7 +14,7 @@ const DetailLoader = () => {
                   <section className="backdrop-blur-2xl overflow-x-hidden [&::-webkit-scrollbar]:hidden relative overflow-hidden w-full sm:min-h-10 md:min-h-10 bg-black/30">
                         {/* Hero Image Section */}
                         <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
-                              <div className="w-full aspect-video md:aspect-auto md:h-[500px] [background-image:var(--bg-gradient)] animate-pulse" />
+                              <div className="detail-loader__artwork w-full aspect-video md:aspect-auto md:h-[500px] bg-white/[0.09] animate-pulse" />
 
                               {/* Desktop Overlay */}
                               <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40 md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0">
