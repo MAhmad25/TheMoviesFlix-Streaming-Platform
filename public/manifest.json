@@ -26,13 +26,13 @@
       "screenshots": [
             {
                   "src": "/ogimage.png",
-                  "sizes": "844x392",
+                  "sizes": "1920x1440",
                   "type": "image/png",
                   "form_factor": "wide"
             },
             {
                   "src": "/ogimage.png",
-                  "sizes": "844x392",
+                  "sizes": "1920x1440",
                   "type": "image/png",
                   "form_factor": "narrow"
             }

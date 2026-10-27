@@ -50,7 +50,7 @@ const Header = () => {
                                                                   {eachMovieCard.overview && (
                                                                         <p className="text-lg sm:mt-1  lg:text-xl mt-2  md:w-3/4  text-[#fefefe] md:text-zinc-200 lg:text-zinc-100 leading-relaxed">
                                                                               {eachMovieCard.overview.slice(0, 250)}...
-                                                                              <Link onClick={() => play("press")} className="lg-glass hero-detail-link text-yellow-300" to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}`}>
+                                                                              <Link onClick={() => play("press")} className="hero-detail-link text-yellow-300" to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}`}>
                                                                                     see full detail
                                                                               </Link>
                                                                         </p>
@@ -59,8 +59,8 @@ const Header = () => {
                                                                         {eachMovieCard.vote_average != 0 && (
                                                                               <GlisseSurface className="hero-meta-pill px-3 py-1 rounded-full w-fit">
                                                                                     <h4 className="m-0 flex items-center gap-1 text-lg font-bold text-yellow-300">
-                                                                                    <StarIcon color="yellow" />
-                                                                                    <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
+                                                                                          <StarIcon color="yellow" />
+                                                                                          <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
                                                                                     </h4>
                                                                               </GlisseSurface>
                                                                         )}
