@@ -7,54 +7,31 @@ import { forwardRef, useId, useSyncExternalStore } from "react";
 const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 
 function prefersReducedMotion() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia?.(REDUCED_MOTION_QUERY)?.matches ?? false;
+      if (typeof window === "undefined") return false;
+      return window.matchMedia?.(REDUCED_MOTION_QUERY)?.matches ?? false;
 }
 
 function subscribeToReducedMotion(callback) {
-  if (typeof window === "undefined") return () => {};
-  const mediaQueryList = window.matchMedia(REDUCED_MOTION_QUERY);
-  mediaQueryList.addEventListener("change", callback);
-  return () => mediaQueryList.removeEventListener("change", callback);
+      if (typeof window === "undefined") return () => {};
+      const mediaQueryList = window.matchMedia(REDUCED_MOTION_QUERY);
+      mediaQueryList.addEventListener("change", callback);
+      return () => mediaQueryList.removeEventListener("change", callback);
 }
 
 function getServerReducedMotionSnapshot() {
-  return false;
+      return false;
 }
 
 function usePrefersReducedMotion() {
-  return useSyncExternalStore(
-    subscribeToReducedMotion,
-    prefersReducedMotion,
-    getServerReducedMotionSnapshot,
-  );
+      return useSyncExternalStore(subscribeToReducedMotion, prefersReducedMotion, getServerReducedMotionSnapshot);
 }
 
-export const ShinyButton = forwardRef(function ShinyButton({
-  as: Component = "button",
-  icon: Icon,
-  primary = false,
-  label = "Watch",
-  onClick,
-  className = "",
-  fillColor = primary ? "var(--txt)" : "#300b07",
-  labelColor = primary ? "#300b07" : "var(--txt)",
-  accentColor = primary ? "#300b07" : "var(--txt)",
-  accentSoftColor = "#ff7949",
-  sweepDuration = 4,
-  easeDuration = 0.25,
-  arcWidth = 5,
-  cornerRadius = 12,
-  showSpeckle = false,
-  showSheen = true,
-  speckleOpacity = 0.15,
-  ...props
-}, ref) {
-  const reducedMotion = usePrefersReducedMotion();
-  const instanceId = useId().replace(/[^a-zA-Z0-9]/g, "");
-  const scope = `gleam-edge-${instanceId}`;
+export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "button", icon: Icon, primary = false, label = "Watch", onClick, className = "", fillColor = primary ? "var(--txt)" : "#300b07", labelColor = primary ? "#300b07" : "var(--txt)", accentColor = primary ? "#300b07" : "var(--txt)", accentSoftColor = "#ff7949", sweepDuration = 4, easeDuration = 0.25, arcWidth = 5, cornerRadius = 12, showSpeckle = false, showSheen = true, speckleOpacity = 0.15, ...props }, ref) {
+      const reducedMotion = usePrefersReducedMotion();
+      const instanceId = useId().replace(/[^a-zA-Z0-9]/g, "");
+      const scope = `gleam-edge-${instanceId}`;
 
-  const css = `
+      const css = `
     @property --gradient-angle-${instanceId} {
       syntax: "<angle>";
       initial-value: 0deg;
@@ -279,22 +256,17 @@ export const ShinyButton = forwardRef(function ShinyButton({
     }
   `;
 
-  return (
-    <>
-      <style>{css}</style>
-      <Component
-        ref={ref}
-        type={Component === "button" ? "button" : undefined}
-        className={`shiny-button ${scope} ${className}`}
-        onClick={onClick}
-        aria-label={label}
-        data-reduced-motion={reducedMotion ? "true" : undefined}
-        {...props}
-      >
-        <span>{Icon && <Icon size={18} strokeWidth={1.8} aria-hidden="true" />}{label}</span>
-      </Component>
-    </>
-  );
+      return (
+            <>
+                  <style>{css}</style>
+                  <Component ref={ref} type={Component === "button" ? "button" : undefined} className={`shiny-button ${scope} ${className}`} onClick={onClick} aria-label={label} data-reduced-motion={reducedMotion ? "true" : undefined} {...props}>
+                        <span>
+                              {Icon && <Icon size={18} strokeWidth={1.8} aria-hidden="true" />}
+                              {label}
+                        </span>
+                  </Component>
+            </>
+      );
 });
 
 export default ShinyButton;

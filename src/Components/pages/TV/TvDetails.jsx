@@ -83,7 +83,7 @@ const TvDetails = () => {
                                           <div className="detail-storyline">
                                                 <div className="detail-storyline__heading">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-astralga font-semibold">Storyline</h1>
-                                                      <GlisseSurface className="glass-year-pill px-3 md:text-lg text-xs py-1 font-astralga font-semibold rounded-full" style={{ "--lg-glass": "#ff7949", "--lg-glass-active": "#ff956e" }}>{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</GlisseSurface>
+                                                      <GlisseSurface className="glass-year-pill px-3 md:text-lg text-xs py-1 font-astralga font-semibold rounded-full" style={{ "--lg-glass": "#fdfdfde", "--lg-glass-active": "#ff956e" }}>{info.detail.first_air_date ? info.detail.first_air_date.split("-")[0] : info.detail.last_air_date ? info.detail.last_air_date.split("-")[0] : "Not Released"}</GlisseSurface>
                                                 </div>
                                                 <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>

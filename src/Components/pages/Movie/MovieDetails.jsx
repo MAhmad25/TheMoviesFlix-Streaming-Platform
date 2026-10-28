@@ -82,7 +82,9 @@ const MovieDetails = () => {
                                           <div className="detail-storyline">
                                                 <div className="detail-storyline__heading">
                                                       <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-medium font-astralga">Storyline</h1>
-                                                      <GlisseSurface className="glass-year-pill font-astralga font-semibold px-3 md:text-lg text-xs py-1 rounded-full" style={{ "--lg-glass": "#ff7949", "--lg-glass-active": "#ff956e" }}>{info.detail.release_date?.split("-")[0] || "Not Released"}</GlisseSurface>
+                                                      <GlisseSurface className="glass-year-pill font-astralga font-semibold px-3 md:text-lg text-xs py-1 rounded-full" style={{ "--lg-glass": "#fdfdfde", "--lg-glass-active": "#ff956e" }}>
+                                                            {info.detail.release_date?.split("-")[0] || "Not Released"}
+                                                      </GlisseSurface>
                                                 </div>
                                                 <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
                                           </div>
@@ -104,8 +106,12 @@ const MovieDetails = () => {
                                                             <h1 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h1>
                                                             <div className="detail-reviews__tools">
                                                                   <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
-                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow"><CiCircleChevLeft size="2rem" /></button>
-                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow"><CiCircleChevRight size="2rem" /></button>
+                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow">
+                                                                        <CiCircleChevLeft size="2rem" />
+                                                                  </button>
+                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow">
+                                                                        <CiCircleChevRight size="2rem" />
+                                                                  </button>
                                                             </div>
                                                       </div>
                                                       <div ref={containerRef} className="detail-reviews__rail">

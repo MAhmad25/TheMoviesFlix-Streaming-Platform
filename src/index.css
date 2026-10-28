@@ -232,7 +232,9 @@ body::-webkit-scrollbar {
       --lg-glass-active: rgb(255 255 255 / 24%);
       --lg-edge: rgb(255 255 255 / 30%);
       --lg-blur: 14px;
-      transition: transform 180ms ease, background-color 180ms ease;
+      transition:
+            transform 180ms ease,
+            background-color 180ms ease;
 }
 
 .hero-media-action:hover {
@@ -271,7 +273,7 @@ body::-webkit-scrollbar {
 .glass-year-pill {
       flex: 0 0 auto;
       border-radius: 999px;
-      color: #300b07;
+      color: #ffffff;
       background-color: var(--txt);
 }
 

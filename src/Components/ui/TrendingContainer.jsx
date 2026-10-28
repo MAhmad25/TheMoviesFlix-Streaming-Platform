@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import api from "../../utils/axios";
 import Slider from "./Slider";
 import AnimatedDropdown from "./DropDown";
-import GlisseSurface from "./GlisseSurface";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
       const [query, setQuery] = useState("tv");
@@ -23,7 +22,7 @@ const TrendingContainer = () => {
             <section className="w-full relative px-5">
                   <div className="trending-container-heading flex flex-wrap lg:flex-nowrap gap-3 mb-3 justify-between items-center">
                         <span className="flex-1 hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
-                        <GlisseSurface className="glass-section-heading"><h1 className="sm:text-3xl text-nowrap text-[#fefefe] text-xl">Trending Now</h1></GlisseSurface>
+                        <h1 className="sm:text-3xl text-nowrap text-[#fefefe] text-xl">Trending Now</h1>
                         <span className="flex-1 hidden lg:inline border-dotted border-[1px] border-gray-400"></span>
                         <AnimatedDropdown
                               items={[

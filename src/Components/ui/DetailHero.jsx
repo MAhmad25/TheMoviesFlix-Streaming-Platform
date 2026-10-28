@@ -20,12 +20,21 @@ export default function DetailHero({ detail, mediaType = "movie", children }) {
                               {isTV ? (
                                     <GlisseSurface className="detail-hero__tag">Total Seasons: {detail.number_of_seasons}</GlisseSurface>
                               ) : runtime > 0 ? (
-                                    <GlisseSurface className="detail-hero__tag">{Math.floor(runtime / 60)}h {runtime % 60}min</GlisseSurface>
+                                    <GlisseSurface className="detail-hero__tag">
+                                          {Math.floor(runtime / 60)}h {runtime % 60}min
+                                    </GlisseSurface>
                               ) : null}
-                              {detail.genres?.map((genre) => <GlisseSurface className="detail-hero__tag" key={genre.id}>{genre.name}</GlisseSurface>)}
+                              {detail.genres?.map((genre) => (
+                                    <GlisseSurface className="detail-hero__tag" key={genre.id}>
+                                          {genre.name}
+                                    </GlisseSurface>
+                              ))}
                         </div>
                         <div className="detail-hero__rating">
-                              <span className="detail-hero__score"><StarIcon className="shrink-0" />{rating.toFixed(0)}/10</span>
+                              <span className="detail-hero__score">
+                                    <StarIcon className="shrink-0" />
+                                    {rating.toFixed(0)}/10
+                              </span>
                               <span className="detail-hero__votes">{(detail.vote_count || 0).toLocaleString()} votes</span>
                         </div>
                         {children}
