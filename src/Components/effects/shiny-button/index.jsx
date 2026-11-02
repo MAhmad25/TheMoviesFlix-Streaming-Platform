@@ -26,7 +26,7 @@ function usePrefersReducedMotion() {
       return useSyncExternalStore(subscribeToReducedMotion, prefersReducedMotion, getServerReducedMotionSnapshot);
 }
 
-export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "button", icon: Icon, primary = false, label = "Watch", onClick, className = "", fillColor = primary ? "var(--txt)" : "#300b07", labelColor = primary ? "#300b07" : "var(--txt)", accentColor = primary ? "#300b07" : "var(--txt)", accentSoftColor = "#ff7949", sweepDuration = 4, easeDuration = 0.25, arcWidth = 5, cornerRadius = 12, showSpeckle = false, showSheen = true, speckleOpacity = 0.15, ...props }, ref) {
+export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "button", icon: Icon, primary = false, label = "Watch", onClick, className = "", fillColor = primary ? "var(--txt)" : "#300b07", labelColor = primary ? "#300b07" : "var(--txt)", accentColor = primary ? "#300b07" : "var(--txt)", accentSoftColor = "#ff7949", sweepDuration = 4, easeDuration = 0.25, arcWidth = 5, cornerRadius = 12, showSpeckle = false, showSheen = true, speckleOpacity = 0.15, animated = true, ...props }, ref) {
       const reducedMotion = usePrefersReducedMotion();
       const instanceId = useId().replace(/[^a-zA-Z0-9]/g, "");
       const scope = `gleam-edge-${instanceId}`;
@@ -59,7 +59,7 @@ export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "bu
       --gleam-label: ${labelColor};
       --gleam-accent: ${accentColor};
       --gleam-accent-soft: ${accentSoftColor};
-      --animation: gradient-angle-${instanceId} linear infinite;
+      --animation: ${animated ? `gradient-angle-${instanceId} linear infinite` : "none"};
       --duration: ${sweepDuration}s;
       --shadow-size: 2px;
       --transition: ${easeDuration}s cubic-bezier(0.25, 1, 0.5, 1);
@@ -154,7 +154,7 @@ export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "bu
     }
 
     .${scope}::after {
-      --animation: shimmer-${instanceId} linear infinite;
+      --animation: ${animated ? `shimmer-${instanceId} linear infinite` : "none"};
       width: 100%;
       aspect-ratio: 1;
       background: linear-gradient(
@@ -182,15 +182,20 @@ export const ShinyButton = forwardRef(function ShinyButton({ as: Component = "bu
       box-shadow: inset 0 -1ex 2rem 4px var(--gleam-accent);
       opacity: 0;
       transition: opacity var(--transition);
-      animation: calc(var(--duration) * 1.5) breathe-${instanceId} linear infinite;
+      animation: ${animated ? `calc(var(--duration) * 1.5) breathe-${instanceId} linear infinite` : "none"};
     }
 
     .${scope},
     .${scope}::before,
     .${scope}::after {
-      animation:
+      animation: ${
+            animated
+                  ? `
         var(--animation) var(--duration),
         var(--animation) calc(var(--duration) / 0.4) reverse paused;
+      `
+                  : "none"
+      };
       animation-composition: add;
     }
 

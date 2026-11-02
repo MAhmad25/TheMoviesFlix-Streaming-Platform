@@ -1,12 +1,25 @@
-import { useCallback, useEffect, useState, createContext, useContext, useMemo } from "react";
+import { useCallback, useContext, useEffect, useState, useMemo } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-
-const CarouselContext = createContext(null);
+import { CarouselContext } from "./CarouselContext";
 
 export const Carousel = ({ children, options, plugins, className = "" }) => {
       const [emblaRef, emblaApi] = useEmblaCarousel(options, plugins);
+      const [selectedIndex, setSelectedIndex] = useState(0);
 
-      const contextValue = useMemo(() => ({ emblaApi }), [emblaApi]);
+      useEffect(() => {
+            if (!emblaApi) return undefined;
+
+            const updateSelectedIndex = () => setSelectedIndex(emblaApi.selectedScrollSnap());
+            updateSelectedIndex();
+            emblaApi.on("select", updateSelectedIndex);
+            emblaApi.on("reInit", updateSelectedIndex);
+            return () => {
+                  emblaApi.off("select", updateSelectedIndex);
+                  emblaApi.off("reInit", updateSelectedIndex);
+            };
+      }, [emblaApi]);
+
+      const contextValue = useMemo(() => ({ emblaApi, selectedIndex }), [emblaApi, selectedIndex]);
 
       return (
             <CarouselContext.Provider value={contextValue}>

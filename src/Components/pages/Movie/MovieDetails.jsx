@@ -5,10 +5,12 @@ import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { MdClose } from "react-icons/md";
 import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
-import { Card, Review, Exclude, DetailLoader } from "../../ui/index";
+import Card from "../../ui/Card";
+import Review from "../../ui/Review";
+import Exclude from "../../ui/Exclude";
+import DetailLoader, { DetailLoadError } from "../../ui/Loaders/DetailLoader";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import { Button } from "glisse";
-import GlisseSurface from "../../ui/GlisseSurface";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -25,6 +27,8 @@ const MovieDetails = () => {
       const [isStart, setIsStart] = useState(true);
       const [showAllReviews, setShowAllReviews] = useState(false);
       const [showAllRecommendations, setShowAllRecommendations] = useState(false);
+      const [loadError, setLoadError] = useState(false);
+      const [retryToken, setRetryToken] = useState(0);
       const { id } = useParams();
       const updateScrollState = useCallback(() => {
             const el = containerRef.current;
@@ -36,14 +40,16 @@ const MovieDetails = () => {
 
       const scrollLeft = useCallback(() => {
             if (!containerRef.current) return;
-            containerRef.current.scrollBy({ left: -600, behavior: "smooth" });
+            const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth";
+            containerRef.current.scrollBy({ left: -600, behavior });
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             rafRef.current = requestAnimationFrame(updateScrollState);
       }, [updateScrollState]);
 
       const scrollRight = useCallback(() => {
             if (!containerRef.current) return;
-            containerRef.current.scrollBy({ left: 600, behavior: "smooth" });
+            const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth";
+            containerRef.current.scrollBy({ left: 600, behavior });
             if (rafRef.current) cancelAnimationFrame(rafRef.current);
             rafRef.current = requestAnimationFrame(updateScrollState);
       }, [updateScrollState]);
@@ -63,11 +69,21 @@ const MovieDetails = () => {
                   window.removeEventListener("resize", onScroll);
                   if (rafRef.current) cancelAnimationFrame(rafRef.current);
             };
-      }, [updateScrollState, info?.reviews, showAllReviews]);
+      }, [updateScrollState, info]);
       useEffect(() => {
-            dispatch(asyncMovieLoader(id));
-            return () => dispatch(removeMovie());
-      }, [id, dispatch]);
+            const controller = new AbortController();
+            setLoadError(false);
+            dispatch(asyncMovieLoader(id, controller.signal)).catch(() => {
+                  if (!controller.signal.aborted) {
+                        controller.abort();
+                        setLoadError(true);
+                  }
+            });
+            return () => {
+                  controller.abort();
+                  dispatch(removeMovie());
+            };
+      }, [id, retryToken, dispatch]);
 
       return (
             <>
@@ -78,32 +94,23 @@ const MovieDetails = () => {
                                     <DetailHero detail={info.detail} mediaType="movie">
                                           <MediaActions mediaId={id} title={info.detail.title || info.detail.original_title} watchTo="watch" />
                                     </DetailHero>
-                                    <section className="px-5 pb-28 text-white mt-3 w-full font-primary">
-                                          <div className="detail-storyline">
-                                                <div className="detail-storyline__heading">
-                                                      <h1 className="text-2xl min-[961px]:text-5xl  md:text-3xl  font-medium font-astralga">Storyline</h1>
-                                                      <GlisseSurface className="glass-year-pill font-astralga font-semibold px-3 md:text-lg text-xs py-1 rounded-full" style={{ "--lg-glass": "#fdfdfde", "--lg-glass-active": "#ff956e" }}>
-                                                            {info.detail.release_date?.split("-")[0] || "Not Released"}
-                                                      </GlisseSurface>
-                                                </div>
-                                                <p className="detail-storyline__overview">{info?.detail?.overview || "No Storyline available"}</p>
-                                          </div>
-                                          {info.castBy.cast.length != 0 && (
-                                                <div className="w-full mt-3">
-                                                      <h1 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h1>
+                                    <section className="detail-supporting-content px-5 pb-28 text-white w-full font-primary">
+                                          {info.castBy.cast.length !== 0 && (
+                                                <div className="detail-content-section w-full mt-10">
+                                                      <h2 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h2>
                                                       <div className="detail-people">{info.castBy.cast.map((eachActor) => <Exclude key={eachActor.cast_id} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
                                           {info.castBy.crew.length != 0 && (
-                                                <div className="mt-2 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
-                                                      <h1 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Crew</h1>
+                                                <div className="detail-content-section mt-8 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
+                                                      <h2 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Crew</h2>
                                                       <div className="detail-people">{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
                                                 </div>
                                           )}
                                           {info.reviews.length !== 0 && (
-                                                <div className="mt-2 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
+                                                <div className="detail-content-section mt-8 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
                                                       <div className="detail-reviews__header">
-                                                            <h1 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h1>
+                                                            <h2 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h2>
                                                             <div className="detail-reviews__tools">
                                                                   <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
                                                                   <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow">
@@ -128,11 +135,11 @@ const MovieDetails = () => {
                                           )}
 
                                           {info.recommendedMovies.length !== 0 && (
-                                                <div className="mt-2 overflow-x-hidden mb-20 w-full">
-                                                      <h1 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl  md:my-10 font-bold font-primary leading-none">Similar Movies</h1>
+                                                <div className="detail-content-section mt-8 overflow-x-hidden mb-20 w-full">
+                                                      <h2 className="text-white text-2xl md:text-3xl min-[961px]:text-5xl md:my-10 font-bold font-primary leading-none">Similar Movies</h2>
                                                       <div className="media-grid recommendations-grid mt-5 sm:mt-3 w-full grid grid-cols-2 lg:grid-cols-3 min-[1250px]:grid-cols-4 gap-3 md:gap-6 items-stretch">
-                                                            {(showAllRecommendations ? info.recommendedMovies : info.recommendedMovies.slice(0, 12)).map((eachMovie, index) => (
-                                                                  <Card key={index} type="movie" eachMovie={eachMovie} />
+                                                            {(showAllRecommendations ? info.recommendedMovies : info.recommendedMovies.slice(0, 12)).map((eachMovie) => (
+                                                                  <Card key={eachMovie.id} type="movie" eachMovie={eachMovie} />
                                                             ))}
                                                       </div>
                                                       {info.recommendedMovies.length > 12 && (
@@ -149,7 +156,7 @@ const MovieDetails = () => {
                               </section>
                         </section>
                   ) : (
-                        <DetailLoader />
+                                    loadError ? <DetailLoadError onRetry={() => setRetryToken((token) => token + 1)} /> : <DetailLoader />
                   )}
             </>
       );

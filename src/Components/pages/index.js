@@ -6,6 +6,5 @@ import Trailer from "./Trailer";
 import TvDetails from "./TV/TvDetails";
 import TVPage from "./TV/TVPage";
 import Stream from "./Stream";
-import Search from "./Search";
 import MoviePage from "./Movie/MoviePage";
-export { Home, MovieDetails, PeoplePage, PeopleDetails, Trailer, TvDetails, TVPage, MoviePage, Stream, Search };
+export { Home, MovieDetails, PeoplePage, PeopleDetails, Trailer, TvDetails, TVPage, MoviePage, Stream };

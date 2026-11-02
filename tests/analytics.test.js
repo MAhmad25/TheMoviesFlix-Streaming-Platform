@@ -33,7 +33,7 @@ test("each real route has the right category and nested routes do not count as d
             ["/", "home", undefined],
             ["/trending", "movies", undefined],
             ["/tv", "tv_shows", undefined],
-            ["/search", "search", undefined],
+            ["/search", "not_found", undefined],
             ["/people", "people", undefined],
             ["/movie/details/550", "movie_details", "movie_viewed"],
             ["/movie/details/550/watch", "movie_watch", "watch_opened"],

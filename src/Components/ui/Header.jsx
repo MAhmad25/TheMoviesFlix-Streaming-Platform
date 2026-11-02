@@ -1,81 +1,118 @@
-import { useEffect, useState } from "react";
-import api from "../../utils/axios";
+import { memo, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { StarIcon } from "./index";
-import { Carousel, Slider, SliderContainer } from "./Carousal";
+import { Clapperboard, Play, Star } from "lucide-react";
+import { useReducedMotion } from "motion/react";
 import Autoplay from "embla-carousel-autoplay";
 import { play } from "cuelume";
-import GlisseSurface from "./GlisseSurface";
-import { Clapperboard, Play } from "lucide-react";
+import api from "../../utils/axios";
+import { Carousel, Slider, SliderContainer } from "./Carousal";
+import { useCarouselSelection } from "./CarouselContext";
+import MetalActionButton from "./MediaActionButton";
+
+const HERO_LIMIT = 6;
+const CAROUSEL_OPTIONS = { loop: true };
+const NO_PLUGINS = [];
+
+const HeroSlide = memo(function HeroSlide({ item, index }) {
+      const { selectedIndex = 0 } = useCarouselSelection();
+      const isActive = selectedIndex === index;
+      const ActionButton = MetalActionButton;
+      const title = item.original_title || item.title || item.original_name || item.name || "Untitled";
+      const mediaType = item.media_type === "tv" ? "tv" : "movie";
+      const year = (item.release_date || item.first_air_date || "").slice(0, 4);
+      const artwork = item.backdrop_path || item.poster_path;
+      const artworkSize = index === 0 ? "w1280" : "w780";
+
+      return (
+            <Slider className="w-full">
+                  <div className="home-hero-slide">
+                        <div className="hero-artwork" data-glisse-backdrop>
+                              <img
+                                    loading={index === 0 ? "eager" : "lazy"}
+                                    decoding="async"
+                                    width="1280"
+                                    height="720"
+                                    className="home-hero-image"
+                                    src={artwork ? `https://image.tmdb.org/t/p/${artworkSize}${artwork}` : "/noImage.jpg"}
+                                    alt=""
+                              />
+                        </div>
+                        <div className="home-hero-content px-4 text-white">
+                              <div className="w-full space-y-5 bg-transparent">
+                                    <h1 className="text-3xl break-words h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{title}</h1>
+                                    <div className="hero-media-actions" aria-label={`Watch or view trailer for ${title}`}>
+                                          <ActionButton
+                                                as={Link}
+                                                to={`/${mediaType}/details/${item.id}/${mediaType === "tv" ? "watch/1/1" : "watch"}`}
+                                                onClick={() => play("press")}
+                                                label="Watch"
+                                                icon={Play}
+                                                primary
+                                                paused={!isActive}
+                                                className="hero-media-action"
+                                          />
+                                          <ActionButton
+                                                as={Link}
+                                                to={`/${mediaType}/details/${item.id}/trailer`}
+                                                onClick={() => play("press")}
+                                                label="Trailer"
+                                                icon={Clapperboard}
+                                                paused={!isActive}
+                                                className="hero-media-action"
+                                          />
+                                    </div>
+                                    <div className="hero-meta-row" aria-label="Title information">
+                                          {Number(item.vote_average) > 0 && (
+                                                <span className="hero-meta__rating">
+                                                      <Star size={16} fill="currentColor" aria-hidden="true" />
+                                                      <span>{Number(item.vote_average).toFixed(1)} / 10</span>
+                                                </span>
+                                          )}
+                                          {year && <span className="hero-meta__item">{year}</span>}
+                                          <span className="hero-meta__item">{mediaType === "tv" ? "TV series" : "Movie"}</span>
+                                    </div>
+                              </div>
+                        </div>
+                  </div>
+            </Slider>
+      );
+});
 
 const Header = () => {
       const [nowPlaying, setNowPlaying] = useState([]);
-      useEffect(() => {
-            (async () => {
-                  try {
-                        const { data } = await api.get("trending/all/day");
-                        setNowPlaying(data.results);
-                  } catch (error) {
-                        console.log(error.message);
-                  }
-            })();
-      }, []);
+      const reducedMotion = useReducedMotion();
+      const autoplay = useMemo(() => Autoplay({
+            playOnInit: true,
+            delay: 5000,
+            stopOnMouseEnter: true,
+            stopOnInteraction: true,
+      }), []);
+      const plugins = useMemo(() => reducedMotion ? NO_PLUGINS : [autoplay], [autoplay, reducedMotion]);
 
-      const OPTIONS = { loop: true };
+      useEffect(() => {
+            const controller = new AbortController();
+            api.get("trending/all/day", { signal: controller.signal })
+                  .then(({ data }) => {
+                        if (controller.signal.aborted) return;
+                        const featured = (data.results || [])
+                              .filter((item) => item.media_type === "movie" || item.media_type === "tv")
+                              .slice(0, HERO_LIMIT);
+                        setNowPlaying(featured);
+                  })
+                  .catch(() => {
+                        if (!controller.signal.aborted) setNowPlaying([]);
+                  });
+
+            return () => controller.abort();
+      }, []);
 
       return (
             <header className="w-full leading-none font-primary">
                   <section className="w-full flex relative">
-                        <Carousel
-                              options={OPTIONS}
-                              className="w-full"
-                              plugins={[
-                                    Autoplay({
-                                          playOnInit: true,
-                                          delay: 4000,
-                                          stopOnMouseEnter: false,
-                                          stopOnInteraction: false,
-                                    }),
-                              ]}
-                        >
+                        <Carousel options={CAROUSEL_OPTIONS} className="w-full" plugins={plugins}>
                               <SliderContainer className="gap-0 cursor-grab">
-                                    {nowPlaying.map((eachMovieCard, index) => (
-                                          <Slider key={index} className="w-full">
-                                                <div className="home-hero-slide">
-                                                      <div className="hero-artwork" data-glisse-backdrop>
-                                                            <img loading="eager" className="home-hero-image" src={eachMovieCard.backdrop_path || eachMovieCard.poster_path ? `https://image.tmdb.org/t/p/w780${eachMovieCard.backdrop_path || eachMovieCard.poster_path}` : "/noImage.jpg"} alt="" />
-                                                      </div>
-                                                      <div className="home-hero-content px-4 text-white">
-                                                            <div className="w-full space-y-5 bg-transparent">
-                                                                  <h1 className="text-3xl break-words h-fit font-semibold font-astralga lg:text-4xl min-[1150px]:text-5xl leading-none">{eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}</h1>
-                                                                  <div className="hero-media-actions" aria-label={`Watch or view trailer for ${eachMovieCard?.original_title || eachMovieCard?.title || eachMovieCard?.name}`}>
-                                                                        <GlisseSurface className="hero-media-action hero-media-action--primary">
-                                                                              <Link onClick={() => play("press")} to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}/${eachMovieCard.media_type === "tv" ? "watch/1/1" : "watch"}`}>
-                                                                                    <Play size={18} fill="#ff7949" aria-hidden="true" /> Watch
-                                                                              </Link>
-                                                                        </GlisseSurface>
-                                                                        <GlisseSurface className="hero-media-action">
-                                                                              <Link onClick={() => play("press")} to={`/${eachMovieCard.media_type === "tv" ? "tv" : "movie"}/details/${eachMovieCard?.id}/trailer`}>
-                                                                                    <Clapperboard size={18} aria-hidden="true" /> Trailer
-                                                                              </Link>
-                                                                        </GlisseSurface>
-                                                                  </div>
-                                                                  <div className="flex flex-wrap items-center mt-2 gap-2">
-                                                                        {eachMovieCard.vote_average != 0 && (
-                                                                              <GlisseSurface className="hero-meta-pill px-3 py-1 rounded-full w-fit">
-                                                                                    <h4 className="m-0 flex items-center gap-1 text-lg font-bold text-yellow-300">
-                                                                                          <StarIcon color="yellow" />
-                                                                                          <span>Rating: {eachMovieCard.vote_average.toFixed(1)}/10</span>
-                                                                                    </h4>
-                                                                              </GlisseSurface>
-                                                                        )}
-                                                                        {(eachMovieCard?.release_date || eachMovieCard?.first_air_date) && <GlisseSurface className="hero-meta-pill font-bold text-yellow-300 px-2 py-1 rounded-full w-fit text-lg">{eachMovieCard?.release_date?.split("-")[0] || eachMovieCard?.first_air_date?.split("-")[0]}</GlisseSurface>}
-                                                                        {eachMovieCard?.media_type && <GlisseSurface className="hero-meta-pill text-lg font-bold px-3 py-1 rounded-full text-yellow-300">{eachMovieCard?.media_type?.toUpperCase()}</GlisseSurface>}
-                                                                  </div>
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </Slider>
+                                    {nowPlaying.map((item, index) => (
+                                          <HeroSlide key={`${item.media_type}-${item.id}`} item={item} index={index} />
                                     ))}
                               </SliderContainer>
                         </Carousel>

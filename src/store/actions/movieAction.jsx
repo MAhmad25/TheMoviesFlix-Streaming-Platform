@@ -1,18 +1,24 @@
 import { getMovie } from "../reducers/moviesSlice";
 export { removeMovie } from "../reducers/moviesSlice";
 import api from "../../utils/axios";
-export const asyncMovieLoader = (id) => async (dispatch) => {
-      const details = await api.get(`/movie/${id}`);
-      const castBy = await api.get(`/movie/${id}/credits`);
-      const recommendedMovies = await api.get(`/movie/${id}/recommendations`);
-      const videoLink = await api.get(`/movie/${id}/videos`);
-      const reviews = await api.get(`/movie/${id}/reviews`);
+import { pickYouTubeTrailer } from "../../utils/tmdbVideos";
+export const asyncMovieLoader = (id, signal) => async (dispatch) => {
+      const config = signal ? { signal } : undefined;
+      const [details, castBy, recommendedMovies, videoLink, reviews] = await Promise.all([
+            api.get(`/movie/${id}`, config),
+            api.get(`/movie/${id}/credits`, config),
+            api.get(`/movie/${id}/recommendations`, config),
+            api.get(`/movie/${id}/videos`, config),
+            api.get(`/movie/${id}/reviews`, config),
+      ]);
+      if (signal?.aborted) return;
+      const credits = castBy.data || {};
       const idDetail = {
             detail: details.data,
-            castBy: castBy.data,
-            recommendedMovies: recommendedMovies.data.results,
-            videoLink: videoLink?.data?.results?.find((link) => link.type === "Trailer"),
-            reviews: reviews.data.results,
+            castBy: { ...credits, cast: credits.cast || [], crew: credits.crew || [] },
+            recommendedMovies: recommendedMovies.data.results || [],
+            videoLink: pickYouTubeTrailer(videoLink.data.results),
+            reviews: reviews.data.results || [],
       };
       dispatch(getMovie(idDetail));
 };

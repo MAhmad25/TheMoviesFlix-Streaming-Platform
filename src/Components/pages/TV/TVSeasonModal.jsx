@@ -1,52 +1,108 @@
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import { CalendarDays, Clapperboard, Clock3 } from "lucide-react";
+import { motion, useReducedMotion } from "motion/react";
 import { MdClose } from "react-icons/md";
-import { StarIcon } from "../../ui/index";
+import api from "../../../utils/axios";
+import { pickYouTubeTrailer } from "../../../utils/tmdbVideos";
+import StarIcon from "../../ui/Icons/StarIcon";
 import MediaActions from "../../ui/MediaActions";
-import { motion } from "motion/react";
+import MetalActionButton from "../../ui/MediaActionButton";
 
 const DropArea = styled(motion.div)`
       display: flex;
       flex-direction: column;
-      border: 2px dashed #ffffff;
+      border: 1px solid color-mix(in srgb, var(--txt) 32%, transparent);
       border-radius: 12px;
-      padding: 16px;
       position: relative;
       overflow: hidden;
-      background-image: var(--bg-gradient);
-
-      @media (min-width: 768px) {
-            padding: 24px;
-      }
+      background: var(--bg-gradient, #300b07);
 `;
 
 const PreviewBox = styled.div`
-      border-radius: inherit;
       min-height: 0;
       overflow-y: auto;
       overscroll-behavior: contain;
-      font-size: 11px;
-      &::-webkit-scrollbar {
-            width: 8px;
-      }
-
-      &::-webkit-scrollbar-thumb {
-            background: #300b07;
-            border-radius: 9999px;
-      }
-
-      &::-webkit-scrollbar-track {
-            background: transparent;
-      }
-
       scrollbar-width: thin;
-      scrollbar-color: #fefefe transparent;
+      scrollbar-color: #ff7949 transparent;
+
+      &::-webkit-scrollbar { width: 8px; }
+      &::-webkit-scrollbar-thumb { background: #ff7949; border-radius: 9999px; }
+      &::-webkit-scrollbar-track { background: transparent; }
 `;
 
-const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
+const EpisodeCard = memo(function EpisodeCard({ episode, active, onSelect }) {
+      const number = Number(episode.episode_number) || 0;
+      const date = episode.air_date
+            ? new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${episode.air_date}T00:00:00`))
+            : "Air date unavailable";
+      const runtime = Number(episode.runtime);
+
+      return (
+            <button
+                  type="button"
+                  onClick={() => onSelect(number)}
+                  aria-pressed={active}
+                  aria-label={`Select episode ${number}: ${episode.name || "Untitled episode"}`}
+                  className={`tv-season-episode${active ? " is-active" : ""}`}
+            >
+                  <span className="tv-season-episode__artwork">
+                        <img
+                              src={episode.still_path ? `https://image.tmdb.org/t/p/w300${episode.still_path}` : "/noImage.jpg"}
+                              alt=""
+                              loading="lazy"
+                              decoding="async"
+                              sizes="(max-width: 640px) 80vw, 330px"
+                        />
+                        <span className="tv-season-episode__number">E{String(number).padStart(2, "0")}</span>
+                  </span>
+                  <span className="tv-season-episode__body">
+                        <strong>{episode.name || `Episode ${number}`}</strong>
+                        <span className="tv-season-episode__meta">
+                              <span><CalendarDays aria-hidden="true" size={13} />{date}</span>
+                              {runtime > 0 && <span><Clock3 aria-hidden="true" size={13} />{runtime} min</span>}
+                              {Number(episode.vote_average) > 0 && <span><StarIcon />{Number(episode.vote_average).toFixed(1)}</span>}
+                        </span>
+                        {episode.overview && <span className="tv-season-episode__overview">{episode.overview}</span>}
+                        {episode.guest_stars?.length > 0 && (
+                              <span className="tv-season-episode__guests">Guest starring {episode.guest_stars.slice(0, 2).map((person) => person.name).filter(Boolean).join(" · ")}</span>
+                        )}
+                  </span>
+            </button>
+      );
+});
+
+const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => (
+      <div className="grid grid-cols-[repeat(auto-fill,minmax(44px,1fr))] gap-2">
+            {Array.from({ length: totalEpisodes }, (_, index) => {
+                  const episodeNumber = index + 1;
+                  return (
+                        <button
+                              key={episodeNumber}
+                              type="button"
+                              onClick={() => setEpisode(episodeNumber)}
+                              aria-pressed={currentEpisode === episodeNumber}
+                              aria-label={`Select episode ${episodeNumber}`}
+                              className={`min-h-11 rounded-md border px-3 font-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--txt)] ${currentEpisode === episodeNumber ? "border-[var(--txt)] bg-[var(--txt)] text-[#300b07]" : "border-[#ff7949]/30 text-[var(--txt)] hover:bg-[#ff7949]/10"}`}
+                        >
+                              {episodeNumber}
+                        </button>
+                  );
+            })}
+      </div>
+);
+
+const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
+      const [seasonDetails, setSeasonDetails] = useState(null);
+      const [loadState, setLoadState] = useState("loading");
+      const [retryToken, setRetryToken] = useState(0);
+      const [showAllEpisodes, setShowAllEpisodes] = useState(false);
       const dialogRef = useRef(null);
-      const totalEpisodes = season?.episode_count || 1;
+      const reducedMotion = useReducedMotion();
+      const seasonNumber = Number(season?.season_number);
+
       useEffect(() => {
             const dialog = dialogRef.current;
             const trigger = document.activeElement;
@@ -77,69 +133,152 @@ const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
             };
       }, [onClick]);
 
+      useEffect(() => {
+            if (!Number.isFinite(seasonNumber)) {
+                  setLoadState("error");
+                  return undefined;
+            }
+
+            const controller = new AbortController();
+            setLoadState("loading");
+            setSeasonDetails(null);
+            setCurrentEpisode(1);
+            setShowAllEpisodes(false);
+
+            api.get(`/tv/${mediaId}/season/${seasonNumber}`, {
+                  params: {
+                        append_to_response: "videos,images",
+                        include_image_language: "en,en-US,null",
+                  },
+                  signal: controller.signal,
+            }).then(({ data }) => {
+                  if (controller.signal.aborted) return;
+                  setSeasonDetails(data);
+                  setCurrentEpisode(Number(data.episodes?.[0]?.episode_number) || 1);
+                  setLoadState("loaded");
+            }).catch(() => {
+                  if (!controller.signal.aborted) setLoadState("error");
+            });
+
+            return () => controller.abort();
+      }, [mediaId, seasonNumber, retryToken]);
+
+      const episodes = seasonDetails?.episodes || [];
+      const selectedEpisode = episodes.find((episode) => Number(episode.episode_number) === currentEpisode) || episodes[0];
+      const episodeCount = episodes.length || Number(season?.episode_count) || 0;
+      const posters = seasonDetails?.images?.posters || [];
+      const posterPath = seasonDetails?.poster_path || posters[0]?.file_path || season?.poster_path;
+      const seasonTrailer = pickYouTubeTrailer(seasonDetails?.videos?.results);
+      const trailer = seasonTrailer || seriesTrailer;
+      const trailerLabel = seasonTrailer ? `Season ${seasonNumber} trailer` : "Series trailer";
+      const visibleEpisodes = showAllEpisodes ? episodes : episodes.slice(0, 8);
+
       return (
             <div
-                  onClick={(e) => {
-                        if (e.target === e.currentTarget) {
-                              onClick();
-                        }
+                  onClick={(event) => {
+                        if (event.target === event.currentTarget) onClick();
                   }}
-                  style={{
-                        backgroundImage: "radial-gradient(transparent 1px, #14120b 1px)",
-                        backgroundSize: "3px 3px",
-                        backdropFilter: "brightness(1) blur(10px)",
-                        willChange: "filter, opacity, transform",
-                  }}
-                  className="fixed inset-0 z-40 flex  items-center justify-center w-full h-full"
+                  className="tv-season-backdrop fixed inset-0 z-40 flex items-center justify-center p-4"
             >
                   <DropArea
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{
-                              duration: 0.8,
-                              ease: [0, 0.71, 0.2, 1.01],
-                        }}
+                        initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: reducedMotion ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
                         role="dialog"
                         ref={dialogRef}
                         tabIndex={-1}
                         data-lenis-prevent
                         aria-modal="true"
-                        aria-label={season?.name || "Select episode"}
-                        className="w-[calc(100%-32px)] max-w-5xl max-h-[calc(100dvh-32px)]"
+                        aria-label={`${season?.name || `Season ${seasonNumber}`} details`}
+                        className="tv-season-dialog w-full max-w-5xl max-h-[calc(100dvh-32px)]"
                   >
-                        <button type="button" aria-label="Close season" onClick={onClick} className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--txt)]">
+                        <button type="button" aria-label="Close season details" onClick={onClick} className="tv-season-dialog__close">
                               <MdClose size="1.5rem" />
                         </button>
-                        <PreviewBox className="relative flex flex-col w-full min-w-0 gap-6 md:flex-row md:items-start" data-lenis-prevent>
-                              <img className="block w-full max-h-[45dvh] object-contain shrink-0 md:w-1/3" src={season?.poster_path ? `https://image.tmdb.org/t/p/original${season.poster_path}` : "/noImage.jpg"} alt={season?.name} />
-
-                              <div className="w-full min-w-0 md:flex-1">
-                                    <div className="w-full space-y-4 text-lg text-[#fefefe] break-words">
-                                          <h2 className="w-fit max-w-full text-3xl border-b-2 border-dashed md:max-w-[calc(100%-56px)]">{season?.name}</h2>
-
-                                          <div className="flex flex-wrap items-center gap-2">
-                                                <span title="episode" className="flex items-center w-fit p-2 rounded-md bg-[#ff7949]/10">
-                                                      <span className="pr-1 text-sm font-bold text-[var(--txt)]">Total Episodes: {season?.episode_count || 0}</span>
-                                                </span>
-
-                                                <p className="flex items-center gap-1 w-fit">
-                                                      <StarIcon />
-                                                      {season?.vote_average || "No rating"}
-                                                </p>
-                                          </div>
-
-                                          <p>{season?.overview}</p>
-
-                                          <div className="w-full max-w-4xl space-y-8">
-                                                <div>
-                                                      <h1 className="mb-2 text-2xl font-bold">Select Episode</h1>
-
-                                                      <EpisodeSelector totalEpisodes={totalEpisodes} currentEpisode={currentEpisode} setEpisode={setCurrentEpisode} />
-                                                </div>
-                                          </div>
-
-                                          <MediaActions mediaId={mediaId} mediaType="tv" title={title} watchTo={`watch/${season.season_number}/${currentEpisode}`} showTrailer={false} season={season.season_number} episode={currentEpisode} />
+                        <PreviewBox className="tv-season-dialog__scroll" data-lenis-prevent>
+                              <div className="tv-season-summary">
+                                    <img
+                                          className="tv-season-summary__poster"
+                                          src={posterPath ? `https://image.tmdb.org/t/p/w342${posterPath}` : "/noImage.jpg"}
+                                          alt={`${season?.name || `Season ${seasonNumber}`} poster`}
+                                          loading="lazy"
+                                          decoding="async"
+                                    />
+                                    <div className="tv-season-summary__content">
+                                          <h2>{season?.name || `Season ${seasonNumber}`}</h2>
+                                          <p className="tv-season-summary__metadata">
+                                                <span>{episodeCount} {episodeCount === 1 ? "episode" : "episodes"}</span>
+                                                {seasonDetails?.air_date && <span>{seasonDetails.air_date.slice(0, 4)}</span>}
+                                                {Number(seasonDetails?.vote_average || season?.vote_average) > 0 && (
+                                                      <span><StarIcon />{Number(seasonDetails?.vote_average || season?.vote_average).toFixed(1)} season rating</span>
+                                                )}
+                                          </p>
+                                          <p className="tv-season-summary__overview">{seasonDetails?.overview || season?.overview || "Season information is not available yet."}</p>
+                                          {trailer && (
+                                                <MetalActionButton
+                                                      as={Link}
+                                                      to="trailer"
+                                                      state={{ video: trailer, seasonNumber, trailerScope: seasonTrailer ? "season" : "series" }}
+                                                      label={`Watch ${trailerLabel}`}
+                                                      icon={Clapperboard}
+                                                      className="tv-season-trailer-button"
+                                                      metalClassName="tv-season-trailer-host"
+                                                />
+                                          )}
                                     </div>
+                              </div>
+
+                              <section className="tv-season-episodes" aria-labelledby="tv-season-episodes-heading">
+                                    <div className="tv-season-episodes__heading">
+                                          <div>
+                                                <h3 id="tv-season-episodes-heading">Episodes</h3>
+                                                <p>Choose an episode to continue watching.</p>
+                                          </div>
+                                          <span>{episodeCount} total</span>
+                                    </div>
+
+                                    {loadState === "loading" && (
+                                          <p className="tv-season-status" role="status">Loading episode artwork and details…</p>
+                                    )}
+                                    {loadState === "error" && (
+                                          <div className="tv-season-status tv-season-status--error" role="alert">
+                                                <span>Season episodes could not be loaded. You can still choose an episode number.</span>
+                                                <button type="button" onClick={() => setRetryToken((token) => token + 1)}>Retry</button>
+                                          </div>
+                                    )}
+
+                                    {episodes.length > 0 ? (
+                                          <div className="tv-season-episode-grid">
+                                                {visibleEpisodes.map((episode) => (
+                                                      <EpisodeCard
+                                                            key={episode.id || `${seasonNumber}-${episode.episode_number}`}
+                                                            episode={episode}
+                                                            active={Number(episode.episode_number) === Number(selectedEpisode?.episode_number)}
+                                                            onSelect={setCurrentEpisode}
+                                                      />
+                                                ))}
+                                          </div>
+                                    ) : loadState !== "loading" ? (
+                                          <EpisodeSelector totalEpisodes={episodeCount} currentEpisode={currentEpisode} setEpisode={setCurrentEpisode} />
+                                    ) : null}
+
+                                    {episodes.length > 8 && (
+                                          <button type="button" className="tv-season-show-all" onClick={() => setShowAllEpisodes((show) => !show)}>
+                                                {showAllEpisodes ? "Show fewer episodes" : `Show all ${episodes.length} episodes`}
+                                          </button>
+                                    )}
+                              </section>
+
+                              <div className="tv-season-dialog__actions">
+                                    <MediaActions
+                                          mediaId={mediaId}
+                                          mediaType="tv"
+                                          title={title}
+                                          watchTo={`watch/${seasonNumber}/${selectedEpisode?.episode_number || currentEpisode}`}
+                                          season={seasonNumber}
+                                          episode={selectedEpisode?.episode_number || currentEpisode}
+                                          showTrailer={false}
+                                    />
                               </div>
                         </PreviewBox>
                   </DropArea>
@@ -148,45 +287,3 @@ const TVSeasonModal = ({ season, onClick, mediaId, title }) => {
 };
 
 export default TVSeasonModal;
-
-const SwitchControl = ({ label, value, checked, disabled = false, icon, onClick }) => {
-      return (
-            <button type="button" disabled={disabled} aria-pressed={checked} className={`flex min-h-11 min-w-11 items-center justify-center px-3 font-primary rounded-md border border-[#ff7949]/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--txt)] ${checked ? "bg-[var(--txt)] text-[#300b07]" : "text-[var(--txt)] hover:bg-[#ff7949]/10"} disabled:opacity-50 disabled:cursor-not-allowed`} onClick={() => onClick(value)}>
-                  {icon || label}
-            </button>
-      );
-};
-
-export const Switch = ({ children, value, onChange, size = "medium", style }) => {
-      const getContainerClasses = () => {
-            let classes = "grid gap-2 grid-cols-[repeat(auto-fit,minmax(44px,1fr))] h-fit";
-            return classes;
-      };
-
-      return (
-            <div className={getContainerClasses()} style={style}>
-                  {children.map((child, index) => {
-                        if (child.type === SwitchControl) {
-                              return <SwitchControl key={index} {...child.props} size={size} checked={child.props.value === value} onClick={onChange} />;
-                        }
-                        return child;
-                  })}
-            </div>
-      );
-};
-
-Switch.Control = SwitchControl;
-
-// Episode Selector Component
-const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => {
-      return (
-            <div className="w-full min-w-0">
-                  <Switch value={currentEpisode} onChange={setEpisode} size="medium">
-                        {Array.from({ length: totalEpisodes }, (_, index) => {
-                              const episodeNumber = index + 1;
-                              return <Switch.Control key={episodeNumber} label={episodeNumber.toString()} value={episodeNumber} />;
-                        })}
-                  </Switch>
-            </div>
-      );
-};

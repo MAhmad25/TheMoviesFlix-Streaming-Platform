@@ -17,5 +17,5 @@ import StarIcon from "./Icons/StarIcon";
 import WatchIcon from "./Icons/WatchIcon";
 import Nav from "./Nav";
 import AnimatedDropdown from "./DropDown";
-import { CoverFlow } from "./Coverflow";
-export { Card, CastLoader, Nav, StarIcon, CoverFlow, HomeSections, AnimatedDropdown, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };
+import { CoverFlow, CoverflowCarousel } from "./Coverflow";
+export { Card, CastLoader, Nav, StarIcon, CoverFlow, CoverflowCarousel, HomeSections, AnimatedDropdown, WatchIcon, Exclude, Header, NotFound, NonExistingRoute, Review, SeasonCard, TrendingContainer, ViewCard, DetailLoader, PageSkeleton, ImageLoader, PeopleDetailSkeleton };

@@ -1,24 +1,27 @@
 import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home, Stream, Trailer } from "../Components/pages/index";
-import { Nav, NonExistingRoute } from "../Components/ui/index";
+import Nav from "../Components/ui/Nav";
+import NonExistingRoute from "../Components/ui/NonExistingRoute";
+const Home = lazy(() => import("../Components/pages/Home"));
+const Stream = lazy(() => import("../Components/pages/Stream"));
+const Trailer = lazy(() => import("../Components/pages/Trailer"));
 const MoviePage = lazy(() => import("../Components/pages/Movie/MoviePage"));
 const TVPage = lazy(() => import("../Components/pages/TV/TVPage"));
 const PeoplePage = lazy(() => import("../Components/pages/People/PeoplePage"));
 const MovieDetails = lazy(() => import("../Components/pages/Movie/MovieDetails"));
 const TvDetails = lazy(() => import("../Components/pages/TV/TvDetails"));
 const PeopleDetails = lazy(() => import("../Components/pages/People/PeopleDetails"));
-const Search = lazy(() => import("../Components/pages/Search"));
+
+const RouteLoading = () => <div role="status" className="route-loading">Loading MoviesFlix…</div>;
 
 const Router = () => {
       return (
             <>
-                  <Suspense fallback={<div>Loading...</div>}>
+                  <Suspense fallback={<RouteLoading />}>
                                     <Routes>
                                           <Route path="/" element={<Home />} />
                                           <Route path="/trending" element={<MoviePage />} />
                                           <Route path="/tv" element={<TVPage />} />
-                                          <Route path="/search" element={<Search />} />
                                           <Route path="/people" element={<PeoplePage />} />
                                           <Route path="/movie/details/:id" element={<MovieDetails />}>
                                                 <Route path="trailer" element={<Trailer />} />

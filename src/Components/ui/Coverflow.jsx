@@ -1,439 +1,295 @@
-import { memo, useCallback, useEffect, useId, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
-import ShinyButton from "../effects/shiny-button/index.jsx";
-import { Play } from "lucide-react";
+import * as React from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useReducedMotion } from "motion/react";
 import { play } from "cuelume";
-import GlisseSurface from "./GlisseSurface";
-const AudioCtx = typeof window !== "undefined" ? (window.AudioContext ?? window.webkitAudioContext ?? null) : null;
+import { cn } from "../../lib/utils";
 
-function useTickAudio(enabled) {
-      const ctxRef = useRef(null);
+const useIsoLayoutEffect = typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
 
-      useEffect(
-            () => () => {
-                  ctxRef.current?.close().catch(() => {});
-                  ctxRef.current = null;
-            },
-            [],
-      );
-
-      useEffect(() => {
-            if (!enabled || !AudioCtx) return;
-            const warm = () => {
-                  if (!ctxRef.current) ctxRef.current = new AudioCtx();
-                  if (ctxRef.current.state === "suspended") ctxRef.current.resume().catch(() => {});
-            };
-            window.addEventListener("pointerdown", warm, { once: true });
-            return () => window.removeEventListener("pointerdown", warm);
-      }, [enabled]);
-
-      return useCallback(
-            (direction, velocity = 1) => {
-                  if (!enabled || !AudioCtx) return;
-
-                  const getCtx = async () => {
-                        if (!ctxRef.current) ctxRef.current = new AudioCtx();
-                        if (ctxRef.current.state === "suspended") await ctxRef.current.resume();
-                        return ctxRef.current;
-                  };
-
-                  getCtx()
-                        .then((ctx) => {
-                              const t = ctx.currentTime;
-                              const vn = Math.min(Math.abs(velocity) / 300, 1);
-                              const peakGain = 0.28 * (0.55 + vn * 0.45);
-                              const freq = 1600 * (0.88 + vn * 0.24);
-                              const bodyDur = 0.022 - vn * 0.008;
-                              const clickDur = bodyDur * 0.3;
-                              const panStart = direction === "left" ? 0.7 : -0.7;
-                              const panEnd = direction === "left" ? -0.7 : 0.7;
-
-                              const panner = ctx.createStereoPanner();
-                              panner.pan.setValueAtTime(panStart, t);
-                              panner.pan.linearRampToValueAtTime(panEnd, t + bodyDur);
-                              panner.connect(ctx.destination);
-
-                              const bodyGain = ctx.createGain();
-                              bodyGain.gain.setValueAtTime(peakGain, t);
-                              bodyGain.gain.exponentialRampToValueAtTime(0.0001, t + bodyDur);
-                              bodyGain.connect(panner);
-
-                              const filter = ctx.createBiquadFilter();
-                              filter.type = "bandpass";
-                              filter.frequency.value = freq;
-                              filter.Q.value = 6;
-                              filter.connect(bodyGain);
-
-                              const osc = ctx.createOscillator();
-                              osc.type = "triangle";
-                              osc.frequency.setValueAtTime(freq * 1.25, t);
-                              osc.frequency.exponentialRampToValueAtTime(freq * 0.65, t + bodyDur);
-                              osc.connect(filter);
-                              osc.start(t);
-                              osc.stop(t + bodyDur);
-
-                              const nSamples = Math.ceil(ctx.sampleRate * clickDur);
-                              const noiseBuf = ctx.createBuffer(1, nSamples, ctx.sampleRate);
-                              const d = noiseBuf.getChannelData(0);
-                              for (let i = 0; i < nSamples; i++) d[i] = (Math.random() * 2 - 1) * Math.exp(-i / (nSamples * 0.2));
-
-                              const noiseGain = ctx.createGain();
-                              noiseGain.gain.setValueAtTime(peakGain * 0.35, t);
-                              noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + clickDur);
-                              noiseGain.connect(panner);
-
-                              const noiseHp = ctx.createBiquadFilter();
-                              noiseHp.type = "highpass";
-                              noiseHp.frequency.value = 2400;
-                              noiseHp.connect(noiseGain);
-
-                              const noise = ctx.createBufferSource();
-                              noise.buffer = noiseBuf;
-                              noise.connect(noiseHp);
-                              noise.start(t);
-                              noise.stop(t + clickDur);
-                        })
-                        .catch(() => {});
-            },
-            [enabled],
-      );
+function clampIndex(index, count) {
+      return Math.max(0, Math.min(count - 1, index));
 }
 
-const defaultRenderImage = (props) => <img src={props?.src ? `https://image.tmdb.org/t/p/w500${props.src} ` : "/noImage.jpg"} alt={props.alt} width={props.width} height={props.height} className={props.className} draggable={props.draggable} sizes={props.sizes} loading={props.loading} />;
+export function CoverflowCarousel({
+      slides,
+      rotate = 44,
+      depth = 0.6,
+      perspective = 3,
+      falloff = 0.56,
+      fade = 0.1,
+      cardWidth = "clamp(148px, 22vw, 240px)",
+      gap = 0.05,
+      loop = true,
+      showCaption = false,
+      showPagination = false,
+      showNavigation = false,
+      initialIndex = 0,
+      label = "Cover carousel",
+      className,
+      cardClassName,
+      onSlideSelect,
+}) {
+      const count = slides.length;
+      const reducedMotion = useReducedMotion();
+      const safeInitial = count ? clampIndex(initialIndex, count) : 0;
+      const initialIndexRef = React.useRef(safeInitial);
+      const frameRef = React.useRef(null);
+      const cardRefs = React.useRef([]);
+      const posRef = React.useRef(safeInitial);
+      const targetRef = React.useRef(safeInitial);
+      const widthRef = React.useRef(0);
+      const rafRef = React.useRef(null);
+      const dragRef = React.useRef(null);
+      const wasDragRef = React.useRef(false);
+      const [selected, setSelected] = React.useState(safeInitial);
 
-function clampIndex(index, length) {
-      return Math.min(Math.max(index, 0), Math.max(length - 1, 0));
-}
+      const indexAt = React.useCallback((pos) => (count ? ((Math.round(pos) % count) + count) % count : 0), [count]);
 
-export function CoverFlow({ items, itemWidth = 400, setSeason, itemHeight = 400, stackSpacing = 100, centerGap = 250, rotation = 50, initialIndex = 0, enableReflection = false, enableClickToSnap = true, enableScroll = true, enableAudio = false, scrollThreshold = 100, reduceMotion, className, onItemClick, onIndexChange, renderImage }) {
-      const safeInitial = clampIndex(initialIndex, items.length);
-      const [activeIndex, setActiveIndex] = useState(safeInitial);
-      const [isDragging, setIsDragging] = useState(false);
-      const containerRef = useRef(null);
-      const instanceId = useId().replace(/:/g, "x");
-      const [isMounted, setIsMounted] = useState(false);
-      const [isMobile, setIsMobile] = useState(false);
-      const [isSafari, setIsSafari] = useState(false);
-      const [containerWidth, setContainerWidth] = useState(0);
-      useEffect(() => {
-            setIsMounted(true);
-      }, []);
+      const paint = React.useCallback(() => {
+            const width = widthRef.current;
+            if (!width || !count) return;
+            const pitch = width * (1 + gap);
+            const pos = posRef.current;
 
-      useEffect(() => {
-            const container = containerRef.current;
-            if (!container) return;
-            const ro = new ResizeObserver(([entry]) => {
-                  setContainerWidth(entry.contentRect.width);
+            cardRefs.current.forEach((card, index) => {
+                  if (!card) return;
+                  let offset = index - pos;
+                  if (loop) {
+                        offset = ((offset % count) + count) % count;
+                        if (offset > count / 2) offset -= count;
+                  }
+                  const distance = Math.abs(offset);
+                  const ramp = Math.pow(distance, falloff);
+                  const tilt = Math.min(rotate * ramp, 82) * Math.sign(offset);
+                  card.style.transform =
+                        `translateX(calc(-50% + ${offset * pitch}px)) ` +
+                        `translateZ(${-depth * width * ramp}px) rotateY(${-tilt}deg)`;
+                  const edge = loop ? Math.min(1, Math.max(0, count / 2 - distance)) : 1;
+                  card.style.opacity = String(Math.max(0, 1 - fade * distance) * edge);
+                  card.style.zIndex = String(100 - Math.round(distance));
             });
-            ro.observe(container);
-            return () => ro.disconnect();
-      }, []);
-      useEffect(() => {
-            if (typeof window === "undefined" || !window.matchMedia) return;
-            const mql = window.matchMedia("(max-width: 768px), (pointer: coarse)");
-            const apply = () => setIsMobile(mql.matches);
-            apply();
-            mql.addEventListener?.("change", apply);
-            return () => mql.removeEventListener?.("change", apply);
-      }, []);
-      useEffect(() => {
-            if (typeof window === "undefined") return;
-            setIsSafari(/^((?!chrome|android).)*safari/i.test(window.navigator.userAgent));
-      }, []);
-      const scale = containerWidth > 0 && itemWidth > 0 ? Math.min(1, (containerWidth * 0.78) / itemWidth) : 1;
-      const effectiveWidth = Math.round(itemWidth * scale);
-      const effectiveHeight = Math.round(itemHeight * scale);
-      const effectiveStackSpacing = Math.round(stackSpacing * scale);
-      const effectiveCenterGap = Math.round(centerGap * scale);
+      }, [count, depth, fade, falloff, gap, loop, rotate]);
 
-      const reflectionFilterId = isMounted && enableReflection && !isMobile && !isSafari ? `${instanceId}-rf` : undefined;
-      const showReflection = isMounted && enableReflection;
-      const activeIndexRef = useRef(activeIndex);
-      const enableScrollRef = useRef(enableScroll);
-      const scrollThresholdRef = useRef(scrollThreshold);
-      const onItemClickRef = useRef(onItemClick);
-      const enableClickToSnapRef = useRef(enableClickToSnap);
-      const onIndexChangeRef = useRef(onIndexChange);
-      const isMountedForCallbackRef = useRef(false);
-
-      activeIndexRef.current = activeIndex;
-      enableScrollRef.current = enableScroll;
-      scrollThresholdRef.current = scrollThreshold;
-      onItemClickRef.current = onItemClick;
-      enableClickToSnapRef.current = enableClickToSnap;
-      onIndexChangeRef.current = onIndexChange;
-
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const prefersReducedMotion = reduceMotion ?? useReducedMotion();
-      const scrollX = useMotionValue(safeInitial);
-      const springX = useSpring(scrollX, { stiffness: 150, damping: 30, mass: 1 });
-      const effectiveScrollX = prefersReducedMotion ? scrollX : springX;
-      const tick = useTickAudio(enableAudio);
-
-      useEffect(() => {
-            const clamped = clampIndex(initialIndex, items.length);
-            if (clamped !== activeIndexRef.current) {
-                  setActiveIndex(clamped);
-                  scrollX.set(clamped);
-            }
-      }, [initialIndex, items.length, scrollX]);
-
-      useEffect(() => {
-            if (!isMountedForCallbackRef.current) {
-                  isMountedForCallbackRef.current = true;
+      const settle = React.useCallback((target) => {
+            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+            targetRef.current = target;
+            setSelected(indexAt(target));
+            if (reducedMotion) {
+                  posRef.current = target;
+                  paint();
+                  rafRef.current = null;
                   return;
             }
-            onIndexChangeRef.current?.(activeIndex);
-      }, [activeIndex]);
-
-      const jumpToIndex = useCallback(
-            (index, velocity = 0, direction) => {
-                  const clamped = clampIndex(index, items.length);
-                  const prev = activeIndexRef.current;
-                  if (clamped === prev) return;
-                  const dir = direction ?? (clamped > prev ? "right" : "left");
-                  setActiveIndex(clamped);
-                  scrollX.set(clamped);
-                  tick(dir, velocity);
-            },
-            [items.length, scrollX, tick],
-      );
-
-      useEffect(() => {
-            const container = containerRef.current;
-            if (!container) return;
-
-            let accumulator = 0;
-            let lastTime = Date.now();
-            let lastJump = 0;
-
-            const handleWheel = (e) => {
-                  if (!enableScrollRef.current) return;
-                  if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) return;
-                  e.preventDefault();
-
-                  const now = Date.now();
-                  if (now - lastTime > 200) accumulator = 0;
-                  lastTime = now;
-                  accumulator += e.deltaX;
-
-                  const threshold = scrollThresholdRef.current;
-                  const shouldJump = (accumulator > threshold || accumulator < -threshold) && now - lastJump > 150;
-
-                  if (shouldJump) {
-                        const dir = accumulator > 0 ? "right" : "left";
-                        jumpToIndex(Math.round(scrollX.get()) + (dir === "right" ? 1 : -1), Math.abs(e.deltaX), dir);
-                        accumulator = 0;
-                        lastJump = now;
+            const step = () => {
+                  const remaining = target - posRef.current;
+                  if (Math.abs(remaining) < 0.0004) {
+                        posRef.current = target;
+                        paint();
+                        rafRef.current = null;
+                        return;
                   }
+                  posRef.current += remaining * 0.16;
+                  paint();
+                  rafRef.current = requestAnimationFrame(step);
             };
+            rafRef.current = requestAnimationFrame(step);
+      }, [indexAt, paint, reducedMotion]);
 
-            container.addEventListener("wheel", handleWheel, { passive: false });
-            return () => container.removeEventListener("wheel", handleWheel);
-      }, [jumpToIndex, scrollX]);
+      const clamp = React.useCallback((pos) => (loop ? pos : Math.max(0, Math.min(count - 1, pos))), [count, loop]);
+      const goTo = React.useCallback((index) => {
+            const target = loop ? index + Math.round((targetRef.current - index) / count) * count : index;
+            settle(clamp(target));
+      }, [clamp, count, loop, settle]);
+      const nudge = React.useCallback((by) => settle(clamp(Math.round(targetRef.current) + by)), [clamp, settle]);
 
-      const handleCardClick = useCallback(
-            (item, index) => {
-                  if (index === activeIndexRef.current) {
-                        if (enableAudio) play("press");
-                        onItemClickRef.current?.(item, index);
-                  } else if (enableClickToSnapRef.current) {
-                        jumpToIndex(index);
-                  }
-            },
-            [enableAudio, jumpToIndex],
-      );
+      React.useEffect(() => {
+            const next = initialIndexRef.current !== safeInitial
+                  ? safeInitial
+                  : count ? clampIndex(selected, count) : 0;
+            initialIndexRef.current = safeInitial;
+            if (selected !== next) {
+                  setSelected(next);
+                  posRef.current = next;
+                  targetRef.current = next;
+                  paint();
+            }
+      }, [count, paint, safeInitial, selected]);
 
-      const onDragStart = useCallback(() => setIsDragging(true), []);
+      const onPointerDown = (event) => {
+            if (event.button !== 0) return;
+            wasDragRef.current = false;
+            dragRef.current = {
+                  id: event.pointerId,
+                  x: event.clientX,
+                  pos: posRef.current,
+                  v: 0,
+                  t: performance.now(),
+                  moved: false,
+            };
+            if (rafRef.current !== null) {
+                  cancelAnimationFrame(rafRef.current);
+                  rafRef.current = null;
+            }
+            targetRef.current = posRef.current;
+      };
 
-      const onDrag = useCallback(
-            (_, info) => {
-                  scrollX.set(scrollX.get() - info.delta.x / (effectiveCenterGap * 0.8));
-            },
-            [effectiveCenterGap, scrollX],
-      );
+      const onPointerMove = (event) => {
+            const drag = dragRef.current;
+            if (!drag || drag.id !== event.pointerId || !widthRef.current) return;
+            if (!drag.moved && Math.abs(event.clientX - drag.x) > 6) {
+                  drag.moved = true;
+                  event.currentTarget.setPointerCapture(event.pointerId);
+            }
+            if (!drag.moved) return;
 
-      const onDragEnd = useCallback(
-            (_, info) => {
-                  setIsDragging(false);
-                  const projected = scrollX.get() - info.velocity.x * 0.002;
-                  const clamped = clampIndex(Math.round(projected), items.length);
-                  const prev = activeIndexRef.current;
-                  const dir = clamped >= prev ? "right" : "left";
-                  setActiveIndex(clamped);
-                  scrollX.set(clamped);
-                  if (clamped !== prev) tick(dir, Math.abs(info.velocity.x));
-            },
-            [items.length, scrollX, tick],
-      );
+            const pitch = widthRef.current * (1 + gap);
+            const now = performance.now();
+            const previous = posRef.current;
+            posRef.current = clamp(drag.pos - (event.clientX - drag.x) / pitch);
+            drag.v = ((posRef.current - previous) / Math.max(now - drag.t, 1)) * 1000;
+            drag.t = now;
+            const nextSelected = indexAt(posRef.current);
+            setSelected((current) => current === nextSelected ? current : nextSelected);
+            paint();
+      };
 
-      const onKeyDown = useCallback(
-            (e) => {
-                  if (e.key === "ArrowLeft") {
-                        e.preventDefault();
-                        jumpToIndex(activeIndexRef.current - 1, 120, "left");
-                  }
-                  if (e.key === "ArrowRight") {
-                        e.preventDefault();
-                        jumpToIndex(activeIndexRef.current + 1, 120, "right");
-                  }
-            },
-            [jumpToIndex],
-      );
+      const endDrag = (event) => {
+            const drag = dragRef.current;
+            if (!drag || drag.id !== event.pointerId) return;
+            dragRef.current = null;
+            if (drag.moved) {
+                  wasDragRef.current = true;
+                  const carried = Math.max(-2, Math.min(2, drag.v * 0.18));
+                  settle(clamp(Math.round(posRef.current + carried)));
+                  window.setTimeout(() => { wasDragRef.current = false; }, 0);
+            }
+      };
 
-      if (items.length === 0) return null;
+      useIsoLayoutEffect(() => {
+            const frame = frameRef.current;
+            if (!frame) return undefined;
+            const measure = () => {
+                  const card = cardRefs.current[0];
+                  if (!card) return;
+                  widthRef.current = card.offsetWidth;
+                  paint();
+            };
+            measure();
+            const observer = new ResizeObserver(measure);
+            observer.observe(frame);
+            return () => observer.disconnect();
+      }, [paint, count]);
+
+      React.useEffect(() => () => {
+            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      }, []);
+
+      const active = slides[selected];
+      if (!count) return null;
 
       return (
-            <>
-                  {reflectionFilterId && (
-                        <svg aria-hidden="true" focusable="false" style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}>
-                              <defs>
-                                    <filter id={reflectionFilterId} x="-3%" y="-3%" width="106%" height="106%" colorInterpolationFilters="sRGB">
-                                          <feTurbulence type="fractalNoise" baseFrequency="0.018 0.065" numOctaves="3" seed="8" result="noise" />
-                                          <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-                                          <feGaussianBlur in="displaced" stdDeviation="0.4 1.8" />
-                                    </filter>
-                              </defs>
-                        </svg>
-                  )}
-                  <motion.div ref={containerRef} className={`group/cf relative w-full h-full flex flex-col justify-center items-center overflow-hidden bg-transparent focus:outline-none touch-pan-y ${isDragging ? "is-dragging cursor-grabbing" : "cursor-grab"} ${className ?? ""}`} style={{ perspective: 1000 }} role="region" aria-label="Cover Flow" tabIndex={0} onKeyDown={onKeyDown} drag="x" dragConstraints={{ left: 0, right: 0 }} dragElastic={0} dragMomentum={false} onDragStart={onDragStart} onDrag={onDrag} onDragEnd={onDragEnd}>
-                        <div className="relative w-full h-full flex items-center justify-center pointer-events-none" style={{ transformStyle: "preserve-3d" }}>
-                              {items.map((item, index) => (
-                                    <CoverFlowItemCard key={item.id} item={item} index={index} scrollX={effectiveScrollX} width={effectiveWidth} height={effectiveHeight} stackSpacing={effectiveStackSpacing} centerGap={effectiveCenterGap} rotation={rotation} isActive={index === activeIndex} showReflection={showReflection} reflectionFilterId={reflectionFilterId} enableClickToSnap={enableClickToSnap} reduceMotion={prefersReducedMotion ?? false} renderImage={renderImage} onCardClick={handleCardClick} />
-                              ))}
+            <div className={cn("w-full", className)} style={{ ["--cf-card"]: cardWidth }} role="region" aria-roledescription="carousel" aria-label={label}>
+                  <div className="relative">
+                        <div
+                              ref={frameRef}
+                              tabIndex={0}
+                              onPointerDown={onPointerDown}
+                              onPointerMove={onPointerMove}
+                              onPointerUp={endDrag}
+                              onPointerCancel={endDrag}
+                              onKeyDown={(event) => {
+                                    if (event.key === "ArrowLeft") {
+                                          event.preventDefault();
+                                          nudge(-1);
+                                    } else if (event.key === "ArrowRight") {
+                                          event.preventDefault();
+                                          nudge(1);
+                                    }
+                              }}
+                              className="cursor-grab overflow-hidden py-3 outline-none focus-visible:ring-2 focus-visible:ring-[#ff7949] active:cursor-grabbing"
+                              style={{ perspective: `calc(var(--cf-card) * ${perspective})`, touchAction: "pan-y" }}
+                        >
+                              <div className="relative mx-auto" style={{ height: "calc(var(--cf-card) * 1.5)", transformStyle: "preserve-3d" }}>
+                                    {slides.map((slide, index) => (
+                                          <button
+                                                key={slide.id ?? index}
+                                                ref={(node) => { cardRefs.current[index] = node; }}
+                                                type="button"
+                                                onClick={() => {
+                                                      if (wasDragRef.current) return;
+                                                      if (index === selected) onSlideSelect?.(slide, index);
+                                                      else goTo(index);
+                                                }}
+                                                aria-label={`${slide.title || slide.alt}, slide ${index + 1} of ${count}${index === selected ? ". Select season" : ". Focus slide"}`}
+                                                aria-current={index === selected ? "true" : undefined}
+                                                className={cn("absolute left-1/2 top-0 aspect-[2/3] overflow-hidden rounded-2xl border border-white/10 bg-[#180604] p-0 text-left shadow-xl will-change-transform", cardClassName)}
+                                                style={{ width: "var(--cf-card)" }}
+                                          >
+                                                <img src={slide.src} alt={slide.alt} draggable={false} className="h-full w-full select-none object-cover" />
+                                          </button>
+                                    ))}
+                              </div>
                         </div>
 
-                        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center justify-center z-40">
-                              <AnimatePresence mode="wait">
-                                    <motion.div key={activeIndex} initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: prefersReducedMotion ? 0 : -6 }} transition={{ duration: prefersReducedMotion ? 0 : 0.25, ease: "easeOut" }} className="text-center">
-                                          <GlisseSurface className="glass-season-heading"><h3 className="text-2xl font-semibold tracking-tight drop-shadow-md">{items[activeIndex]?.name}</h3></GlisseSurface>
-                                          <ShinyButton className="mt-3" label="Watch" icon={Play} primary onClick={() => {
-                                                if (enableAudio) play("press");
-                                                setSeason(items[activeIndex]);
-                                          }} />
-                                    </motion.div>
-                              </AnimatePresence>
+                        {showNavigation && (
+                              <>
+                                    <button type="button" aria-label="Previous slide" onClick={() => nudge(-1)} className="absolute left-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-[#300b07]/85 p-2 text-white backdrop-blur transition hover:bg-[#300b07]">
+                                          <ChevronLeft className="size-5" />
+                                    </button>
+                                    <button type="button" aria-label="Next slide" onClick={() => nudge(1)} className="absolute right-3 top-1/2 z-[200] -translate-y-1/2 rounded-full bg-[#300b07]/85 p-2 text-white backdrop-blur transition hover:bg-[#300b07]">
+                                          <ChevronRight className="size-5" />
+                                    </button>
+                              </>
+                        )}
+                  </div>
+
+                  {showCaption && active?.title && (
+                        <div key={selected} className="coverflow-season-label mt-1 flex flex-col items-center px-6">
+                              <p className="text-[15px] font-semibold tracking-tight text-white">{active.title}</p>
+                              {active.subtitle && <p className="mt-1 text-[13px] text-white/70">{active.subtitle}</p>}
+                              {onSlideSelect && <p className="mt-1 text-[11px] text-white/50">Select the poster to browse episodes.</p>}
+                              {active.meta?.length > 0 && (
+                                    <dl className="mt-3 w-full max-w-[230px] text-[12px]">
+                                          {active.meta.map((row) => <div key={row.label} className="flex justify-between py-1"><dt className="text-white/60">{row.label}</dt><dd className="font-medium text-white">{row.value}</dd></div>)}
+                                    </dl>
+                              )}
                         </div>
-                  </motion.div>
-            </>
+                  )}
+
+                  {showPagination && (
+                        <div className="mt-3 flex items-center justify-center gap-2">
+                              {slides.map((slide, index) => (
+                                    <button key={slide.id ?? index} type="button" aria-label={`Go to slide ${index + 1}`} aria-current={index === selected} onClick={() => goTo(index)} className={cn("size-2 rounded-full bg-white transition-opacity", index === selected ? "opacity-100" : "opacity-35")} />
+                              ))}
+                        </div>
+                  )}
+            </div>
       );
 }
 
-const CoverFlowItemCard = memo(function CoverFlowItemCard({ item, index, scrollX, width, height, stackSpacing, centerGap, rotation, isActive, showReflection, reflectionFilterId, enableClickToSnap, reduceMotion, onCardClick }) {
-      const rotateY = useTransform(scrollX, (value) => {
-            if (reduceMotion) return 0;
-            const pos = index - value;
-            const absPos = Math.abs(pos);
-            return absPos < 0.5 ? -pos * (rotation * 2) : pos < 0 ? rotation : -rotation;
-      });
-
-      const x = useTransform(scrollX, (value) => {
-            const pos = index - value;
-            const absPos = Math.abs(pos);
-            if (absPos < 1) return pos * centerGap;
-            return pos < 0 ? -centerGap - (absPos - 1) * stackSpacing : centerGap + (absPos - 1) * stackSpacing;
-      });
-
-      const z = useTransform(scrollX, (value) => {
-            if (reduceMotion) return 0;
-            const absPos = Math.abs(index - value);
-            return absPos > 0.5 ? -200 : absPos * -400;
-      });
-
-      const zIndex = useTransform(scrollX, (value) => 1000 - Math.abs(index - value) * 10);
-
-      const filterStyle = useTransform(scrollX, (value) => `brightness(${Math.abs(index - value) < 0.5 ? 1 : 0.5})`);
-
-      const imageRenderer = defaultRenderImage;
-      const cursorClass = isActive || enableClickToSnap ? "cursor-pointer" : "cursor-grab";
+export function CoverFlow({ items = [], setSeason, initialIndex = 0, className, showNavigation = false }) {
+      const slides = React.useMemo(() => items.map((season) => ({
+            id: season.id ?? season.season_number,
+            src: season.poster_path ? `https://image.tmdb.org/t/p/w500${season.poster_path}` : "/noImage.jpg",
+            alt: `${season.name || "TV season"} poster`,
+            title: season.name || `Season ${season.season_number}`,
+            subtitle: `${season.episode_count || 0} ${Number(season.episode_count) === 1 ? "episode" : "episodes"}`,
+            season,
+      })), [items]);
 
       return (
-            <>
-                  <motion.div
-                        className={`absolute top-1/2 left-1/2 preserve-3d will-change-transform group-[.is-dragging]/cf:!cursor-grabbing ${cursorClass}`}
-                        style={{
-                              width,
-                              height,
-                              marginTop: -height / 2,
-                              marginLeft: -width / 2,
-                              x,
-                              z,
-                              rotateY,
-                              zIndex,
-                              filter: filterStyle,
-                              pointerEvents: "auto",
-                        }}
-                        onClick={() => {
-                              onCardClick(item, index);
-                        }}
-                  >
-                        <div className="relative w-full h-full rounded-xl shadow-2xl bg-black">
-                              <div className="absolute inset-0 rounded-xl border border-white/10 z-20 pointer-events-none" />
-                              <div className="relative w-full h-full overflow-hidden rounded-xl">
-                                    {imageRenderer({
-                                          src: item?.poster_path,
-                                          alt: item?.name,
-                                          width,
-                                          height,
-                                          className: "object-cover select-none pointer-events-none w-full h-full",
-                                          draggable: false,
-                                          sizes: `${width}px`,
-                                          priority: isActive,
-                                          loading: isActive ? "eager" : "lazy",
-                                    })}
-                                    <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent opacity-0 dark:opacity-20 pointer-events-none z-10" />
-                              </div>
-                        </div>
-
-                        {showReflection && (
-                              <div
-                                    aria-hidden="true"
-                                    className="absolute left-0 pointer-events-none overflow-hidden"
-                                    style={{
-                                          top: "100%",
-                                          width,
-                                          height: height * 0.42,
-                                          marginTop: 1,
-                                          transformOrigin: "top center",
-                                          transform: "rotateX(12deg) translateZ(0)",
-                                          willChange: "transform",
-                                    }}
-                              >
-                                    <div
-                                          style={{
-                                                width: "100%",
-                                                height: "100%",
-                                                transform: "scaleY(-1)",
-                                                filter: reflectionFilterId ? `url(#${reflectionFilterId})` : undefined,
-                                                mixBlendMode: reflectionFilterId ? "screen" : undefined,
-                                                opacity: reflectionFilterId ? 0.55 : 0.4,
-                                          }}
-                                    >
-                                          <div className={`relative w-full h-full rounded-xl bg-black ${reflectionFilterId ? "shadow-2xl" : ""}`}>
-                                                <div className="absolute inset-0 rounded-xl border border-white/10 z-20 pointer-events-none" />
-                                                <div className="relative w-full h-full overflow-hidden rounded-xl">
-                                                      {imageRenderer({
-                                                            src: `https://image.tmdb.org/t/p/w500/${item?.poster_path}`,
-                                                            alt: item?.name,
-                                                            width,
-                                                            height,
-                                                            className: "object-cover w-full h-full",
-                                                            draggable: false,
-                                                            sizes: `${width}px`,
-                                                            loading: "lazy",
-                                                      })}
-                                                </div>
-                                          </div>
-                                    </div>
-                                    <div
-                                          className="absolute inset-0 pointer-events-none"
-                                          style={{
-                                                background: "linear-gradient(to top, hsl(var(--background)) 0%, hsl(var(--background) / 0.7) 40%, transparent 100%)",
-                                          }}
-                                    />
-                              </div>
-                        )}
-                  </motion.div>
-            </>
+            <CoverflowCarousel
+                  slides={slides}
+                  initialIndex={initialIndex}
+                  cardWidth="clamp(148px, 22vw, 240px)"
+                  showCaption
+                  showNavigation={showNavigation}
+                  label="TV seasons"
+                  className={className}
+                  onSlideSelect={(slide) => {
+                        play("press");
+                        setSeason?.(slide.season);
+                  }}
+            />
       );
-});
+}

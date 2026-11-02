@@ -4,75 +4,31 @@ const DetailLoader = () => {
       useLayoutEffect(() => {
             window.scrollTo(0, 0);
       }, []);
+
       return (
-            <section role="status" aria-label="Loading title details" aria-busy="true" className="w-full min-h-dvh relative overflow-x-hidden [&::-webkit-scrollbar]:hidden [background-image:var(--bg-gradient)]">
-                  {/* Back Button */}
-                  <span className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
-                        <div className="w-6 h-6 bg-black/20 rounded animate-pulse" />
-                  </span>
-
-                  <section className="backdrop-blur-2xl overflow-x-hidden [&::-webkit-scrollbar]:hidden relative overflow-hidden w-full sm:min-h-10 md:min-h-10 bg-black/30">
-                        {/* Hero Image Section */}
-                        <div className="w-full relative max-h-screen overflow-hidden rounded-b-2xl">
-                              <div className="detail-loader__artwork w-full aspect-video md:aspect-auto md:h-[500px] bg-white/[0.09] animate-pulse" />
-
-                              {/* Desktop Overlay */}
-                              <div className="md:absolute hidden md:block md:bg-gradient-to-t md:from-zinc-700/40 md:to-transparent md:w-full md:left-0 md:backdrop-blur-[2px] md:px-5 md:py-5 md:bottom-0">
-                                    <div className="h-12 lg:h-16 bg-white/20 rounded-lg animate-pulse mb-3" />
-                                    <div className="h-6 bg-white/15 rounded-lg animate-pulse w-3/4 mb-4" />
-
-                                    {/* Tags */}
-                                    <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                          <div className="px-3 py-1 h-8 w-20 bg-white/10 rounded-full animate-pulse" />
-                                          <div className="px-3 py-1 h-8 w-16 bg-white/10 rounded-full animate-pulse" />
-                                          <div className="px-3 py-1 h-8 w-24 bg-white/10 rounded-full animate-pulse" />
-                                    </div>
-
-                                    {/* Rating and Trailer */}
-                                    <div className="w-full mt-3 flex justify-between md:justify-start md:gap-5 items-center">
-                                          <div className="h-6 bg-white/15 rounded-lg animate-pulse w-32" />
-                                          <div className="h-10 bg-white/15 rounded-lg animate-pulse w-40" />
-                                    </div>
-                              </div>
-                        </div>
-
-                        <section className="px-5 overflow-x-hidden [&::-webkit-scrollbar]:hidden text-white mt-3 w-full">
-                              {/* Mobile Title Section */}
-                              <div className="md:hidden">
-                                    <div className="h-10 bg-white/20 rounded-lg animate-pulse mb-3" />
-                                    <div className="h-5 bg-white/15 rounded-lg animate-pulse w-3/4 mb-4" />
-
-                                    {/* Mobile Tags */}
-                                    <div className="flex mt-3 flex-wrap gap-1 w-full">
-                                          <div className="px-3 py-1 h-8 w-20 bg-white/10 rounded-full animate-pulse" />
-                                          <div className="px-3 py-1 h-8 w-16 bg-white/10 rounded-full animate-pulse" />
-                                          <div className="px-3 py-1 h-8 w-24 bg-white/10 rounded-full animate-pulse" />
-                                    </div>
-
-                                    {/* Mobile Rating and Trailer */}
-                                    <div className="w-full mt-3 flex justify-between items-center">
-                                          <div className="h-6 bg-white/15 rounded-lg animate-pulse w-28" />
-                                          <div className="h-10 bg-white/15 rounded-lg animate-pulse w-36" />
-                                    </div>
-                              </div>
-
-                              {/* Storyline Section */}
-                              <div className="w-full text-white min-[961px]:flex min-[961px]:flex-col min-[961px]:justify-center min-[961px]:items-center mt-3 border-t-[.5px] md:border-none border-zinc-300/70 py-3">
-                                    <div className="flex w-full gap-2 md:justify-center items-center mb-3">
-                                          <div className="h-8 md:h-12 bg-white/20 rounded-lg animate-pulse w-32" />
-                                          <div className="h-6 w-16 bg-yellow-500/40 rounded-full animate-pulse" />
-                                    </div>
-                                    <div className="space-y-2 min-[961px]:w-1/2">
-                                          <div className="h-4 bg-white/15 rounded animate-pulse" />
-                                          <div className="h-4 bg-white/15 rounded animate-pulse w-5/6" />
-                                          <div className="h-4 bg-white/15 rounded animate-pulse w-4/5" />
-                                          <div className="h-4 bg-white/15 rounded animate-pulse w-3/4" />
-                                    </div>
-                              </div>
-                        </section>
-                  </section>
+            <section role="status" aria-label="Loading title details" aria-busy="true" className="detail-loading">
+                  <div className="detail-loading__poster" aria-hidden="true" />
+                  <div className="detail-loading__copy" aria-hidden="true">
+                        <div className="detail-loading__line detail-loading__line--title" />
+                        <div className="detail-loading__line detail-loading__line--tagline" />
+                        <div className="detail-loading__chips"><i /><i /><i /></div>
+                        <div className="detail-loading__line detail-loading__line--rating" />
+                        <div className="detail-loading__line detail-loading__line--overview" />
+                        <div className="detail-loading__line detail-loading__line--overview detail-loading__line--short" />
+                  </div>
+                  <div className="detail-loading__actions" aria-hidden="true"><i /><i /><i /></div>
             </section>
       );
 };
 
 export default DetailLoader;
+
+export function DetailLoadError({ onRetry }) {
+      return (
+            <section role="alert" className="detail-load-error">
+                  <h1>We couldn’t load this title.</h1>
+                  <p>Check your connection and try again.</p>
+                  <button type="button" onClick={onRetry}>Try again</button>
+            </section>
+      );
+}

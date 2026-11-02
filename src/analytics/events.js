@@ -4,7 +4,6 @@ const routes = [
       { path: "/", name: "home" },
       { path: "/trending", name: "movies" },
       { path: "/tv", name: "tv_shows" },
-      { path: "/search", name: "search" },
       { path: "/people", name: "people" },
       { path: "/movie/details/:id", name: "movie_details", type: "movie", event: "movie_viewed" },
       { path: "/movie/details/:id/watch", name: "movie_watch", type: "movie", event: "watch_opened" },

@@ -1,17 +1,25 @@
-const EDGE_USER_AGENT = /(?:Edg(?:e|A|iOS)?|Edge)\//i;
+/**
+ * Stream provider using vidrift.in embed service.
+ * Works uniformly across all browsers (Chrome, Firefox, Safari, Edge, etc.).
+ *
+ * URL patterns:
+ *   Movie: https://embed.vidrift.in/embed/movie/{tmdbId}
+ *   TV:    https://embed.vidrift.in/embed/tv/{tmdbId}/{season}/{episode}
+ */
 
-export function getStreamProvider(userAgent = typeof navigator === "undefined" ? "" : navigator.userAgent) {
-      return EDGE_USER_AGENT.test(userAgent) ? "vidcore" : "cinemaos";
+const VIDRIFT_BASE = "https://embed.vidrift.in/embed";
+
+/**
+ * Returns the name of the active stream provider (used by analytics).
+ */
+export function getStreamProvider() {
+      return "vidrift";
 }
 
-export function getStreamUrl({ category, id, season, episode, provider = getStreamProvider() }) {
-      if (provider === "vidcore") {
-            return category === "tv"
-                  ? `https://vidcore.io/tv/${id}/${season}/${episode}?autoPlay=true`
-                  : `https://vidcore.io/movie/${id}?autoPlay=true`;
+export function getStreamUrl({ category, id, season, episode }) {
+      if (category === "tv") {
+            return `${VIDRIFT_BASE}/tv/${id}/${season}/${episode}`;
       }
 
-      return category === "tv"
-            ? `https://cinemaos.tech/watch/tv/${id}?season=${season}&episode=${episode}`
-            : `https://cinemaos.tech/player/${id}`;
+      return `${VIDRIFT_BASE}/movie/${id}`;
 }

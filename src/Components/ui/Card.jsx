@@ -23,7 +23,6 @@ const Card = ({ eachMovie, type = "all" }) => {
                   className="media-card w-full min-w-0 h-full shrink-0 rounded-xl overflow-hidden"
                   style={{
                         backgroundColor: "#0f0000",
-                        transition: "background-color 0.6s ease",
                   }}
             >
                   <section className="w-full relative overflow-hidden sm:h-56 md:h-72 h-40">
@@ -32,7 +31,6 @@ const Card = ({ eachMovie, type = "all" }) => {
                               className="absolute inset-x-0  bottom-0 h-16 pointer-events-none"
                               style={{
                                     background: `linear-gradient(to bottom, transparent, #0f0000)`,
-                                    transition: "background 0.6s ease",
                               }}
                         />
                   </section>
@@ -41,7 +39,7 @@ const Card = ({ eachMovie, type = "all" }) => {
                         {eachMovie.vote_average !== 0 && (
                               <div className="flex flex-wrap items-center justify-between gap-2">
                                     {eachMovie.vote_average > 0 && (
-                                          <span className="text-xs font-medium tracking-tight leading-none" style={{ color: "#fefefe", transition: "color 0.5s ease" }}>
+                                          <span className="text-xs font-medium tracking-tight leading-none" style={{ color: "#fefefe" }}>
                                                 ⭐ {eachMovie.vote_average.toFixed(1)}
                                           </span>
                                     )}
@@ -49,7 +47,7 @@ const Card = ({ eachMovie, type = "all" }) => {
                               </div>
                         )}
 
-                        <h3 className="w-full break-words leading-snug text-sm sm:text-[1.2rem] tracking-tight" style={{ color: "#fafafa", transition: "color 0.5s ease" }}>
+                        <h3 className="w-full break-words leading-snug text-sm sm:text-[1.2rem] tracking-tight" style={{ color: "#fafafa" }}>
                               {eachMovie.name || eachMovie.title || eachMovie.original_title}
                               {/* {eachMovie?.release_date && (
                                     <span

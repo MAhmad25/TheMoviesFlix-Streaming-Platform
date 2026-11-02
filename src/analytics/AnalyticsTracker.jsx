@@ -8,6 +8,8 @@ import { getStreamProvider } from "../utils/streamProvider.js";
 export default function AnalyticsTracker() {
       const location = useLocation();
       const navigationType = useNavigationType();
+      const routeVideo = location.state?.video;
+      const trailerSeasonNumber = location.state?.seasonNumber;
       const route = useMemo(() => getRouteContext(location.pathname), [location.pathname]);
       const info = useSelector((state) => state[route.properties.content_type === "person" ? "people" : route.properties.content_type]?.info);
       const lastPageview = useRef(null);
@@ -34,9 +36,10 @@ export default function AnalyticsTracker() {
             captureEvent(route.event, {
                   ...properties,
                   ...(route.event === "watch_opened" && { player_provider: getStreamProvider() }),
-                  ...(route.event === "trailer_opened" && { trailer_available: Boolean(info?.videoLink) }),
+                  ...(route.event === "trailer_opened" && { trailer_available: Boolean(routeVideo || info?.videoLink) }),
+                  ...(route.event === "trailer_opened" && trailerSeasonNumber !== undefined && { season_number: trailerSeasonNumber }),
             });
-      }, [visit, route, info]);
+      }, [visit, route, info, routeVideo, trailerSeasonNumber]);
 
       return null;
 }
