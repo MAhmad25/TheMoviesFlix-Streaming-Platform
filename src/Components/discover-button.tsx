@@ -9,6 +9,7 @@ import { play } from "cuelume";
 import { captureEvent } from "../analytics/posthog.js";
 import api from "../utils/axios";
 import { clearRecentSearches, readRecentSearches, rememberSearch } from "../utils/recentSearches";
+import { SmoothInput } from "./ui/SmoothInput";
 
 const getTitle = (result) => result.name || result.title || result.original_name || result.original_title || "Untitled";
 const getYear = (result) => (result.release_date || result.first_air_date || "").slice(0, 4);
@@ -203,7 +204,7 @@ export default function DiscoverButton({ expanded, onExpandedChange, showTrigger
                                           className="discover-search__input pointer-events-auto absolute bottom-[80px] left-1/2 z-50 flex h-12 w-[min(320px,calc(100vw-24px))] -translate-x-1/2 items-center gap-3 rounded-full border border-white/15 bg-[#300b07] px-4 shadow-[0_14px_44px_rgba(0,0,0,0.38)]"
                                     >
                                           <Search size={18} className="shrink-0 text-white/65" aria-hidden="true" />
-                                          <input
+                                          <SmoothInput
                                                 ref={inputRef}
                                                 type="search"
                                                 value={query}
@@ -215,7 +216,8 @@ export default function DiscoverButton({ expanded, onExpandedChange, showTrigger
                                                 aria-label="Search movies, TV series, and people"
                                                 aria-controls="discover-search-results"
                                                 autoComplete="off"
-                                                className="min-w-0 flex-1 border-0 bg-transparent p-0 font-primary text-sm text-white outline-none placeholder:text-white/45 focus:ring-0"
+                                                wrapperClassName="min-w-0 flex-1"
+                                                className="discover-search__field min-w-0 flex-1 border-0 bg-transparent p-0 font-primary text-sm text-white outline-none placeholder:text-white/45 focus:ring-0"
                                           />
                                           {query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search" className="rounded-full p-1 text-white/60 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff7949]"><X size={16} /></button>}
                                           <button type="button" onClick={closeSearch} aria-label="Close search" className="rounded-full p-1 text-white/60 transition hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff7949]"><X size={18} /></button>

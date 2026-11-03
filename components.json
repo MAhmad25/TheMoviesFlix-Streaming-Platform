@@ -20,12 +20,5 @@
     "ui": "@/Components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
-  },
-  "registries": {
-    "@soralabs": "https://ui.soralabs.studio/r/{name}.json",
-    "@magicui": "https://magicui.design/r/{name}",
-    "@aceternity": "https://ui.aceternity.com/registry/{name}.json",
-    "@cult-ui": "https://cult-ui.com/r/{name}.json",
-    "@uselayouts": "https://uselayouts.com/r/{name}.json"
   }
 }

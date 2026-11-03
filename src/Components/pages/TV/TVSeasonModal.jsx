@@ -1,38 +1,14 @@
-import styled from "styled-components";
-import { memo, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { CalendarDays, Clapperboard, Clock3 } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
-import { MdClose } from "react-icons/md";
+import { Rise } from "cube-motion/react";
+import { CalendarDays, Clapperboard, Clock3, SquarePlay, X } from "lucide-react";
 import api from "../../../utils/axios";
 import { pickYouTubeTrailer } from "../../../utils/tmdbVideos";
 import StarIcon from "../../ui/Icons/StarIcon";
 import MediaActions from "../../ui/MediaActions";
-import MetalActionButton from "../../ui/MediaActionButton";
+import MediaActionButton from "../../ui/MediaActionButton";
 
-const DropArea = styled(motion.div)`
-      display: flex;
-      flex-direction: column;
-      border: 1px solid color-mix(in srgb, var(--txt) 32%, transparent);
-      border-radius: 12px;
-      position: relative;
-      overflow: hidden;
-      background: var(--bg-gradient, #300b07);
-`;
-
-const PreviewBox = styled.div`
-      min-height: 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      scrollbar-width: thin;
-      scrollbar-color: #ff7949 transparent;
-
-      &::-webkit-scrollbar { width: 8px; }
-      &::-webkit-scrollbar-thumb { background: #ff7949; border-radius: 9999px; }
-      &::-webkit-scrollbar-track { background: transparent; }
-`;
-
-const EpisodeCard = memo(function EpisodeCard({ episode, active, onSelect }) {
+const EpisodeCard = ({ episode, active, onSelect }) => {
       const number = Number(episode.episode_number) || 0;
       const date = episode.air_date
             ? new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" }).format(new Date(`${episode.air_date}T00:00:00`))
@@ -71,7 +47,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode, active, onSelect }) {
                   </span>
             </button>
       );
-});
+};
 
 const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => (
       <div className="grid grid-cols-[repeat(auto-fill,minmax(44px,1fr))] gap-2">
@@ -93,47 +69,57 @@ const EpisodeSelector = ({ totalEpisodes, currentEpisode, setEpisode }) => (
       </div>
 );
 
-const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
+const TVSeasonModal = ({ season, open, onClose, mediaId, title, seriesTrailer }) => {
       const [currentEpisode, setCurrentEpisode] = useState(1);
       const [seasonDetails, setSeasonDetails] = useState(null);
       const [loadState, setLoadState] = useState("loading");
       const [retryToken, setRetryToken] = useState(0);
       const [showAllEpisodes, setShowAllEpisodes] = useState(false);
       const dialogRef = useRef(null);
-      const reducedMotion = useReducedMotion();
-      const seasonNumber = Number(season?.season_number);
+      const seasonNumber = season ? Number(season.season_number) : NaN;
 
       useEffect(() => {
-            const dialog = dialogRef.current;
-            const trigger = document.activeElement;
-            dialog?.focus({ preventScroll: true });
+            if (!open || !Number.isFinite(seasonNumber)) return undefined;
+
+            const previousFocus = document.activeElement;
+            const previousOverflow = document.body.style.overflow;
+            document.body.style.overflow = "hidden";
+            const focusFrame = window.requestAnimationFrame(() => dialogRef.current?.focus({ preventScroll: true }));
+
             const handleKeyDown = (event) => {
-                  if (event.defaultPrevented || event.target.closest('[role="dialog"]') !== dialog) return;
+                  const dialog = dialogRef.current;
+                  if (!dialog || event.target.closest('[role="dialog"]') !== dialog) return;
+
                   if (event.key === "Escape") {
                         event.preventDefault();
-                        onClick();
+                        onClose();
+                        return;
                   }
-                  if (event.key === "Tab") {
-                        const controls = Array.from(dialog.querySelectorAll("button:not(:disabled), a[href]"));
-                        const first = controls[0];
-                        const last = controls[controls.length - 1];
-                        if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
-                              event.preventDefault();
-                              last?.focus();
-                        } else if (!event.shiftKey && document.activeElement === last) {
-                              event.preventDefault();
-                              first?.focus();
-                        }
+
+                  if (event.key !== "Tab") return;
+                  const controls = Array.from(dialog.querySelectorAll("button:not(:disabled), a[href], input:not(:disabled), [tabindex]:not([tabindex='-1'])"));
+                  const first = controls[0];
+                  const last = controls[controls.length - 1];
+                  if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+                        event.preventDefault();
+                        last?.focus();
+                  } else if (!event.shiftKey && document.activeElement === last) {
+                        event.preventDefault();
+                        first?.focus();
                   }
             };
+
             document.addEventListener("keydown", handleKeyDown);
             return () => {
+                  window.cancelAnimationFrame(focusFrame);
                   document.removeEventListener("keydown", handleKeyDown);
-                  if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+                  document.body.style.overflow = previousOverflow;
+                  if (previousFocus instanceof HTMLElement && previousFocus.isConnected) previousFocus.focus({ preventScroll: true });
             };
-      }, [onClick]);
+      }, [open, onClose, seasonNumber]);
 
       useEffect(() => {
+            if (!open) return undefined;
             if (!Number.isFinite(seasonNumber)) {
                   setLoadState("error");
                   return undefined;
@@ -161,7 +147,7 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
             });
 
             return () => controller.abort();
-      }, [mediaId, seasonNumber, retryToken]);
+      }, [mediaId, open, retryToken, seasonNumber]);
 
       const episodes = seasonDetails?.episodes || [];
       const selectedEpisode = episodes.find((episode) => Number(episode.episode_number) === currentEpisode) || episodes[0];
@@ -175,27 +161,29 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
 
       return (
             <div
+                  className={`tv-season-backdrop${open ? " is-open" : ""}`}
+                  aria-hidden={!open}
+                  inert={!open}
                   onClick={(event) => {
-                        if (event.target === event.currentTarget) onClick();
+                        if (event.target === event.currentTarget && open) onClose();
                   }}
-                  className="tv-season-backdrop fixed inset-0 z-40 flex items-center justify-center p-4"
             >
-                  <DropArea
-                        initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: reducedMotion ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
+                  <Rise
+                        as="section"
+                        show={open}
                         role="dialog"
                         ref={dialogRef}
                         tabIndex={-1}
                         data-lenis-prevent
                         aria-modal="true"
                         aria-label={`${season?.name || `Season ${seasonNumber}`} details`}
-                        className="tv-season-dialog w-full max-w-5xl max-h-[calc(100dvh-32px)]"
+                        className="tv-season-dialog"
                   >
-                        <button type="button" aria-label="Close season details" onClick={onClick} className="tv-season-dialog__close">
-                              <MdClose size="1.5rem" />
+                        <div className="fdg-gradient" aria-hidden="true" />
+                        <button type="button" aria-label="Close season details" onClick={onClose} className="tv-season-dialog__close">
+                              <X size={20} aria-hidden="true" />
                         </button>
-                        <PreviewBox className="tv-season-dialog__scroll" data-lenis-prevent>
+                        <div className="tv-season-dialog__scroll" data-lenis-prevent>
                               <div className="tv-season-summary">
                                     <img
                                           className="tv-season-summary__poster"
@@ -205,6 +193,7 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
                                           decoding="async"
                                     />
                                     <div className="tv-season-summary__content">
+                                          <p className="tv-season-summary__label">{title || "Series"}</p>
                                           <h2>{season?.name || `Season ${seasonNumber}`}</h2>
                                           <p className="tv-season-summary__metadata">
                                                 <span>{episodeCount} {episodeCount === 1 ? "episode" : "episodes"}</span>
@@ -215,14 +204,14 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
                                           </p>
                                           <p className="tv-season-summary__overview">{seasonDetails?.overview || season?.overview || "Season information is not available yet."}</p>
                                           {trailer && (
-                                                <MetalActionButton
+                                                <MediaActionButton
                                                       as={Link}
                                                       to="trailer"
                                                       state={{ video: trailer, seasonNumber, trailerScope: seasonTrailer ? "season" : "series" }}
                                                       label={`Watch ${trailerLabel}`}
                                                       icon={Clapperboard}
+                                                      activeIcon={SquarePlay}
                                                       className="tv-season-trailer-button"
-                                                      metalClassName="tv-season-trailer-host"
                                                 />
                                           )}
                                     </div>
@@ -237,9 +226,7 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
                                           <span>{episodeCount} total</span>
                                     </div>
 
-                                    {loadState === "loading" && (
-                                          <p className="tv-season-status" role="status">Loading episode artwork and details…</p>
-                                    )}
+                                    {loadState === "loading" && <p className="tv-season-status" role="status">Loading episode artwork and details…</p>}
                                     {loadState === "error" && (
                                           <div className="tv-season-status tv-season-status--error" role="alert">
                                                 <span>Season episodes could not be loaded. You can still choose an episode number.</span>
@@ -280,8 +267,8 @@ const TVSeasonModal = ({ season, onClick, mediaId, title, seriesTrailer }) => {
                                           showTrailer={false}
                                     />
                               </div>
-                        </PreviewBox>
-                  </DropArea>
+                        </div>
+                  </Rise>
             </div>
       );
 };

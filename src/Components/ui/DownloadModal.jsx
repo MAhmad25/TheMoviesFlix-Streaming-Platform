@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dialog } from "radix-ui";
-import { ArrowLeft, Download, ExternalLink, MonitorPlay, RotateCw, X } from "lucide-react";
+import { ArrowLeft, Download, DownloadCloud, ExternalLink, MonitorPlay, RotateCw, X } from "lucide-react";
 import MetalActionButton from "./MediaActionButton";
 
 const VIDVAULT_ORIGIN = "https://vidvault.to";
@@ -35,7 +35,7 @@ export default function DownloadModal({ mediaId, mediaType = "movie", title, sea
       return (
             <Dialog.Root open={open} onOpenChange={changeOpen}>
                   <Dialog.Trigger asChild>
-                        <MetalActionButton label="Download" icon={Download} />
+                        <MetalActionButton label="Download" icon={Download} activeIcon={DownloadCloud} />
                   </Dialog.Trigger>
                   <Dialog.Portal>
                         <Dialog.Overlay className="download-overlay" />

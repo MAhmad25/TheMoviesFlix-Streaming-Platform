@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Flame, Home, Search, Tv, Users } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { bind, play } from "cuelume";
-import GlisseSurface from "./GlisseSurface";
-import DiscreteTabs from "../discrete-tabs";
+import { TabBar } from "glisse";
 import DiscoverButton from "../discover-button";
 
 const navItems = [
-      { id: "home", to: "/", icon: Home, title: "Home", isNavigation: true },
-      { id: "movies", to: "/trending", icon: Flame, title: "Movies", isNavigation: true },
+      { id: "home", to: "/", icon: Home, title: "Home" },
+      { id: "movies", to: "/trending", icon: Flame, title: "Movies" },
       { id: "search", action: "search", icon: Search, title: "Search" },
-      { id: "people", to: "/people", icon: Users, title: "Celebrity", isNavigation: true },
-      { id: "tv", to: "/tv", icon: Tv, title: "TV Shows", isNavigation: true },
+      { id: "people", to: "/people", icon: Users, title: "Celebrity" },
+      { id: "tv", to: "/tv", icon: Tv, title: "TV Shows" },
 ];
+
+const tabItems = navItems.map(({ id, icon: Icon, title }) => ({
+      value: id,
+      label: (
+            <span className="bottom-navigation__tab-content">
+                  <Icon className="bottom-navigation__tab-icon" aria-hidden="true" />
+                  <span className="bottom-navigation__tab-text">{title}</span>
+            </span>
+      ),
+}));
 
 const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
       const { pathname } = useLocation();
@@ -40,14 +50,15 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
             navigate(item.to);
       };
 
-      return (
-            <GlisseSurface className={`bottom-navigation-glass max-w-[calc(100vw-16px)] ${stickyBottom ? "bottom-navigation-glass--sticky" : ""} ${className}`}>
-                  <nav aria-label="Bottom Navigation" className="bottom-navigation relative flex min-w-0 items-center">
-                        <DiscreteTabs
-                              tabs={navItems}
+      return typeof document === "undefined" ? null : createPortal(
+            <div className={`bottom-navigation-glass max-w-[calc(100vw-16px)] ${stickyBottom ? "bottom-navigation-glass--sticky" : ""} ${className}`}>
+                  <nav aria-label="Primary navigation" className="bottom-navigation relative flex min-w-0 items-center">
+                        <TabBar
+                              aria-label="Primary destinations"
+                              className="bottom-navigation__tab-bar"
+                              items={tabItems}
                               value={activeTab}
                               onValueChange={handleTabChange}
-                              onTabHover={() => play("tick")}
                         />
                         <DiscoverButton
                               expanded={searchOpen}
@@ -56,7 +67,8 @@ const NavBar = ({ className = "", defaultIndex = 0, stickyBottom = true }) => {
                               className="absolute left-1/2 top-0 h-0 w-0 -translate-x-1/2"
                         />
                   </nav>
-            </GlisseSurface>
+            </div>,
+            document.body
       );
 };
 

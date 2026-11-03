@@ -7,15 +7,21 @@ import Card from "../../ui/Card";
 import Review from "../../ui/Review";
 import DetailLoader, { DetailLoadError } from "../../ui/Loaders/DetailLoader";
 import Exclude from "../../ui/Exclude";
-import { CoverFlow } from "../../ui/Coverflow";
 import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
 import TVSeasonModal from "./TVSeasonModal";
 import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
+import AccordionCarousel from "../../ui/AccordionCarousel";
 import { Button } from "glisse";
 const TvDetails = () => {
       const [selectedSeason, setSelectedSeason] = useState(null);
-      const closeSeason = useCallback(() => setSelectedSeason(null), []);
+      const [seasonModalOpen, setSeasonModalOpen] = useState(false);
+      const openSeason = useCallback((season) => {
+            if (!season) return;
+            setSelectedSeason(season);
+            setSeasonModalOpen(true);
+      }, []);
+      const closeSeason = useCallback(() => setSeasonModalOpen(false), []);
       const dispatch = useDispatch();
       const navigate = useNavigate();
       const info = useSelector((state) => state.tv.info);
@@ -76,7 +82,7 @@ const TvDetails = () => {
       useEffect(() => {
             const controller = new AbortController();
             setLoadError(false);
-            setSelectedSeason(null);
+            setSeasonModalOpen(false);
             setShowAllReviews(false);
             setShowAllRecommendations(false);
             dispatch(asyncTvLoader(id, controller.signal)).catch(() => {
@@ -94,18 +100,18 @@ const TvDetails = () => {
             <>
                   {info ? (
                         <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
-                              {selectedSeason && <TVSeasonModal onClick={closeSeason} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} seriesTrailer={info.videoLink} />}
+                              <TVSeasonModal open={seasonModalOpen} onClose={closeSeason} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} seriesTrailer={info.videoLink} />
                               <Button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close" icon={<MdClose size="1.5rem" />} tint="#ffffff" />
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
                                     <DetailHero detail={info.detail} mediaType="tv">
-                                          <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => setSelectedSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
+                                          <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => openSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
                                     </DetailHero>
                                     <section className="detail-supporting-content px-5 pb-28 text-white w-full font-primary">
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="detail-content-section w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
                                                       <h2 className="text-white text-center text-2xl md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch a Season</h2>
-                                                      <div className="flex mt-2 items-center w-full cursor-pointer justify-center-safe [&::-webkit-scrollbar]:hidden gap-3 h-[360px] md:h-[460px]">
-                                                            <CoverFlow items={info?.detail?.seasons} setSeason={setSelectedSeason} initialIndex={Math.max(firstSeasonIndex, 0)} showNavigation className="h-full" />
+                                                      <div className="mt-4 h-[300px] w-full sm:h-[340px] lg:h-[380px]">
+                                                            <AccordionCarousel seasons={info.detail.seasons} onOpenSeason={openSeason} initialIndex={Math.max(firstSeasonIndex, 0)} />
                                                       </div>
                                                 </div>
                                           )}
