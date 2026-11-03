@@ -1,6 +1,5 @@
 import { Fragment, useId, useState } from "react";
 import styled from "styled-components";
-import GlisseSurface from "./GlisseSurface";
 
 // Adapted from Ravi Katiyar's Glass Radio Group source supplied by the user.
 export default function GlassRadioGroup({ options, value, defaultValue, onValueChange, label = "Choose an option", className = "" }) {
@@ -11,7 +10,7 @@ export default function GlassRadioGroup({ options, value, defaultValue, onValueC
 
       return (
             <StyledWrapper className={className}>
-                  <GlisseSurface className="glass-radio-surface">
+                  <div className="glass-radio-surface border-[0.5px] border-x-0">
                         <div className="glass-radio-group" role="radiogroup" aria-label={label} style={{ "--option-count": options.length, "--selected-index": Math.max(0, selectedIndex) }}>
                               {options.map((option, index) => {
                                     const id = `${groupId}-${index}`;
@@ -34,7 +33,7 @@ export default function GlassRadioGroup({ options, value, defaultValue, onValueC
                               })}
                               <div className="glass-glider" aria-hidden="true" />
                         </div>
-                  </GlisseSurface>
+                  </div>
             </StyledWrapper>
       );
 }
