@@ -1,0 +1,436 @@
+/* Curtain Slider - full-bleed drop-in image slider. Advancing runs a
+   direction-aware clip-path curtain wipe on the incoming layer paired with a
+   slide-in, while the outgoing layer counter-drifts and darkens.
+   Themed for MoviesFlix (dark ember palette, Primary/Astralga type). */
+
+.cs_wrap {
+  --cs-bg:      #300b07;
+  --cs-fg:      rgba(255, 250, 242, 0.95);
+  --cs-fg-soft: rgba(255, 255, 255, 0.88);
+  --cs-fg-dim:  rgba(255, 246, 241, 0.74);
+  --cs-line:    rgba(255, 177, 150, 0.28);
+  --cs-line-on: #ff7949;
+  --cs-accent:  #ff7949;
+  --cs-pill-bg: rgba(48, 11, 7, 0.58);
+  --cs-circle:  rgba(255, 255, 255, 0.12);
+  --cs-circle-hover: #ff7949;
+  --cs-margin:  40px;
+  --cs-sans:    'Primary', -apple-system, BlinkMacSystemFont, sans-serif;
+  --cs-display: 'Astralga', 'Primary', serif;
+}
+
+.cs_wrap {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background: var(--cs-bg);
+  font-family: var(--cs-sans);
+  -webkit-font-smoothing: antialiased;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  outline: none;
+}
+
+.cs_slides {
+  display: none;
+}
+
+.cs_stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---- Image layers: each layer is N column strips. A strip paints only
+   its own slice of the shared cover-fit background (never a full-stage
+   image scaled/clipped inside it), so the wipe repaints ~1/12 of the
+   stage per column instead of N full-stage textures. The layer itself
+   carries the cover-fit background as a fallback until the intrinsic
+   size of the photo is known, then strips take over. Strip left/width,
+   background-size and background-position are integer-snapped px, set
+   by JS. ---- */
+.cs_layers {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.cs_layer {
+  position: absolute;
+  inset: 0;
+  background-image: var(--cs-img, none);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.cs_layer.cs_ready {
+  background-image: none;
+}
+
+/* No will-change here on purpose: promoting all strips to their own
+   compositor layers caused tile-rasterization churn on 120Hz retina
+   fullscreen (flashing rectangles during the wipe). The shipped
+   wipe-slider/step-wipe clip wipes run clean with zero will-change. */
+.cs_strip {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
+  background-image: none;
+  background-repeat: no-repeat;
+}
+
+/* Strips share the layer's single decoded background bitmap; the inline
+   background-size/position crops it to this column. */
+.cs_layer.cs_ready .cs_strip {
+  background-image: var(--cs-img);
+}
+
+/* Per-strip darkening overlay - dimming tweens THIS element's opacity
+   (GPU-composited) instead of filter: brightness on the image (animated
+   filters repaint per frame and flicker at fullscreen retina). */
+.cs_shade {
+  position: absolute;
+  inset: 0;
+  background: #180503;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---- Scrim for text legibility ---- */
+.cs_scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to top, rgba(24, 5, 3, 0.82) 0%, rgba(24, 5, 3, 0.22) 38%, rgba(24, 5, 3, 0.08) 62%, rgba(24, 5, 3, 0.42) 100%),
+    linear-gradient(to right, rgba(24, 5, 3, 0.5) 0%, rgba(24, 5, 3, 0) 55%);
+  pointer-events: none;
+}
+
+/* ---- Label, top-left ---- */
+.cs_label {
+  position: absolute;
+  left: var(--cs-margin);
+  top: var(--cs-margin);
+  z-index: 4;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffb196;
+  pointer-events: none;
+}
+
+.cs_label_line {
+  position: relative;
+  display: block;
+  white-space: nowrap;
+  width: max-content;
+  overflow: hidden;
+}
+
+/* ---- Copy block: meta + actions above the display title ---- */
+.cs_copy {
+  position: absolute;
+  left: var(--cs-margin);
+  bottom: var(--cs-margin);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  width: max-content;
+  max-width: min(720px, calc(50vw - var(--cs-margin) - 72px));
+  pointer-events: none;
+}
+
+.cs_meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  color: var(--cs-fg-dim);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+
+.cs_meta__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #ffd478;
+  font-weight: 650;
+}
+
+.cs_meta__item {
+  color: var(--cs-fg-soft);
+}
+
+.cs_meta__item + .cs_meta__item::before {
+  content: "\00b7";
+  margin-inline-end: 14px;
+  color: var(--cs-line);
+}
+
+.cs_actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+.cs_actions .media-action-button {
+  min-height: 44px;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.95rem;
+}
+
+/* ---- Display title, bottom-left ---- */
+.cs_title {
+  position: relative;
+  margin: 0;
+  width: max-content;
+  max-width: 100%;
+  font-family: var(--cs-display);
+  font-size: clamp(44px, 7.2vw, 110px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  color: var(--cs-fg);
+  pointer-events: none;
+  text-shadow: 0 12px 42px rgba(0, 0, 0, 0.28);
+}
+
+.cs_title_line {
+  position: relative;
+  display: block;
+  white-space: nowrap;
+  width: max-content;
+  overflow-x: visible;
+  overflow-y: hidden;
+  padding-bottom: 0.18em;
+  margin-bottom: -0.18em;
+}
+
+.cs_title_char {
+  position: relative;
+  display: inline-block;
+}
+
+/* ---- Index roller, bottom-right ---- */
+.cs_index {
+  position: absolute;
+  right: var(--cs-margin);
+  bottom: var(--cs-margin);
+  z-index: 4;
+  display: flex;
+  /* center, not baseline: an overflow-hidden digit box's flex baseline is
+     its BOTTOM edge, which rides the rollers up relative to the divider */
+  align-items: center;
+  line-height: 1;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--cs-fg-dim);
+  pointer-events: none;
+}
+
+.cs_digit_wrap {
+  position: relative;
+  display: inline-block;
+  overflow-x: visible;
+  overflow-y: hidden;
+  height: 1em;
+  width: 0.62em;
+  vertical-align: top;
+}
+
+.cs_digit_roller {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cs_digit_roller span {
+  display: block;
+  height: 1em;
+  line-height: 1;
+}
+
+.cs_index_divider {
+  display: inline-block;
+  margin: 0 0.25em;
+  color: var(--cs-line);
+  line-height: 1;
+}
+
+.cs_index_total {
+  display: inline-block;
+  line-height: 1;
+}
+
+/* ---- Progress hairline, top edge ---- */
+.cs_progress {
+  position: absolute;
+  left: var(--cs-margin);
+  right: var(--cs-margin);
+  top: 24px;
+  z-index: 4;
+  height: 1px;
+  background: var(--cs-line);
+  overflow: hidden;
+}
+
+.cs_progress_fill {
+  position: absolute;
+  inset: 0;
+  background: var(--cs-line-on);
+  transform: scaleX(0);
+}
+
+/* ---- Control pill, bottom center (raised above the fixed site nav) ---- */
+.cs_pill {
+  position: absolute;
+  left: 50%;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--cs-pill-bg);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  transform: translateX(-50%);
+}
+
+.cs_arrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--cs-circle);
+  color: var(--cs-fg);
+  cursor: pointer;
+  /* Press/hover feedback tweens transform only; keep it on the compositor
+     so the tap feels immediate even while the curtain is running. */
+  will-change: transform;
+}
+
+.cs_arrow:hover {
+  background: var(--cs-circle-hover);
+  border-color: transparent;
+  color: #300b07;
+}
+
+.cs_arrow:focus-visible {
+  outline: 2px solid #ffb196;
+  outline-offset: 3px;
+}
+
+.cs_arrow_icon {
+  position: relative;
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- Screen-reader-only live region ---- */
+.cs_live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Outgoing text lines get lifted onto an absolute overlay inside the same
+   element so the exit tween keeps running while the new line animates in.
+   Declared LAST: it must win the cascade against the *_line rules above
+   (equal specificity - source order decides). */
+.cs_line_out {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: max-content;
+  min-width: 100%;
+}
+
+/* ---- Tablet: lift the copy above the control pill ---- */
+@media (max-width: 991px) {
+  .cs_copy {
+    bottom: calc(156px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100% - var(--cs-margin) * 2 - 20px);
+  }
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 767px) {
+  .cs_wrap {
+    --cs-margin: 20px;
+  }
+
+  .cs_copy {
+    bottom: calc(156px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100% - var(--cs-margin) * 2 - 20px);
+    gap: 12px;
+  }
+
+  .cs_title {
+    font-size: clamp(36px, 12vw, 64px);
+  }
+
+  .cs_meta {
+    font-size: 12px;
+  }
+
+  .cs_actions .media-action-button {
+    min-height: 42px;
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .cs_index {
+    display: none;
+  }
+
+  .cs_progress {
+    top: 16px;
+  }
+
+  .cs_pill {
+    bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* ---- Tablet/desktop: tuck the slider arrows into the bottom-right,
+   stacked above the index roller so neither control overlaps. Mobile
+   (<=767px) keeps them centered above the fixed site nav. ---- */
+@media (min-width: 768px) {
+  .cs_pill {
+    left: auto;
+    right: var(--cs-margin);
+    bottom: calc(var(--cs-margin) + 34px + env(safe-area-inset-bottom, 0px));
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs_arrow {
+    transition: none;
+  }
+}
