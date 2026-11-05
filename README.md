@@ -7,6 +7,15 @@
 
 **MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers  not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
 
+## Download Android Version :  <a target="_blank" href="https://github.com/MAhmad25/TheMoviesFlix-Streaming-Platform/releases/download/Android/MoviesFlix.apk">MoviesFlix</a>
+
+<img width="1920" height="1440" alt="991_1x_shots_so" src="https://github.com/user-attachments/assets/ce107e17-b04b-46a7-8ea6-aa7c3e634de9" />
+<img width="1920" height="1440" alt="648shots_so" src="https://github.com/user-attachments/assets/3f892f84-d05f-4711-8bf6-4ec689803325" />
+<img width="1920" height="1440" alt="144_1x_shots_so" src="https://github.com/user-attachments/assets/a8a461e9-3b19-4b6b-8b76-40f825a019c0" />
+<img width="1920" height="1440" alt="386_1x_shots_so" src="https://github.com/user-attachments/assets/32f9ae89-4f2b-4516-a1cd-320ab699e5a6" />
+<img width="1920" height="1440" alt="580_1x_shots_so" src="https://github.com/user-attachments/assets/47222bbc-c62b-496b-85f9-f5f25bfb294c" />
+<img width="1920" height="1440" alt="56_1x_shots_so" src="https://github.com/user-attachments/assets/2a1ff47b-378a-449b-a46d-09ea97212364" />
+
 ## Screens & Features
 
 -  **Home**: curated lists, trending carousel, and featured content
