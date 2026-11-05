@@ -4,6 +4,7 @@
             <meta charset="UTF-8" />
             <link rel="icon" type="image/png" href="/logo.svg" />
             <link rel="apple-touch-icon" sizes="628x631" href="/appicon-small.png" />
+            <link rel="preload" as="image" href="/logo_600.png" />
             <meta name="theme-color" content="#300b07" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <title>MoviesFlix | Movie & TV Streaming Platform</title>
@@ -56,9 +57,160 @@
                         ]
                   }
             </script>
+
+            <style>
+                  @font-face {
+                        font-family: "Astralga";
+                        src: url("/fonts/astralaga.woff2") format("woff2");
+                        font-display: swap;
+                  }
+
+                  html,
+                  body {
+                        background-color: #300b07;
+                  }
+
+                  body.app-splash-active {
+                        overflow: hidden;
+                  }
+
+                  #app-splash {
+                        position: fixed;
+                        inset: 0;
+                        z-index: 9999;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        overflow: hidden;
+                        background-color: #300b07;
+                        color: #fefefe;
+                        transition: opacity 520ms cubic-bezier(0.4, 0, 0.2, 1), visibility 520ms cubic-bezier(0.4, 0, 0.2, 1);
+                        will-change: opacity;
+                  }
+
+                  #app-splash.app-splash--leaving {
+                        opacity: 0;
+                        visibility: hidden;
+                        pointer-events: none;
+                  }
+
+                  .app-splash__logo {
+                        position: relative;
+                        width: clamp(120px, 26vw, 176px);
+                        height: auto;
+                        animation: app-splash-pulse 1.8s ease-in-out infinite;
+                  }
+
+                  .app-splash__footer {
+                        position: absolute;
+                        right: 0;
+                        bottom: max(28px, calc(env(safe-area-inset-bottom, 0px) + 20px));
+                        left: 0;
+                        display: flex;
+                        justify-content: center;
+                        padding-inline: 24px;
+                  }
+
+                  .app-splash__name {
+                        margin: 0;
+                        color: #fefefe;
+                        font-family: "Astralga", "Primary", "Segoe UI", sans-serif;
+                        font-size: clamp(18px, 4vw, 24px);
+                        letter-spacing: 0.12em;
+                        line-height: 1;
+                        opacity: 0.92;
+                        animation: app-splash-rise 700ms 120ms cubic-bezier(0.2, 0, 0, 1) both;
+                  }
+
+                  @keyframes app-splash-pulse {
+                        0%,
+                        100% {
+                              opacity: 0.9;
+                              transform: scale(0.97);
+                        }
+
+                        50% {
+                              opacity: 1;
+                              transform: scale(1);
+                        }
+                  }
+
+                  @keyframes app-splash-rise {
+                        from {
+                              opacity: 0;
+                              transform: translateY(8px);
+                        }
+
+                        to {
+                              opacity: 0.92;
+                              transform: translateY(0);
+                        }
+                  }
+
+                  @media (prefers-reduced-motion: reduce) {
+                        #app-splash {
+                              transition-duration: 1ms;
+                        }
+
+                        .app-splash__logo,
+                        .app-splash__name {
+                              animation: none;
+                        }
+                  }
+            </style>
       </head>
       <body>
             <div id="root" style="background-color: #300b07"></div>
+
+            <div id="app-splash" class="app-splash" role="status" aria-live="polite" aria-label="Loading MoviesFlix">
+                  <img
+                        class="app-splash__logo"
+                        src="/logo_600.png"
+                        alt=""
+                        width="600"
+                        height="600"
+                        fetchpriority="high"
+                  />
+                  <div class="app-splash__footer">
+                        <p class="app-splash__name">MoviesFlix</p>
+                  </div>
+            </div>
+
+            <script>
+                  (function () {
+                        var splash = document.getElementById("app-splash");
+                        if (!splash) return;
+
+                        document.body.classList.add("app-splash-active");
+
+                        var dismissed = false;
+
+                        function removeSplash() {
+                              if (splash.parentNode) splash.parentNode.removeChild(splash);
+                              document.body.classList.remove("app-splash-active");
+                        }
+
+                        window.__hideAppSplash = function () {
+                              if (dismissed) return;
+                              dismissed = true;
+
+                              splash.classList.add("app-splash--leaving");
+                              splash.setAttribute("aria-hidden", "true");
+                              document.body.classList.remove("app-splash-active");
+
+                              splash.addEventListener("transitionend", function (event) {
+                                    if (event.target === splash && event.propertyName === "opacity") {
+                                          removeSplash();
+                                    }
+                              });
+
+                              window.setTimeout(removeSplash, 900);
+                        };
+
+                        window.setTimeout(window.__hideAppSplash, 15000);
+                  })();
+            </script>
+
             <script type="module" src="/src/main.jsx"></script>
             <script>
                   if ("serviceWorker" in navigator) {

@@ -803,11 +803,6 @@ body::-webkit-scrollbar {
 }
 
 @media (max-width: 400px) {
-      .bottom-navigation .bottom-navigation__tab-bar {
-            --lg-tab-width: 50px;
-            --lg-tab-height: 38px;
-      }
-
       .bottom-navigation__tab-text {
             position: absolute;
             width: 1px;
@@ -1287,7 +1282,7 @@ body::-webkit-scrollbar {
 
 @media (max-width: 767px) {
       .bottom-navigation .bottom-navigation__tab-bar {
-            --lg-tab-width: 74px;
+            --lg-tab-width: 70px;
             --lg-tab-height: 38px;
       }
 
@@ -1300,6 +1295,14 @@ body::-webkit-scrollbar {
             left: 12px;
             width: calc(100vw - 24px);
             transform: none;
+      }
+}
+
+/* Icon-only bar on small phones: keep it compact and centered with side breathing room. */
+@media (max-width: 400px) {
+      .bottom-navigation .bottom-navigation__tab-bar {
+            --lg-tab-width: 50px;
+            --lg-tab-height: 38px;
       }
 }
 

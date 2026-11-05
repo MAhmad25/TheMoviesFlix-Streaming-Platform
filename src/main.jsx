@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./store/store.jsx";
 import AnalyticsTracker from "./analytics/AnalyticsTracker.jsx";
 import { initializeAnalytics } from "./analytics/posthog.js";
+import { dismissSplashWhenReady } from "./utils/initialLoad.js";
 
 initializeAnalytics();
 
@@ -18,3 +19,5 @@ createRoot(document.getElementById("root")).render(
             </BrowserRouter>
       </Provider>
 );
+
+dismissSplashWhenReady();

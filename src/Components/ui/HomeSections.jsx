@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
+import { completeHomeLoad } from "../../utils/initialLoad";
 import Slider from "./Slider";
-const HomeSections = ({ url, sectionName }) => {
+const HomeSections = ({ url, sectionName, loadKey }) => {
       const [data, setData] = useState([]);
       useEffect(() => {
             (async () => {
@@ -10,9 +11,11 @@ const HomeSections = ({ url, sectionName }) => {
                         setData(data.results);
                   } catch (error) {
                         console.log(error.message);
+                  } finally {
+                        if (loadKey) completeHomeLoad(loadKey);
                   }
             })();
-      }, [url]);
+      }, [url, loadKey]);
 
       return (
             <section className="w-full sm:mb-10 relative  px-5">

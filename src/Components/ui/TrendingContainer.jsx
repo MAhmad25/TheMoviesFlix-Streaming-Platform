@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
+import { completeHomeLoad } from "../../utils/initialLoad";
 import Slider from "./Slider";
 import AnimatedDropdown from "./DropDown";
 const TrendingContainer = () => {
@@ -13,6 +14,8 @@ const TrendingContainer = () => {
                         setTrendingMovie(data.results);
                   } catch (error) {
                         if (!controller.signal.aborted) console.log(error.message);
+                  } finally {
+                        completeHomeLoad("trending");
                   }
             })();
             return () => controller.abort();

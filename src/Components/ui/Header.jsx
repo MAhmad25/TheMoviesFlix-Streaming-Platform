@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import api from "../../utils/axios";
+import { completeHomeLoad } from "../../utils/initialLoad";
 import SlicedRevealCarousel from "./SlicedRevealCarousel";
 
 const HERO_LIMIT = 6;
@@ -38,7 +39,8 @@ const Header = () => {
                   })
                   .catch(() => {
                         if (!controller.signal.aborted) setSlides([]);
-                  });
+                  })
+                  .finally(() => completeHomeLoad("header"));
 
             return () => controller.abort();
       }, []);
