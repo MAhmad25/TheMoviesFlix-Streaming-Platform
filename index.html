@@ -212,16 +212,30 @@
             </script>
 
             <script type="module" src="/src/main.jsx"></script>
-            <script>
+            <script type="module">
                   if ("serviceWorker" in navigator) {
-                        navigator.serviceWorker
-                              .register("/serviceworker.js")
-                              .then((reg) => {
-                                    console.log("Success at ", reg);
-                              })
-                              .catch((err) => {
-                                    console.log("Failed to load the service worker", err.message);
+                        if (import.meta.env.PROD) {
+                              window.addEventListener("load", () => {
+                                    navigator.serviceWorker
+                                          .register("/serviceworker.js")
+                                          .then((reg) => {
+                                                console.log("Service worker registered", reg.scope);
+                                          })
+                                          .catch((err) => {
+                                                console.log("Failed to load the service worker", err.message);
+                                          });
                               });
+                        } else {
+                              navigator.serviceWorker
+                                    .getRegistrations()
+                                    .then((registrations) => Promise.all(registrations.map((registration) => registration.unregister())))
+                                    .catch(() => {});
+                              if (window.caches) {
+                                    caches.keys()
+                                          .then((keys) => Promise.all(keys.filter((key) => key.startsWith("version-")).map((key) => caches.delete(key))))
+                                          .catch(() => {});
+                              }
+                        }
                   }
             </script>
       </body>

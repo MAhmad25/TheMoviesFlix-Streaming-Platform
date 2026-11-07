@@ -1,17 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncPeopleLoader, removePeople } from "../../../store/actions/peopleAction";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { ViewCard, PeopleDetailSkeleton } from "../../ui/index";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/Carousel";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
-      const containerRef = useRef(null);
       const navigate = useNavigate();
-      const [isEnd, setIsEnd] = useState(false);
-      const [isStart, setIsStart] = useState(true);
       const info = useSelector((state) => state.people.info);
       document.title = info?.personDetail?.name || "Hang On ! Getting Details for The Requested Movie";
       const { id } = useParams();
@@ -19,32 +16,6 @@ const PeopleDetails = () => {
             dispatch(asyncPeopleLoader(id));
             return () => dispatch(removePeople());
       }, [id, dispatch]);
-      const scrollLeft = () => {
-            if (containerRef.current) {
-                  const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-                  if (scrollLeft + clientWidth - 100 > scrollWidth) setIsEnd(true);
-                  else setIsEnd(false);
-                  if (scrollLeft > 0) setIsStart(false);
-                  else setIsStart(true);
-                  containerRef.current.scrollBy({
-                        left: -400,
-                        behavior: "smooth",
-                  });
-            }
-      };
-      const scrollRight = () => {
-            const { scrollLeft, clientWidth, scrollWidth } = containerRef.current;
-            if (scrollLeft + clientWidth >= scrollWidth) setIsEnd(true);
-            else setIsEnd(false);
-            if (scrollLeft + clientWidth > 0) setIsStart(false);
-            else setIsStart(true);
-            if (containerRef.current) {
-                  containerRef.current.scrollBy({
-                        left: 400,
-                        behavior: "smooth",
-                  });
-            }
-      };
       return (
             <>
                   {info ? (
@@ -108,29 +79,23 @@ const PeopleDetails = () => {
                                                 <p className="mt-4 md:text-lg md:px-2 leading-relaxed break-words">{info.personDetail.biography}</p>
                                           </>
                                     )}
-                                    <div className="w-full relative px-2  mt-5">
+                                    <div className="w-full relative px-2 mt-5">
                                           <h1 className="text-2xl text-format">Recent Projects:</h1>
-                                          {/* Now Here come the Card Container */}
-                                          <section ref={containerRef} className="w-full [&::-webkit-scrollbar]:hidden  h-96 flex gap-4 items-center overflow-x-scroll overflow-y-hidden">
-                                                {/* Card */}
-                                                {/* These are movie List controller  */}
-                                                {info?.castedMovies?.cast.length > 0 ? (
-                                                      <>
-                                                            <div onClick={scrollLeft} className={`absolute z-20 hidden md:block ${isStart ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm px-1 rounded-md left-0 top-6 bottom-0 flex items-center`}>
-                                                                  <FaChevronLeft size="2rem" color="#e5e9de" />
-                                                            </div>
-                                                            <div onClick={scrollRight} className={`absolute z-20 hidden md:block ${isEnd ? "cursor-not-allowed opacity-0" : "cursor-auto opacity-100"}  shadow-black backdrop-blur-sm px-1 rounded-md right-0 top-6 bottom-0 flex items-center`}>
-                                                                  <FaChevronRight size="2rem" color="#e5e9de" />
-                                                            </div>
-                                                            {info?.castedMovies.cast
-                                                                  .map((eachMovie, index) => <ViewCard eachMovie={eachMovie} key={index} />)
-                                                                  .reverse()
-                                                                  .slice(0, 20)}
-                                                      </>
-                                                ) : (
-                                                      <h1 className="text-white text-2xl md:text-4xl">There is no recent Projects that have been done !</h1>
-                                                )}
-                                          </section>
+                                          {info?.castedMovies?.cast.length > 0 ? (
+                                                <Carousel className="mt-4">
+                                                      <CarouselContent>
+                                                            {[...info.castedMovies.cast].reverse().slice(0, 20).map((eachMovie, index) => (
+                                                                  <CarouselItem key={`${eachMovie.id}-${index}`} className="h-80 w-1/2 px-1.5 md:h-96 md:w-1/3 md:px-2 lg:w-1/4">
+                                                                        <ViewCard eachMovie={eachMovie} />
+                                                                  </CarouselItem>
+                                                            ))}
+                                                      </CarouselContent>
+                                                      <CarouselNavigation />
+                                                      <CarouselIndicator />
+                                                </Carousel>
+                                          ) : (
+                                                <h1 className="text-white text-2xl md:text-4xl">There is no recent Projects that have been done !</h1>
+                                          )}
                                     </div>
                               </div>
                         </section>

@@ -1,50 +1,51 @@
-const cache_name = "version-1";
-const url_to_cache = ["index.html", "offline.html"];
+const cacheName = "version-2";
+const appShell = ["/index.html", "/offline.html"];
 
-// Install the service worker
 self.addEventListener("install", (event) => {
       event.waitUntil(
             caches
-                  .open(cache_name)
-                  .then((cache) => {
-                        return cache.addAll(url_to_cache);
-                  })
+                  .open(cacheName)
+                  .then((cache) => cache.addAll(appShell))
+                  .then(() => self.skipWaiting())
                   .catch((err) => {
                         console.log("Unable to insert cache", err.message);
                   })
       );
 });
 
-// Fetch the cache from the client
-self.addEventListener("fetch", (event) => {
-      event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                  return (
-                        cachedResponse ||
-                        fetch(event.request).catch(() => {
-                              return caches.match("offline.html");
-                        })
-                  );
-            })
+self.addEventListener("activate", (event) => {
+      event.waitUntil(
+            Promise.all([
+                  caches.keys().then((cacheNames) => Promise.all(cacheNames.filter((name) => name !== cacheName).map((name) => caches.delete(name)))),
+                  self.clients.claim(),
+            ])
       );
 });
 
-self.addEventListener("activate", (event) => {
-      const cache_white_list = [cache_name];
-      event.waitUntil(
-            Promise.all(
-                  [
-                        caches.keys().then((cache_names) => {
-                              return Promise.all(
-                                    cache_names.map((eachCache) => {
-                                          if (!cache_white_list.includes(eachCache)) {
-                                                return caches.delete(eachCache);
-                                          }
-                                    })
-                              );
-                        }),
-                  ],
-                  self.clients.claim()
-            )
-      );
+self.addEventListener("fetch", (event) => {
+      const request = event.request;
+
+      if (request.method !== "GET") return;
+
+      const url = new URL(request.url);
+      if (url.origin !== self.location.origin) return;
+      if (url.pathname.startsWith("/@vite") || url.pathname.startsWith("/src/") || url.pathname.startsWith("/node_modules/") || url.pathname.startsWith("/__")) return;
+
+      if (request.mode === "navigate") {
+            event.respondWith(
+                  fetch(request)
+                        .then((response) => {
+                              const copy = response.clone();
+                              caches
+                                    .open(cacheName)
+                                    .then((cache) => cache.put(request, copy))
+                                    .catch(() => {});
+                              return response;
+                        })
+                        .catch(async () => (await caches.match(request)) || (await caches.match("/offline.html")) || Response.error())
+            );
+            return;
+      }
+
+      event.respondWith(caches.match(request).then((cachedResponse) => cachedResponse || fetch(request)));
 });

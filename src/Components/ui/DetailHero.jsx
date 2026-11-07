@@ -1,12 +1,16 @@
 import { useState } from "react";
 import StarIcon from "./Icons/StarIcon";
 
-const imageBase = "https://image.tmdb.org/t/p/w500";
+const posterBase = "https://image.tmdb.org/t/p/w500";
+const backdropBase = "https://image.tmdb.org/t/p/w780";
 
 export default function DetailHero({ detail, mediaType = "movie", children }) {
       const isTV = mediaType === "tv";
       const title = isTV ? detail.name || detail.original_name : detail.title || detail.original_title;
-      const imagePath = detail.poster_path || detail.backdrop_path;
+      const posterPath = detail.poster_path || detail.backdrop_path;
+      const backdropPath = detail.backdrop_path || detail.poster_path;
+      const posterSrc = posterPath ? `${posterBase}${posterPath}` : "/noImage.jpg";
+      const backdropSrc = backdropPath ? `${backdropBase}${backdropPath}` : "/noImage.jpg";
       const runtime = Number(detail.runtime);
       const rating = Number(detail.vote_average) || 0;
       const releaseDate = isTV ? detail.first_air_date || detail.last_air_date : detail.release_date;
@@ -19,34 +23,39 @@ export default function DetailHero({ detail, mediaType = "movie", children }) {
       return (
             <header className="detail-hero">
                   <div className="detail-hero__artwork">
-                        <img className="detail-hero__image" src={imagePath ? `${imageBase}${imagePath}` : "/noImage.jpg"} alt={imagePath ? `Poster for ${title}` : "No poster available"} width="500" height="750" decoding="async" />
+                        <picture>
+                              <source media="(max-width: 640px)" srcSet={backdropSrc} />
+                              <img className="detail-hero__image" src={posterSrc} alt={posterPath ? `Poster for ${title}` : "No poster available"} width="500" height="750" decoding="async" />
+                        </picture>
                   </div>
 
                   <div className="detail-hero__content">
-                        <h1 className="detail-hero__title">{title}</h1>
-                        {detail.tagline && <p className="detail-hero__tagline">{detail.tagline}</p>}
+                        <div className="detail-hero__headline">
+                              <h1 className="detail-hero__title">{title}</h1>
+                              {detail.tagline && <p className="detail-hero__tagline">{detail.tagline}</p>}
 
-                        <div className="detail-hero__tags" aria-label="Title information">
-                              {metadata.map((item) => (
-                                    <span className="detail-hero__meta" key={item}>
-                                          {item}
+                              <div className="detail-hero__tags" aria-label="Title information">
+                                    {metadata.map((item) => (
+                                          <span className="detail-hero__meta" key={item}>
+                                                {item}
+                                          </span>
+                                    ))}
+                                    {detail.genres?.map((genre) => (
+                                          <div className="detail-hero__meta" key={genre.id}>
+                                                {genre.name}
+                                          </div>
+                                    ))}
+                              </div>
+
+                              <div className="detail-hero__rating" aria-label={`${rating.toFixed(1)} out of 10, ${(detail.vote_count || 0).toLocaleString()} votes`}>
+                                    <span className="detail-hero__score">
+                                          <StarIcon className="shrink-0" />
+                                          {rating.toFixed(1)}
+                                          <span className="detail-hero__scale">/10</span>
                                     </span>
-                              ))}
-                              {detail.genres?.map((genre) => (
-                                    <div className="detail-hero__meta" key={genre.id}>
-                                          {genre.name}
-                                    </div>
-                              ))}
-                        </div>
-
-                        <div className="detail-hero__rating" aria-label={`${rating.toFixed(1)} out of 10, ${(detail.vote_count || 0).toLocaleString()} votes`}>
-                              <span className="detail-hero__score">
-                                    <StarIcon className="shrink-0" />
-                                    {rating.toFixed(1)}
-                                    <span className="detail-hero__scale">/10</span>
-                              </span>
-                              <span className="detail-hero__votes">{(detail.vote_count || 0).toLocaleString()} votes</span>
-                              {isTV && detail.status && <span className="detail-hero__status">{detail.status}</span>}
+                                    <span className="detail-hero__votes">{(detail.vote_count || 0).toLocaleString()} votes</span>
+                                    {isTV && detail.status && <span className="detail-hero__status">{detail.status}</span>}
+                              </div>
                         </div>
 
                         <div className="detail-hero__synopsis">

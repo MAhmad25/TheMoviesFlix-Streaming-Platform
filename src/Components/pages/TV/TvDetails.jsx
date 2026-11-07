@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { asyncTvLoader, removeTv } from "../../../store/actions/tvAction";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import Card from "../../ui/Card";
 import Review from "../../ui/Review";
 import DetailLoader, { DetailLoadError } from "../../ui/Loaders/DetailLoader";
 import Exclude from "../../ui/Exclude";
-import { CiCircleChevRight, CiCircleChevLeft } from "react-icons/ci";
+import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/Carousel";
 import TVSeasonModal from "./TVSeasonModal";
 import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
@@ -34,56 +34,11 @@ const TvDetails = () => {
             if (title) document.title = title;
       }, [info?.detail?.name, info?.detail?.original_name]);
       const { id } = useParams();
-      const containerRef = useRef(null);
-      const rafRef = useRef(null);
-      const [isEnd, setIsEnd] = useState(false);
-      const [isStart, setIsStart] = useState(true);
-      const [showAllReviews, setShowAllReviews] = useState(false);
       const [showAllRecommendations, setShowAllRecommendations] = useState(false);
-      const updateScrollState = useCallback(() => {
-            const el = containerRef.current;
-            if (!el) return;
-            const { scrollLeft, clientWidth, scrollWidth } = el;
-            setIsStart(scrollLeft <= 0);
-            setIsEnd(scrollLeft + clientWidth >= scrollWidth - 1);
-      }, []);
-      const scrollLeft = useCallback(() => {
-            if (!containerRef.current) return;
-            const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth";
-            containerRef.current.scrollBy({ left: -600, behavior });
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
-            rafRef.current = requestAnimationFrame(updateScrollState);
-      }, [updateScrollState]);
-
-      const scrollRight = useCallback(() => {
-            if (!containerRef.current) return;
-            const behavior = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ? "auto" : "smooth";
-            containerRef.current.scrollBy({ left: 600, behavior });
-            if (rafRef.current) cancelAnimationFrame(rafRef.current);
-            rafRef.current = requestAnimationFrame(updateScrollState);
-      }, [updateScrollState]);
-
-      useEffect(() => {
-            const el = containerRef.current;
-            if (!el) return;
-            const onScroll = () => {
-                  if (rafRef.current) cancelAnimationFrame(rafRef.current);
-                  rafRef.current = requestAnimationFrame(updateScrollState);
-            };
-            el.addEventListener("scroll", onScroll, { passive: true });
-            window.addEventListener("resize", onScroll);
-            updateScrollState();
-            return () => {
-                  el.removeEventListener("scroll", onScroll);
-                  window.removeEventListener("resize", onScroll);
-                  if (rafRef.current) cancelAnimationFrame(rafRef.current);
-            };
-      }, [updateScrollState, info]);
       useEffect(() => {
             const controller = new AbortController();
             setLoadError(false);
             setSeasonModalOpen(false);
-            setShowAllReviews(false);
             setShowAllRecommendations(false);
             dispatch(asyncTvLoader(id, controller.signal)).catch(() => {
                   if (!controller.signal.aborted) {
@@ -106,55 +61,64 @@ const TvDetails = () => {
                                     <DetailHero detail={info.detail} mediaType="tv">
                                           <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => openSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
                                     </DetailHero>
-                                    <section className="detail-supporting-content px-5 pb-28 text-white w-full font-primary">
+                                    <section className="detail-supporting-content px-4 sm:px-5 pb-28 text-white w-full font-primary">
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="detail-content-section w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
-                                                      <h2 className="text-white text-center text-2xl md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch a Season</h2>
+                                                      <h2 className="text-white text-left md:text-center text-2xl md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch a Season</h2>
                                                       <div className="mt-4 h-[300px] w-full sm:h-[340px] lg:h-[380px]">
                                                             <AccordionCarousel seasons={info.detail.seasons} onOpenSeason={openSeason} initialIndex={Math.max(firstSeasonIndex, 0)} />
                                                       </div>
                                                 </div>
                                           )}
-                                          {info.castBy.cast.length != 0 && (
+                                          {info.castBy.cast.length !== 0 && (
                                                 <div className="detail-content-section w-full mt-10">
                                                       <h2 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h2>
-                                                      <div className="detail-people">
-                                                            {info.castBy.cast.slice(0, 12).map((eachActor, index) => (
-                                                                  <Exclude key={index} eachActor={eachActor} />
-                                                            ))}
-                                                      </div>
+                                                      <Carousel className="mt-6">
+                                                            <CarouselContent>
+                                                                  {info.castBy.cast.slice(0, 12).map((eachActor, index) => (
+                                                                        <CarouselItem key={eachActor.cast_id ?? index} className="w-1/3 px-1.5 sm:w-1/4 sm:px-2 md:w-1/5 xl:w-1/6">
+                                                                              <Exclude eachActor={eachActor} />
+                                                                        </CarouselItem>
+                                                                  ))}
+                                                            </CarouselContent>
+                                                            <CarouselNavigation />
+                                                            <CarouselIndicator />
+                                                      </Carousel>
                                                 </div>
                                           )}
-                                          {info.castBy.crew.length != 0 && (
+                                          {info.castBy.crew.length !== 0 && (
                                                 <div className="detail-content-section mt-8 border-b-[0.5px] border-zinc-300/70 pb-5 w-full">
                                                       <h2 className="text-white text-2xl md:text-center md:text-4xl min-[961px]:text-5xl font-bold font-primary leading-none">Crew</h2>
-                                                      <div className="detail-people">{info.castBy.crew.map((eachActor, index) => <Exclude key={index} eachActor={eachActor} />).slice(0, 9)}</div>
+                                                      <Carousel className="mt-6">
+                                                            <CarouselContent>
+                                                                  {info.castBy.crew.slice(0, 9).map((eachActor, index) => (
+                                                                        <CarouselItem key={eachActor.credit_id ?? index} className="w-1/3 px-1.5 sm:w-1/4 sm:px-2 md:w-1/5 xl:w-1/6">
+                                                                              <Exclude eachActor={eachActor} />
+                                                                        </CarouselItem>
+                                                                  ))}
+                                                            </CarouselContent>
+                                                            <CarouselNavigation />
+                                                            <CarouselIndicator />
+                                                      </Carousel>
                                                 </div>
                                           )}
                                           {info.reviews.length !== 0 && (
                                                 <div className="detail-content-section mt-8 border-b-[0.5px] relative border-zinc-300/70 pb-5 w-full">
                                                       <div className="detail-reviews__header">
                                                             <h2 className="text-white text-2xl md:text-4xl min-[961px]:text-5xl font-bold font-primary">Reviews</h2>
-                                                            <div className="detail-reviews__tools">
-                                                                  <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
-                                                                  <button type="button" onClick={scrollLeft} disabled={isStart} aria-label="Previous reviews" className="detail-reviews__arrow">
-                                                                        <CiCircleChevLeft size="2rem" />
-                                                                  </button>
-                                                                  <button type="button" onClick={scrollRight} disabled={isEnd} aria-label="Next reviews" className="detail-reviews__arrow">
-                                                                        <CiCircleChevRight size="2rem" />
-                                                                  </button>
-                                                            </div>
+                                                            <p className="text-white text-sm md:text-lg">{info.reviews.length} comments</p>
                                                       </div>
-                                                      <div ref={containerRef} className="detail-reviews__rail">
-                                                            {info.reviews && (showAllReviews ? info.reviews : info.reviews.slice(0, 8)).map((eachReview) => <Review review={eachReview} key={eachReview.id} />)}
-                                                      </div>
-                                                      {info.reviews.length > 8 && (
-                                                            <div className="mt-3 flex justify-center">
-                                                                  <button onClick={() => setShowAllReviews((s) => !s)} className="px-4 py-2 rounded-md bg-white/10 text-white">
-                                                                        {showAllReviews ? "Show fewer reviews" : `Show all ${info.reviews.length} reviews`}
-                                                                  </button>
-                                                            </div>
-                                                      )}
+                                                      <Carousel className="mt-4">
+                                                            <CarouselContent>
+                                                                  {info.reviews.map((eachReview) => (
+                                                                        <CarouselItem key={eachReview.id} className="h-[260px] w-[85%] px-1.5 sm:w-[60%] sm:px-2 md:h-[320px] md:w-[55%] lg:w-[45%] xl:w-[38%]">
+                                                                              <Review review={eachReview} />
+                                                                        </CarouselItem>
+                                                                  ))}
+                                                            </CarouselContent>
+                                                            <CarouselNavigation />
+                                                            <CarouselIndicator />
+                                                      </Carousel>
                                                 </div>
                                           )}
                                           {/* Recommend TV List */}

@@ -3,12 +3,15 @@ import { play } from "cuelume";
 
 const Review = ({ review }) => {
       return (
-            <section onClick={() => {
-                  if (!window.getSelection()?.toString()) play("press");
-            }} className="w-[85%] min-w-0 h-full py-3 relative sm:w-[60%] md:w-[55%] lg:w-[40%] px-4 shrink-0 rounded-xl flex flex-col active:opacity-90">
-                  <p className="text-xs sm:text-sm md:text-lg min-[932px]:text-xl text-[#FCD53F] text-end flex-shrink-0">{review.updated_at.split("T")[0]}</p>
+            <section
+                  onClick={() => {
+                        if (!window.getSelection()?.toString()) play("press");
+                  }}
+                  className="flex h-full w-full min-w-0 shrink-0 flex-col rounded-xl border border-white/10 bg-white/5 px-4 py-3 backdrop-blur-sm active:opacity-90"
+            >
+                  <p className="flex-shrink-0 text-end text-xs text-[#FCD53F] sm:text-sm md:text-lg min-[932px]:text-xl">{review.updated_at.split("T")[0]}</p>
 
-                  <div className="text-sm min-h-0 flex-1 break-words [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb]:bg-white/20 overflow-y-auto md:text-base font-primary sm:opacity-80 text-white/90 pr-2 mb-2">
+                  <div className="mb-2 min-h-0 flex-1 overflow-y-auto break-words pr-2 text-sm text-white/90 font-primary sm:opacity-80 md:text-base [&::-webkit-scrollbar]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-2xl [&::-webkit-scrollbar-thumb]:bg-white/20">
                         <div className="min-h-full">
                               {review.content
                                     .replace(/<[^>]*>/g, "")
@@ -17,7 +20,7 @@ const Review = ({ review }) => {
                         </div>
                   </div>
 
-                  <div className="flex flex-wrap justify-between gap-x-3 gap-y-1 py-2 items-center sm:text-base text-sm flex-shrink-0">
+                  <div className="flex flex-shrink-0 flex-wrap items-center justify-between gap-x-3 gap-y-1 py-2 text-sm sm:text-base">
                         <p className="min-w-0 break-words text-white/80">
                               By <span className="text-white font-primary">{review.author || review.author_details.name}</span>
                         </p>
