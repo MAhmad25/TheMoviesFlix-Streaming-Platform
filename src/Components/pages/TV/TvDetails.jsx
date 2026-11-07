@@ -7,12 +7,11 @@ import Card from "../../ui/Card";
 import Review from "../../ui/Review";
 import DetailLoader, { DetailLoadError } from "../../ui/Loaders/DetailLoader";
 import Exclude from "../../ui/Exclude";
-import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/Carousel";
+import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/DetailCarousel";
 import TVSeasonModal from "./TVSeasonModal";
 import MediaActions from "../../ui/MediaActions";
 import DetailHero from "../../ui/DetailHero";
-import AccordionCarousel from "../../ui/AccordionCarousel";
-import { Button } from "glisse";
+import PerspectiveCarousel from "../../ui/perspective-carousel";
 const TvDetails = () => {
       const [selectedSeason, setSelectedSeason] = useState(null);
       const [seasonModalOpen, setSeasonModalOpen] = useState(false);
@@ -56,17 +55,36 @@ const TvDetails = () => {
                   {info ? (
                         <section className="w-full overflow-x-hidden bg-bottom [background-image:var(--bg-gradient)]">
                               <TVSeasonModal open={seasonModalOpen} onClose={closeSeason} season={selectedSeason} mediaId={id} title={info.detail.name || info.detail.original_name} seriesTrailer={info.videoLink} />
-                              <Button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close" icon={<MdClose size="1.5rem" />} tint="#ffffff" />
+                              <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close"><MdClose size="1.5rem" /></button>
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen">
                                     <DetailHero detail={info.detail} mediaType="tv">
                                           <MediaActions mediaId={id} mediaType="tv" title={info.detail.name || info.detail.original_name} showWatch={Boolean(firstSeason)} onWatch={() => openSeason(firstSeason)} season={firstSeason?.season_number ?? 1} />
                                     </DetailHero>
-                                    <section className="detail-supporting-content px-4 sm:px-5 pb-28 text-white w-full font-primary">
+                                    <section className="detail-supporting-content px-4 sm:px-5 pb-36 sm:pb-44 text-white w-full font-primary">
                                           {info.detail.seasons.length != 0 && (
                                                 <div className="detail-content-section w-full md:flex md:justify-center rounded-md md:items-center md:flex-col">
                                                       <h2 className="text-white text-left md:text-center text-2xl md:text-3xl lg:text-4xl font-bold font-primary leading-none">Watch a Season</h2>
-                                                      <div className="mt-4 h-[300px] w-full sm:h-[340px] lg:h-[380px]">
-                                                            <AccordionCarousel seasons={info.detail.seasons} onOpenSeason={openSeason} initialIndex={Math.max(firstSeasonIndex, 0)} />
+                                                      <div className="mt-2 h-[420px] sm:h-[460px] md:h-[480px] w-full max-w-5xl mx-auto">
+                                                            <PerspectiveCarousel
+                                                                  items={info.detail.seasons.map((season) => {
+                                                                        const poster = season.poster_path ? `https://image.tmdb.org/t/p/w500${season.poster_path}` : (info.detail.poster_path ? `https://image.tmdb.org/t/p/w500${info.detail.poster_path}` : '/noImage.jpg');
+                                                                        const title = season.name || `Season ${season.season_number}`;
+                                                                        const count = Number(season.episode_count) || 0;
+                                                                        const year = season.air_date?.slice(0, 4);
+                                                                        return {
+                                                                              src: poster,
+                                                                              title,
+                                                                              alt: title,
+                                                                              subtitle: `${count} ${count === 1 ? 'episode' : 'episodes'}${year ? ' · ' + year : ''}`,
+                                                                              season,
+                                                                              onOpen: openSeason,
+                                                                        };
+                                                                  })}
+                                                                  defaultActiveIndex={Math.max(firstSeasonIndex, 0)}
+                                                                  onItemClick={(item) => openSeason(item.season)}
+                                                                  slideWidth={250}
+                                                                  rotationStep={45}
+                                                            />
                                                       </div>
                                                 </div>
                                           )}
@@ -132,9 +150,9 @@ const TvDetails = () => {
                                                       </div>
                                                       {info.recommendedTv.length > 12 && (
                                                             <div className="mt-3 flex justify-center">
-                                                                  <Button onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
+                                                                  <button type="button" onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
                                                                         {showAllRecommendations ? "Show fewer" : `Show all ${info.recommendedTv.length}`}
-                                                                  </Button>
+                                                                  </button>
                                                             </div>
                                                       )}
                                                 </div>

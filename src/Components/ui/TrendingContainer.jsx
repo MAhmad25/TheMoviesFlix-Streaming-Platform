@@ -5,7 +5,7 @@ import Slider from "./Slider";
 import AnimatedDropdown from "./DropDown";
 const TrendingContainer = () => {
       const [trendingMovie, setTrendingMovie] = useState([]);
-      const [query, setQuery] = useState("tv");
+      const [query, setQuery] = useState("movie");
       useEffect(() => {
             const controller = new AbortController();
             (async () => {

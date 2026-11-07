@@ -8,9 +8,8 @@ import DetailHero from "../../ui/DetailHero";
 import Card from "../../ui/Card";
 import Review from "../../ui/Review";
 import Exclude from "../../ui/Exclude";
-import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/Carousel";
+import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/DetailCarousel";
 import DetailLoader, { DetailLoadError } from "../../ui/Loaders/DetailLoader";
-import { Button } from "glisse";
 const MovieDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -44,12 +43,12 @@ const MovieDetails = () => {
             <>
                   {info ? (
                         <section className="w-full   [background-image:var(--bg-gradient)] relative overflow-x-hidden  bg-bottom ">
-                              <Button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close" icon={<MdClose size="1.5rem" />} tint="#ffffff" />
+                              <button type="button" onClick={() => navigate(-1)} aria-label="Go back" className="detail-close"><MdClose size="1.5rem" /></button>
                               <section className="overflow-x-hidden relative overflow-hidden w-full min-h-screen ">
                                     <DetailHero detail={info.detail} mediaType="movie">
                                           <MediaActions mediaId={id} title={info.detail.title || info.detail.original_title} watchTo="watch" />
                                     </DetailHero>
-                                    <section className="detail-supporting-content px-4 sm:px-5 pb-28 text-white w-full font-primary">
+                                    <section className="detail-supporting-content px-4 sm:px-5 pb-36 sm:pb-44 text-white w-full font-primary">
                                           {info.castBy.cast.length !== 0 && (
                                                 <div className="detail-content-section w-full mt-10">
                                                       <h2 className="text-white text-2xl md:text-center min-[961px]:text-5xl md:text-4xl font-bold font-primary leading-none">Cast</h2>
@@ -112,9 +111,9 @@ const MovieDetails = () => {
                                                       </div>
                                                       {info.recommendedMovies.length > 12 && (
                                                             <div className="mt-3 flex justify-center">
-                                                                  <Button onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
+                                                                  <button type="button" onClick={() => setShowAllRecommendations((s) => !s)} className="glass-action">
                                                                         {showAllRecommendations ? "Show fewer" : `Show all ${info.recommendedMovies.length}`}
-                                                                  </Button>
+                                                                  </button>
                                                             </div>
                                                       )}
                                                 </div>

@@ -20,5 +20,8 @@
     "ui": "@/Components/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
+  },
+  "registries": {
+    "@uselayouts": "https://uselayouts.com/r/{name}.json"
   }
 }

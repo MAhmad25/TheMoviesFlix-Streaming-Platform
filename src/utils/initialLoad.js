@@ -1,7 +1,7 @@
-const MIN_VISIBLE_MS = 900;
-const MAX_WAIT_MS = 15000;
-const IDLE_AFTER_MS = 220;
-const SETTLE_MS = 150;
+const MIN_VISIBLE_MS = 600;
+const MAX_WAIT_MS = 5000;
+const IDLE_AFTER_MS = 200;
+const SETTLE_MS = 100;
 
 let pendingRequests = 0;
 let lastActivityAt = Date.now();

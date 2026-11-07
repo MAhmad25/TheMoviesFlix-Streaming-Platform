@@ -41,7 +41,7 @@ const Trailer = () => {
             });
       };
       return (
-            <section className="trailer-overlay fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8" aria-label={seasonNumber === undefined ? "Trailer player" : `Season ${seasonNumber} trailer player`}>
+            <section className="trailer-overlay fixed inset-0 z-[90] flex items-center justify-center p-4 md:p-8" aria-label={seasonNumber === undefined ? "Trailer player" : `Season ${seasonNumber} trailer player`}>
                   <button type="button" onClick={() => navigate(-1)} aria-label="Close trailer" className="trailer-overlay__close">
                         <MdClose size="1.5rem" />
                   </button>

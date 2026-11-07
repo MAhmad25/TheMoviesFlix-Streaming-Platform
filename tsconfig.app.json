@@ -3,6 +3,8 @@
             "baseUrl": ".",
             "ignoreDeprecations": "6.0",
             "paths": {
+                  "@/components/*": ["./src/Components/*"],
+                  "@/Components/*": ["./src/Components/*"],
                   "@/*": ["./src/*"]
             }
       }

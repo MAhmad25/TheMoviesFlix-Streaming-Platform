@@ -14,7 +14,7 @@ const Stream = ({ category }) => {
                         backgroundSize: "3px 3px",
                         backdropFilter: "brightness(1) blur(10px)",
                   }}
-                  className="w-full fixed no-scroll inset-0 z-50  h-[92dvh] md:h-screen  flex justify-center items-center"
+                  className="w-full fixed no-scroll inset-0 z-[90]  h-[92dvh] md:h-screen  flex justify-center items-center"
             >
                   <span onClick={() => navigate(-1)} className="fixed cursor-pointer z-10 bg-white/30 backdrop-blur md:scale-110 rounded-full p-2 top-3 right-3">
                         <div>

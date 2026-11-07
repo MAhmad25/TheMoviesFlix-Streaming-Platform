@@ -83,6 +83,13 @@ body::-webkit-scrollbar {
             --sidebar-accent-foreground: oklch(0.205 0 0);
             --sidebar-border: oklch(0.922 0 0);
             --sidebar-ring: oklch(0.708 0 0);
+            --background-subtle: oklch(0.985 0.002 247.839);
+            --background-muted: oklch(0.967 0.003 264.542);
+            --border-muted: oklch(0.967 0.003 264.542);
+            --border-strong: oklch(0.872 0.01 258.338);
+            --border-inverse: oklch(0.278 0.033 256.848);
+            --foreground-intense: oklch(0.21 0.034 264.665);
+            --focus-ring-light: oklch(1 0 0 / 25%);
       }
       .dark {
             --background: oklch(0.145 0 0);
@@ -116,6 +123,13 @@ body::-webkit-scrollbar {
             --sidebar-accent-foreground: oklch(0.985 0 0);
             --sidebar-border: oklch(1 0 0 / 10%);
             --sidebar-ring: oklch(0.556 0 0);
+            --background-subtle: oklch(0.551 0.027 264.364 / 8%);
+            --background-muted: oklch(0.21 0.034 264.665);
+            --border-muted: oklch(0.21 0.034 264.665);
+            --border-strong: oklch(0.373 0.034 259.733);
+            --border-inverse: oklch(0.928 0.006 264.531);
+            --foreground-intense: oklch(1 0 0);
+            --focus-ring-light: oklch(1 0 0 / 25%);
       }
 }
 .media-grid > .media-card {
@@ -543,15 +557,6 @@ body::-webkit-scrollbar {
       background: #ff7949;
 }
 
-.glisse-surface {
-      position: relative;
-      box-sizing: border-box;
-      display: inline-flex;
-      max-width: 100%;
-      align-items: center;
-      justify-content: center;
-      color: inherit;
-}
 
 .glass-page-heading {
       max-width: 100%;
@@ -1761,7 +1766,7 @@ body::-webkit-scrollbar {
 
 .tv-season-backdrop {
       position: fixed;
-      z-index: 50;
+      z-index: 90;
       inset: 0;
       display: flex;
       align-items: flex-end;

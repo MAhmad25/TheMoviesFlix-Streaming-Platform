@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { MdOutlineHorizontalRule } from "react-icons/md";
 import { IoChevronBackOutline } from "react-icons/io5";
 import { ViewCard, PeopleDetailSkeleton } from "../../ui/index";
-import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/Carousel";
+import { Carousel, CarouselContent, CarouselIndicator, CarouselItem, CarouselNavigation } from "../../ui/DetailCarousel";
 const PeopleDetails = () => {
       const dispatch = useDispatch();
       const navigate = useNavigate();
@@ -19,7 +19,7 @@ const PeopleDetails = () => {
       return (
             <>
                   {info ? (
-                        <section style={{ background: "radial-gradient(125% 125% at 50% 90%, #000000 20%,#300b07 50%)" }} className="w-full px-3 relative md:flex md:gap-6 min-h-dvh py-10 pb-28 text-white">
+                        <section style={{ background: "radial-gradient(125% 125% at 50% 90%, #000000 20%,#300b07 50%)" }} className="w-full px-3 relative md:flex md:gap-6 min-h-dvh py-10 pb-36 sm:pb-44 text-white">
                               <span onClick={() => navigate(-1)} className="absolute z-10 bg-white/30 backdrop-blur rounded-full p-2 top-5 left-5">
                                     <IoChevronBackOutline size="1.5rem" color="black" />
                               </span>
