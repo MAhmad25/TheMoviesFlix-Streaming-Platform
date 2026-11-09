@@ -14,4 +14,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    // Bind to all network interfaces so the dev server is reachable
+    // from other devices on your local LAN (phones, tablets, etc.)
+    host: "0.0.0.0",
+    port: 5173,
+    allowedHosts: true,
+    strictPort: true,
+  },
 });

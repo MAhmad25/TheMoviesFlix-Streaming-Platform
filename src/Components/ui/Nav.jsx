@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { createPortal } from "react-dom";
+import { createPortal, flushSync } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -101,10 +101,77 @@ export default function DiscoverNav({ className = "" }) {
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState(false);
       const [recentSearches, setRecentSearches] = useState(readRecentSearches);
+      const [viewportWidth, setViewportWidth] = useState(
+            typeof window !== "undefined" ? window.innerWidth : 1024
+      );
+      // Keyboard offset lets us lift the nav + results above the on-screen keyboard.
+      const [keyboardOffset, setKeyboardOffset] = useState(0);
+      const [visualViewportHeight, setVisualViewportHeight] = useState(
+            typeof window !== "undefined" ? window.innerHeight : 0
+      );
 
       const navRef = useRef(null);
       const inputRef = useRef(null);
       const popupRef = useRef(null);
+
+      const isMobile = viewportWidth < 768;
+      // Numeric width so Motion can animate it smoothly (min()/calc() snap and flicker).
+      const expandedSearchWidth = Math.max(200, Math.min(380, viewportWidth - 88));
+      // Distance from the bottom of the viewport to the results panel (just above the nav).
+      const searchPopupBottom = isMobile ? 84 : 96;
+
+      // Track viewport width for layout + mobile breakpoint.
+      useEffect(() => {
+            const onResize = () => setViewportWidth(window.innerWidth);
+            window.addEventListener("resize", onResize);
+            window.addEventListener("orientationchange", onResize);
+            return () => {
+                  window.removeEventListener("resize", onResize);
+                  window.removeEventListener("orientationchange", onResize);
+            };
+      }, []);
+
+      // Track the visual viewport so the UI stays above the mobile keyboard.
+      useEffect(() => {
+            const vv = window.visualViewport;
+            if (!vv) return undefined;
+
+            let frame = 0;
+            const update = () => {
+                  window.cancelAnimationFrame(frame);
+                  frame = window.requestAnimationFrame(() => {
+                        // Pinch-zoom also shrinks the visual viewport; don't treat it as a keyboard.
+                        if (vv.scale > 1.05) {
+                              setKeyboardOffset(0);
+                              return;
+                        }
+
+                        const offset = Math.max(
+                              0,
+                              Math.round(window.innerHeight - vv.height - vv.offsetTop)
+                        );
+                        // Ignore small differences caused by browser chrome/address bar.
+                        const nextOffset = offset > 80 ? offset : 0;
+                        setKeyboardOffset((prev) =>
+                              Math.abs(prev - nextOffset) > 1 ? nextOffset : prev
+                        );
+                        setVisualViewportHeight((prev) =>
+                              Math.abs(prev - vv.height) > 1 ? vv.height : prev
+                        );
+                  });
+            };
+
+            update();
+            vv.addEventListener("resize", update);
+            vv.addEventListener("scroll", update);
+            window.addEventListener("orientationchange", update);
+            return () => {
+                  window.cancelAnimationFrame(frame);
+                  vv.removeEventListener("resize", update);
+                  vv.removeEventListener("scroll", update);
+                  window.removeEventListener("orientationchange", update);
+            };
+      }, []);
 
       // Determine active route tab
       const activeTabId = pathname.startsWith("/tv")
@@ -116,17 +183,29 @@ export default function DiscoverNav({ className = "" }) {
             : "home";
 
       const closeSearch = () => {
+            inputRef.current?.blur();
             setIsSearchExpanded(false);
             setQuery("");
             setResults([]);
             setError(false);
       };
 
+      const openSearch = () => {
+            if (isSearchExpanded) return;
+            // Commit the expanded DOM synchronously, then focus while we are still inside
+            // the tap gesture — mobile browsers only open the keyboard for focus() calls
+            // made during a real user interaction.
+            flushSync(() => setIsSearchExpanded(true));
+            inputRef.current?.focus({ preventScroll: true });
+      };
+
       // Handle outside click & escape to close search
       useEffect(() => {
             if (!isSearchExpanded) return undefined;
 
-            inputRef.current?.focus({ preventScroll: true });
+            if (document.activeElement !== inputRef.current) {
+                  inputRef.current?.focus({ preventScroll: true });
+            }
 
             const handlePointerDown = (event) => {
                   const target = event.target;
@@ -257,7 +336,23 @@ export default function DiscoverNav({ className = "" }) {
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: 8, scale: 0.98 }}
                                                 transition={{ duration: 0.16, ease: "easeOut" }}
-                                                className="fixed bottom-[74px] sm:bottom-[82px] left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:w-[460px] z-[9999] max-h-[min(380px,calc(100dvh-170px))] overflow-y-auto rounded-3xl bg-[#180503] text-white border border-white/10 shadow-2xl p-3 sm:p-4 select-none"
+                                                className="fixed bottom-[84px] sm:bottom-[96px] left-3 right-3 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 sm:w-[460px] z-[9999] max-h-[min(380px,calc(100dvh-170px))] overflow-y-auto rounded-3xl bg-[#180503] text-white border border-white/10 shadow-2xl p-3 sm:p-4 select-none"
+                                                style={
+                                                      isMobile || keyboardOffset
+                                                            ? {
+                                                                  bottom: `${
+                                                                        searchPopupBottom + keyboardOffset
+                                                                  }px`,
+                                                                  maxHeight: `${Math.min(
+                                                                        420,
+                                                                        Math.max(
+                                                                              140,
+                                                                              visualViewportHeight - 100
+                                                                        )
+                                                                  )}px`,
+                                                              }
+                                                            : undefined
+                                                }
                                                 data-lenis-prevent
                                           >
                                                 {!query.trim() && recentSearches.length > 0 && (
@@ -373,19 +468,25 @@ export default function DiscoverNav({ className = "" }) {
                               document.body
                         )}
 
-                  {/* Fixed Bottom Discover Navigation Bar - Solid & Stable across routes */}
+                  {/* Fixed Bottom Discover Navigation Bar - Solid & Stable across routes.
+                       It lifts above the mobile keyboard instead of disappearing. */}
                   <nav
                         ref={navRef}
                         aria-label="Discover navigation"
                         className={`fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-3 p-1 max-w-[calc(100vw-16px)] pointer-events-auto select-none ${className}`}
+                        style={
+                              keyboardOffset
+                                    ? { bottom: `calc(1rem + ${keyboardOffset}px)` }
+                                    : undefined
+                        }
                   >
                         {/* Search Button / Morphing Input Pill - Width animated only */}
                         <motion.div
                               animate={{
-                                    width: isSearchExpanded ? "min(380px, calc(100vw - 88px))" : "54px",
+                                    width: isSearchExpanded ? expandedSearchWidth : 54,
                               }}
                               transition={springTransition}
-                              onClick={() => !isSearchExpanded && setIsSearchExpanded(true)}
+                              onClick={openSearch}
                               className="flex items-center bg-[#1c0705] rounded-[3rem] shadow-xl border border-white/10 cursor-pointer h-[54px] sm:h-[58px] overflow-hidden relative px-3.5 sm:px-4 py-2"
                         >
                               <div className="shrink-0 flex items-center justify-center">
@@ -400,7 +501,6 @@ export default function DiscoverNav({ className = "" }) {
                               <motion.div
                                     initial={false}
                                     animate={{
-                                          width: isSearchExpanded ? "auto" : "0px",
                                           opacity: isSearchExpanded ? 1 : 0,
                                           filter: isSearchExpanded ? "blur(0px)" : "blur(4px)",
                                           marginLeft: isSearchExpanded ? "12px" : "0px",
@@ -411,13 +511,20 @@ export default function DiscoverNav({ className = "" }) {
                                     <input
                                           ref={inputRef}
                                           type="text"
+                                          inputMode="search"
+                                          enterKeyHint="search"
+                                          autoComplete="off"
+                                          autoCorrect="off"
+                                          autoCapitalize="none"
+                                          spellCheck={false}
+                                          tabIndex={isSearchExpanded ? 0 : -1}
                                           value={query}
                                           onChange={(e) => {
                                                 setQuery(e.target.value);
                                                 setError(false);
                                           }}
                                           placeholder="Search Movies, TV, People…"
-                                          className="border-0 outline-none bg-transparent text-sm sm:text-base text-white placeholder:text-white/40 w-full focus:ring-0 focus:outline-none"
+                                          className="border-0 outline-none bg-transparent text-base text-white placeholder:text-white/40 w-full select-text focus:ring-0 focus:outline-none"
                                           onClick={(e) => e.stopPropagation()}
                                     />
                                     {query && (
