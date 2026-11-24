@@ -7,7 +7,7 @@
 
 **MoviesFlixWeb** is a purpose-built **streaming platform** for movie and TV lovers  not a shallow UI clone but a working, modern product with **first-class UX**, **powerful search**, and an **integrated playback experience** .
 
-## Download Android Version :  <a target="_blank" href="https://github.com/MAhmad25/TheMoviesFlix-Streaming-Platform/releases/download/Android/MoviesFlix.apk">MoviesFlix</a>
+## Download Android Version :  <a target="_blank" href="https://github.com/MAhmad25/MoviesFlix-Native-Android-App/releases/download/v1.0.4/MoviesFlix-v1.0.4.apk">MoviesFlix</a>
 
 <img width="1920" height="1440" alt="991_1x_shots_so" src="https://github.com/user-attachments/assets/ce107e17-b04b-46a7-8ea6-aa7c3e634de9" />
 <img width="1920" height="1440" alt="648shots_so" src="https://github.com/user-attachments/assets/3f892f84-d05f-4711-8bf6-4ec689803325" />
